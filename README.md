@@ -9,6 +9,31 @@ Two skills rather than one, so Claude loads only what the task needs — and bec
 
 Inspired by [safaiyeh/app-store-review-skill](https://github.com/safaiyeh/app-store-review-skill), rebuilt RN-first: the rule files lead with the TypeScript and manifest patterns that trip each rule, not Swift or Kotlin.
 
+## What this checks, and what it doesn't
+
+**Store compliance first.** Apple's App Store Review Guidelines sections 1–5, Google Play's
+Developer Program Policies, and the Play Console / App Store Connect gates that fail an upload
+before a human ever sees the build.
+
+Measured across a 34-project fleet, findings break down roughly as: **56% store policy**
+(UGC moderation, IAP, purpose strings, ATT, privacy manifests, account deletion, Data safety),
+**16% upload gates** (target API, AGP, 64-bit, `UIWebView`, deployment target — these are 110
+of 152 BLOCKERs), and **28% security** (hardcoded secrets, cleartext traffic, insecure storage).
+
+Most of that security slice *is* store policy — Apple cites 1.6 and 2.5 for leaked credentials,
+Google cites Device & Network Abuse for cleartext. Two checks are the exception:
+`SIGNING-SECRET-COMMITTED` and `KEYSTORE-COMMITTED` are not store rules, and neither store will
+reject you for them. They are included because a pre-submission audit reliably surfaces this
+exposure and staying quiet about it helps nobody.
+
+**This is not a security scanner.** No dependency CVE scanning, no SAST, no taint or data-flow
+analysis, no runtime or network testing.
+
+**The scanners are the small half.** They are grep-based lead generators. The rule files are
+where the audit actually happens — whether moderation exists in practice, whether the Data safety
+form matches the code, whether receipt validation is genuinely server-side. No static check
+answers those.
+
 ## Requirements
 
 | | |

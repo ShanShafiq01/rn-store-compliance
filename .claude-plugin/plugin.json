@@ -1,7 +1,7 @@
 {
   "name": "rn-store-compliance",
   "version": "3.0.0",
-  "description": "Audits React Native / Expo codebases against Apple's App Store Review Guidelines and Google Play's Developer Program Policies, reporting rejection and enforcement risk with file:line evidence and fixes.",
+  "description": "Audits React Native / Expo codebases against Apple's App Store Review Guidelines and Google Play's Developer Program Policies, reporting rejection and enforcement risk with file:line evidence and fixes. Also flags committed signing credentials and keystores \u2014 not a store rule, but the exposure a pre-submission audit reliably turns up.",
   "author": {
     "name": "Bitsol Technologies"
   },
@@ -9,16 +9,18 @@
   "repository": "https://github.com/<you>/rn-store-compliance",
   "license": "MIT",
   "keywords": [
-    "react-native",
-    "expo",
-    "ios",
     "android",
-    "app-store",
-    "google-play",
     "app-review",
+    "app-store",
     "compliance",
+    "credentials",
+    "expo",
+    "google-play",
+    "ios",
+    "play-billing",
     "privacy",
-    "storekit",
-    "play-billing"
+    "react-native",
+    "secrets",
+    "storekit"
   ]
 }
