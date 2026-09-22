@@ -42,7 +42,8 @@ def write(rel, content):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--org", required=True, help="GitHub org or username that will host the repo")
-    ap.add_argument("--repo", default="rn-store-review", help="repository name (default: rn-store-review)")
+    ap.add_argument("--repo", default="rn-store-compliance",
+                    help="repository name (default: rn-store-compliance)")
     ap.add_argument("--author", help="author name for plugin.json and the LICENSE copyright")
     ap.add_argument("--marketplace", help="rename the marketplace (default: leave as-is)")
     ap.add_argument("--dry-run", action="store_true", help="show the changes without writing")
@@ -57,8 +58,8 @@ def main():
             continue
         before = read(rel)
         after = before.replace("<you>", args.org)
-        if args.repo != "rn-store-review":
-            after = after.replace("rn-store-review", args.repo)
+        if args.repo != "rn-store-compliance":
+            after = after.replace("rn-store-compliance", args.repo)
         if args.marketplace:
             after = after.replace(old_market, args.marketplace)
         if args.author:

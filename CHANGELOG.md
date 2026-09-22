@@ -1,5 +1,86 @@
 # Changelog
 
+## [3.0.0] — 2026-09-22
+
+Audited against a fleet of 34 real bare React Native (CLI) projects rather than
+fixtures. That surfaced three classes of problem: checks that could never fire,
+findings that fired on everything, and guideline citations that were simply
+wrong. Major version because severities, citations and check IDs all changed —
+anything gating CI on this output will see different results.
+
+### Fixed — checks that existed but were structurally dead
+- `ARBITRARY-LOADS` was matched per line while plists split `<key>` and `<true/>`
+  across two lines. A HIGH 1.6 check that fired on **zero** real projects.
+- The signing-credential regex required `=` or `:`; Groovy's gradle DSL is
+  space-separated, so every genuinely committed password was missed. Now reports
+  each occurrence at its true line rather than only the first.
+- The CI path list omitted `android/fastlane/Fastfile`, where RN projects
+  actually keep it, so the `APK-NOT-AAB` BLOCKER fired on nothing. Fastlane's
+  `gradle(task: "assemble")` form is recognised alongside `assembleRelease`.
+- Merged manifests live under `build/`, which `SKIP_DIRS` prunes, so the
+  advisory that `SKILL.md` and both rule files are built around was unreachable
+  by construction.
+- `TARGET-SDK` assigned BLOCKER in both branches, collapsing the discoverability
+  distinction the rule file explains.
+- The Podfile deployment-target regex matched commented-out lines, and could not
+  parse `platform :ios, min_ios_version_supported` at all.
+
+### Fixed — false positives that fired fleet-wide
+- Firebase config files (`GoogleService-Info.plist`, `google-services.json`)
+  were BLOCKER "hardcoded credentials". They ship by design; the keys are public
+  client identifiers. Hit 47 of 34 scanned projects' config files.
+- Debug source sets are no longer scored as shipping code (20 projects).
+- `CRASH-PII` matched the word `name` — i.e. the analytics event-name key — so
+  it fired on the very code that was scrubbing PII.
+- ATT is no longer required when ad-identifier collection is explicitly disabled.
+
+### Fixed — wrong guideline citations
+Verified against the 8 Jun 2026 guidelines. `2.5.13` is facial recognition and
+`2.5.14` is recording consent (both were mislabelled); crypto mining is `2.4.2`,
+not `2.5.18`; `3.1.6` and `3.1.7` do not exist, and Apple Pay is `4.9`; `1.4.4`
+is DUI checkpoints with dangerous activity at `1.4.5`; `4.2.3` is app
+independence, not offline capability; the loan-APR limit is `3.2.2(ix)`, an
+*unacceptable* model rather than an acceptable one. Two of these had propagated
+into scanner output. A test now pins them.
+
+### Fixed — policy claims that were wrong
+- **§3.1.1 was backwards for the US.** Current 3.1.1(a) says the entitlements
+  are "not required" for external purchase links on the United States
+  storefront. The old text called a legal monetization path a release blocker.
+- **1.2 random/anonymous chat** was written as a moderation obligation. Apple's
+  text is a prohibition — such apps "may be removed without notice."
+- Texas SB 2420 (4 Jun 2026) was missing from the Declared Age Range table; the
+  Brazil Play date had been merged into an Apple row.
+- Geofencing was removed as an approved foreground-service use case
+  (compliance 27 Jan 2027); 16 KB alignment has a hard date (1 Feb 2027);
+  `READ_CALL_LOG` is no longer permitted for phone-call account verification.
+
+### Added — upload gates the scanners could not produce
+- `UIWEBVIEW` — ITMS-90809, an error since Dec 2020. Deliberately reaches into
+  `Pods/` and `node_modules/`, which every other pass skips, because on bare RN
+  that is where the offending code lives.
+- `ICON-NAME-MISSING` — ITMS-90713, empty `CFBundleIconName`.
+- `ABI-NO-64BIT` — Play has required 64-bit since Aug 2019.
+- `KEYSTORE-COMMITTED` — release keystores tracked in git.
+- `AGP-TOO-OLD` — an AGP that cannot build an AAB or target a modern API means
+  the `TARGET-SDK` finding is a build-system migration, not a one-line change.
+- `PRIVACY-MANIFEST-EMPTY` — reads the manifest instead of only checking that
+  the file exists.
+- `DEPLOYMENT-TARGET-OLD` now reads `IPHONEOS_DEPLOYMENT_TARGET` from the
+  pbxproj, which bare RN checks in and nothing previously read.
+
+### Added — infrastructure
+- `.github/workflows/test.yml`. The README had claimed CI existed; it did not.
+  It runs the suite on Python 3.8 and 3.12, asserts the scanners import nothing
+  outside the standard library, fails on `docs/CHECKS.md` drift, checks the two
+  manifests agree on version, and fails on unreplaced `<you>` placeholders.
+- Removed the stray root `CHECKS.md`, a duplicate that had already drifted from
+  the generated `docs/CHECKS.md`.
+
+### Tests
+29 → 58. Every fix above is pinned, and each false-positive fix is paired with a
+guard asserting the real finding is still caught.
+
 ## [2.3.0] — 2026-09-21
 
 Bare React Native (CLI) support. Earlier versions were written Expo-first, which

@@ -1,0 +1,72 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The scanners declare Python 3.8+; 3.8 needs the older runner image.
+          - os: ubuntu-22.04
+            python-version: "3.8"
+          - os: ubuntu-latest
+            python-version: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Scanners must remain stdlib-only
+        run: |
+          # No requirements file, no install step. If either scanner ever grows
+          # a third-party import, importing it on a bare interpreter fails here.
+          python -c "import ast,sys
+for f in ('skills/rn-ios-review/scripts/scan.py','skills/rn-android-review/scripts/scan.py'):
+    tree = ast.parse(open(f).read())
+    mods = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            mods |= {a.name.split('.')[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+            mods.add(node.module.split('.')[0])
+    extra = mods - set(sys.stdlib_module_names if hasattr(sys,'stdlib_module_names') else
+                       {'argparse','json','os','re','sys','subprocess','collections'})
+    assert not extra, f'{f} imports non-stdlib: {extra}'
+    print(f'{f}: stdlib only')"
+
+      - name: Tests
+        run: python tests/test_scanners.py
+
+      - name: docs/CHECKS.md must not drift from the scanner source
+        run: python scripts/gen_checks.py --check
+
+      - name: Manifests are valid JSON and agree on version
+        run: |
+          python -c "import json
+p = json.load(open('.claude-plugin/plugin.json'))
+m = json.load(open('.claude-plugin/marketplace.json'))
+mp = m['plugins'][0]
+assert p['version'] == mp['version'], f\"version mismatch: {p['version']} vs {mp['version']}\"
+print('manifests agree on', p['version'])"
+
+      - name: No unreplaced release placeholders
+        run: |
+          # Only where an unreplaced placeholder actually breaks something: the
+          # manifests, and the README's install command. The README also
+          # *documents* the <you> token, and that mention is meant to survive.
+          fail=0
+          if grep -n '<you>' .claude-plugin/*.json; then fail=1; fi
+          if grep -nE 'marketplace add <you>|github\.com/<you>' README.md; then fail=1; fi
+          if [ "$fail" = "1" ]; then
+            echo "::error::unreplaced <you> placeholder — run scripts/prepare_release.py --org <your-org>"
+            exit 1
+          fi
+          echo "no unreplaced placeholders"

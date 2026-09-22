@@ -11,7 +11,7 @@
       "name": "rn-store-compliance",
       "source": "./",
       "description": "Dual-store review auditor for React Native / Expo. Ships two skills: rn-ios-review (Apple App Store Review Guidelines, sections 1-5) and rn-android-review (Google Play policies plus the Console gates that block an upload). Includes standalone static scanners for each platform, a cross-store divergences reference, and health/regulated modules for HIPAA-adjacent apps.",
-      "version": "2.3.0",
+      "version": "3.0.0",
       "category": "mobile",
       "keywords": [
         "react-native",

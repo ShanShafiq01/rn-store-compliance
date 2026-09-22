@@ -141,7 +141,7 @@ $ python3 skills/rn-android-review/scripts/scan.py ./my-app
 
 `--format json` gives the same findings as structured data for CI or triage tooling.
 
-Full list of every check both scanners can emit: **[docs/CHECKS.md](docs/CHECKS.md)** — 49 checks, generated from the scanner source so it can't drift.
+Full list of every check both scanners can emit: **[docs/CHECKS.md](docs/CHECKS.md)** — 53 checks, generated from the scanner source so it can't drift.
 
 ## Structure
 
@@ -164,12 +164,12 @@ rn-store-compliance/
 │       ├── references/{rn-package-map, report-template, ios-android-divergences}.md
 │       └── scripts/scan.py
 ├── docs/
-│   └── CHECKS.md                 # all 49 checks, generated from source
+│   └── CHECKS.md                 # all 53 checks, generated from source
 ├── scripts/
 │   ├── gen_checks.py             # regenerates docs/CHECKS.md
 │   └── prepare_release.py        # fills the <you> placeholders
 ├── tests/
-│   └── test_scanners.py          # 20 tests
+│   └── test_scanners.py          # 58 tests
 ├── .github/workflows/test.yml
 ├── CHANGELOG.md
 ├── README.md
@@ -187,18 +187,57 @@ rn-store-compliance/
 
 ## Validation
 
-Both scanners were run against **[bluesky-social/social-app](https://github.com/bluesky-social/social-app)** — a real, actively maintained Expo/RN app that ships to both stores, with UGC, moderation, accounts and OTA updates.
+### v3.0.0 — a fleet of 34 bare RN (CLI) projects
 
-| | Before fixes | After fixes |
-|---|---|---|
-| iOS BLOCKER / HIGH | 0 / 5 | **0 / 0** |
-| Android BLOCKER / HIGH | 0 / 0 | **0 / 0** |
+The scanners were audited against a real portfolio of 34 React Native projects,
+32 of them bare CLI (`react-native init`, hand-maintained `ios/` and `android/`)
+spanning RN 0.35 to 0.84. That is the case this tool is for, and it is where the
+previous versions were weakest.
 
-All five were false positives from substring matching — `@braintree/sanitize-url` read as a payment SDK, the English word "adjust" read as the analytics SDK of the same name, `rate us` matched inside "sepa**rate us**er". Each is now pinned by a regression test. See `CHANGELOG.md` for the full list.
+Two findings drove the 3.0.0 rewrite:
 
-What it *did* correctly flag on that codebase: a `"Download on Google Play"` string in the iOS build (guideline 2.3.10), OTA updates present and worth scoping, and its own inability to verify the privacy manifest in a managed Expo project.
+- **The noise was fleet-wide.** `SECRET-HARDCODED` fired BLOCKER on every
+  project's Firebase config files, which ship by design. `CLEARTEXT` fired HIGH
+  on 20 projects' debug-only manifests, which never reach Play. On one
+  modern, carefully built health app, **32 of 33 BLOCKER/HIGH findings were
+  false** — including `CRASH-PII` firing on the exact code that was tokenising
+  health data before logging it.
+- **The worst project produced the tamest report.** The oldest app in the fleet
+  (RN 0.49) is 32-bit only, on an AGP that predates App Bundles, and vendors
+  `UIWebView` — three independent hard upload rejections, none of which the
+  scanners could see.
 
-That's one codebase, not a corpus. If you run it on yours and get noise, open an issue with the matched line — that's the fastest way to improve it.
+After the fixes, measured on the same projects:
+
+| Project | Before (BLOCKER/HIGH) | After | Notes |
+|---|---|---|---|
+| Modern health app, RN 0.84 | 33, of which 32 false | **6, all verified real** | Surfaced an empty `NSPrivacyCollectedDataTypes` on an app that POSTs health records, plus a committed release keystore |
+| RN 0.76, ships to both stores | 7 | 10 | Added a real `APK-NOT-AAB` and a deployment target inconsistent with its own pod floor |
+| RN 0.49, unmaintained | 9, mostly noise | 14 | Added `UIWEBVIEW`, `ABI-NO-64BIT`, `AGP-TOO-OLD` — each one blocks the upload outright |
+
+The point of the "after" numbers is not that they are lower. On two of three
+projects they are higher. The point is that they are **true**: a scanner that
+flags everything gets ignored, and everything it then misses ships.
+
+### v2.1.0 — bluesky-social/social-app
+
+Earlier versions were validated against
+[bluesky-social/social-app](https://github.com/bluesky-social/social-app), which
+produced 5 false HIGH findings on compliant code (`@braintree/sanitize-url` read
+as a payment SDK, the English word "adjust" read as the analytics SDK, `rate us`
+matched inside "sepa**rate us**er"). Each is pinned by a regression test and the
+result was 0 BLOCKER / 0 HIGH on both platforms.
+
+**That figure has not been re-measured since 3.0.0 added seven checks**, so
+treat it as historical rather than current.
+
+### Caveats
+
+Three projects were verified finding-by-finding; the other 31 informed the
+false-positive analysis but were not individually audited. Expect some noise
+remaining — `ABI-NO-64BIT` is the likeliest, since a deliberate architecture
+trim will trip it. If you get a false positive, open an issue with the matched
+line; that is the fastest way to improve this.
 
 ## Tests
 
@@ -206,7 +245,7 @@ That's one codebase, not a corpus. If you run it on yours and get noise, open an
 python3 tests/test_scanners.py
 ```
 
-20 tests, stdlib only, no install:
+58 tests, stdlib only, no install:
 
 - **Detection** — a deliberately non-compliant fixture asserts each rule fires
 - **False positives** — a plausible compliant fixture asserts no BLOCKER or HIGH fires
