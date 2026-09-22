@@ -77,8 +77,36 @@ into scanner output. A test now pins them.
 - Removed the stray root `CHECKS.md`, a duplicate that had already drifted from
   the generated `docs/CHECKS.md`.
 
+### Fixed — false positives found by scanning a 34-project fleet
+Running both scanners across the whole portfolio before release surfaced seven
+more, including one regression introduced by the merged-manifest fix in this
+same release:
+- **AGP writes four copies of the merged manifest** (`merged_manifest`,
+  `merged_manifests`, `bundle_manifest`, `packaged_manifests`). Opening
+  `build/intermediates` reported every permission five or six times over. The
+  carve-out is now narrowed to `merged_manifests`, and a permission produces one
+  finding however many copies contain it.
+- **React Native's public debug keystore** (`android` / `androiddebugkey`) was
+  reported as a leaked credential. It shipped in every project, and was half of
+  all signing findings.
+- **`keyAlias` is a name, not a secret** — another third of them.
+- **Google `AIza` client keys** were BLOCKER "hardcoded credentials", 90 of 106
+  fleet-wide. They ship in the binary by design and are secured by bundle-ID
+  restriction, not secrecy. Now `MAPS-KEY-RESTRICTION`, MEDIUM, one per project,
+  advising the thing that actually matters.
+- **Editor local-history trees** (`.history/`, from the VS Code extension) are
+  timestamped copies of every file, so one key was reported eight times.
+- **Constants whose value is their own name** — `SUBMIT_SEND_CLIENT_NEW_PASSWORD
+  = 'SUBMIT_SEND_CLIENT_NEW_PASSWORD'` is a Redux action type.
+- **Translated UI labels** — `Certificate_password: 'Zertifikats-Passwort'`.
+
+Fleet totals before and after these fixes: 1599 → 949 findings, BLOCKERs
+242 → 152, and `SECRET-HARDCODED` 108 → 14 across 6 projects. The surviving
+BLOCKERs were inspected individually: committed AWS keys, Google Play
+service-account private keys, and `UIWebView` in vendored pods.
+
 ### Tests
-29 → 58. Every fix above is pinned, and each false-positive fix is paired with a
+29 → 69. Every fix above is pinned, and each false-positive fix is paired with a
 guard asserting the real finding is still caught.
 
 ## [2.3.0] — 2026-09-21

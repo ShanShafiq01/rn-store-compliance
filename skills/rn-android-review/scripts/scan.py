@@ -35,6 +35,8 @@ BILLING_MAJOR_FLOOR = 8          # Play Billing Library 8+, enforced 31 Aug 2026
 SKIP_DIRS = {
     "node_modules", ".git", "build", "DerivedData", "Pods", ".expo",
     ".next", "dist", "coverage", "vendor", ".gradle", ".idea", "__pycache__",
+    ".history", ".vscode",   # editor local-history keeps timestamped copies
+                             # of every file, multiplying every finding
     "ios",  # Android-only audit
 }
 CODE_EXT = {
@@ -50,15 +52,23 @@ DEBUG_VARIANT = re.compile(r"/src/(debug|androidTest|test)/")
 
 TEST_HINT = re.compile(
     r"(__tests__|__mocks__|\.test\.|\.spec\.|\.stories\.|/mocks?/|/fixtures?/|"
+    r"/i18n/|/locales?/|/translations?/|/lang/|"
     r"[Ss]torybook/|e2e/|\.e2e\.)", re.I)
 
 # id, severity, policy, description, regex, extension filter (None = all)
 RULES = [
     ("SECRET-HARDCODED", "BLOCKER", "Device & Network Abuse",
      "Possible hardcoded credential — the JS bundle and strings.xml are extractable from the AAB",
-     re.compile(r"""(sk_live_|sk_test_[A-Za-z0-9]{10,}|AIza[0-9A-Za-z_\-]{30,}|"""
+     re.compile(r"""(sk_live_|sk_test_[A-Za-z0-9]{10,}|"""
                 r"""AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|"""
                 r"""(?i:(api[_-]?key|secret|client[_-]?secret|access[_-]?token|password)\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]))"""),
+     None),
+
+    ("MAPS-KEY-RESTRICTION", "MEDIUM", "Device & Network Abuse",
+     "Google API (AIza) key in source. These are client keys — they ship in the binary by "
+     "design and are not a leak, but an unrestricted one can be lifted and billed to you. "
+     "Restrict it by bundle ID / package name and SHA-1, and scope it to the APIs it needs",
+     re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
     ("DYNAMIC-CODE", "BLOCKER", "Device & Network Abuse",
@@ -157,6 +167,21 @@ PERMISSIONS = {
 }
 
 
+def _is_not_a_secret(line):
+    """Two shapes that match the credential pattern but never hold a credential.
+
+    A constant whose value is its own name is a Redux/action identifier. A
+    Google AIza value is a client key, reported by MAPS-KEY-RESTRICTION with
+    advice that actually applies (restrict it) rather than as a leak.
+    """
+    if re.search(r"AIza[0-9A-Za-z_\-]{30,}", line):
+        return True
+    m = re.search(r"\b([A-Za-z_][A-Za-z0-9_]{3,})\b\s*[:=]\s*['\"]([^'\"]+)['\"]", line)
+    if m and m.group(1).lower() == m.group(2).lower():
+        return True
+    return False
+
+
 def iter_files(root):
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
@@ -189,6 +214,8 @@ def scan_patterns(root, findings):
                 if len(line) > 2000:
                     continue
                 if rx.search(line):
+                    if rule_id == "SECRET-HARDCODED" and _is_not_a_secret(line):
+                        continue
                     effective, note = sev, ""
                     if is_test and sev in ("BLOCKER", "HIGH"):
                         effective, note = "LOW", " [in a test/fixture path — verify]"
@@ -206,15 +233,21 @@ def scan_patterns(root, findings):
 
 def scan_manifests(root, findings):
     merged_seen = False
+    reported_perms = set()
     for dirpath, dirnames, filenames in os.walk(root):
         # SKIP_DIRS prunes 'build', but the merged manifest — the one that
         # actually ships — only exists under it. Keep that one path open, and
         # accept both the singular and plural spellings AGP has used.
+        parent = os.path.basename(dirpath)
         dirnames[:] = [d for d in dirnames
                        if d not in SKIP_DIRS
-                       or d.startswith("merged_manifest")
-                       or (d == "build" and os.path.basename(dirpath) == "app")
-                       or os.path.basename(dirpath) in ("build", "intermediates")]
+                       # Keep exactly one path open into build output: the merged
+                       # manifest. AGP also writes bundle_manifest, packaged_manifests
+                       # and a singular merged_manifest — same content, so reading all
+                       # of them reports every permission four times over.
+                       or (d == "build" and parent == "app")
+                       or (d == "intermediates" and parent == "build")
+                       or (parent == "intermediates" and d == "merged_manifests")]
         for fn in filenames:
             if fn != "AndroidManifest.xml":
                 continue
@@ -234,6 +267,9 @@ def scan_manifests(root, findings):
                     continue
                 perm = m.group(1)
                 if perm in PERMISSIONS and "tools:node=\"remove\"" not in line:
+                    if perm in reported_perms:
+                        continue          # same permission, another manifest copy
+                    reported_perms.add(perm)
                     sev, why = PERMISSIONS[perm]
                     findings.append({
                         "id": f"PERM-{perm}", "severity": sev, "policy": "Permissions",
@@ -400,8 +436,13 @@ def scan_bare_rn(root, findings):
     for label, text, path in (("gradle.properties", props, "android/gradle.properties"),
                               ("build.gradle", gradle, "android/app/build.gradle")):
         for m in re.finditer(
-                r"(?i)(store_?password|key_?password|key_?alias)\s*[=:\s]\s*[\"']?([^\s\"'#]{3,})", text):
+                r"(?i)(store_?password|key_?password)\s*[=:\s]\s*[\"']?([^\s\"'#]{3,})", text):
             if m.group(2).startswith(("$", "System.", "project.")):
+                continue
+            # React Native ships this exact debug keystore in every project and
+            # documents the values. Flagging them was half of every signing
+            # finding across a 34-project fleet.
+            if m.group(2).strip("\"'") in ("android", "androiddebugkey"):
                 continue
             findings.append({
                 "id": "SIGNING-SECRET-COMMITTED", "severity": "HIGH", "policy": "Device & Network Abuse",
@@ -617,7 +658,8 @@ def _grep(root, pattern):
 
 
 # Rules that describe one condition, not N occurrences: report once with a count.
-COLLAPSE_TO_ONE = {"OTA-UPDATES", "WEBVIEW-SHELL", "TRACKING-SDK", "PAYMENT-SDK", "CONSOLE-LOG"}
+COLLAPSE_TO_ONE = {"OTA-UPDATES", "WEBVIEW-SHELL", "TRACKING-SDK", "PAYMENT-SDK",
+                   "CONSOLE-LOG", "MAPS-KEY-RESTRICTION"}
 
 
 def dedupe(findings, per_rule_cap=12):

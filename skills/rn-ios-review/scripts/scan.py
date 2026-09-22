@@ -25,6 +25,8 @@ from collections import defaultdict
 SKIP_DIRS = {
     "node_modules", ".git", "build", "DerivedData", "Pods", ".expo",
     ".next", "dist", "coverage", "vendor", ".gradle", ".idea", "__pycache__",
+    ".history", ".vscode",   # editor local-history keeps timestamped copies
+                             # of every file, multiplying every finding
     "android",  # iOS-only audit
 }
 CODE_EXT = {
@@ -38,15 +40,23 @@ PUBLIC_CONFIG = re.compile(r"(GoogleService-Info\.plist|google-services\.json)$"
 
 TEST_HINT = re.compile(
     r"(__tests__|__mocks__|\.test\.|\.spec\.|\.stories\.|/mocks?/|/fixtures?/|"
+    r"/i18n/|/locales?/|/translations?/|/lang/|"
     r"[Ss]torybook/|e2e/|\.e2e\.)", re.I)
 
 # id, severity, guideline, description, regex, extension filter (None = all)
 RULES = [
     ("SECRET-HARDCODED", "BLOCKER", "1.6 / 2.5",
      "Possible hardcoded credential — the JS bundle ships in plaintext inside the IPA",
-     re.compile(r"""(sk_live_|sk_test_[A-Za-z0-9]{10,}|AIza[0-9A-Za-z_\-]{30,}|"""
+     re.compile(r"""(sk_live_|sk_test_[A-Za-z0-9]{10,}|"""
                 r"""AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|"""
                 r"""(?i:(api[_-]?key|secret|client[_-]?secret|access[_-]?token|password)\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]))"""),
+     None),
+
+    ("MAPS-KEY-RESTRICTION", "MEDIUM", "Device & Network Abuse",
+     "Google API (AIza) key in source. These are client keys — they ship in the binary by "
+     "design and are not a leak, but an unrestricted one can be lifted and billed to you. "
+     "Restrict it by bundle ID / package name and SHA-1, and scope it to the APIs it needs",
+     re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
     ("DYNAMIC-CODE", "BLOCKER", "2.5.2",
@@ -149,6 +159,21 @@ VAGUE_PURPOSE = re.compile(
 )
 
 
+def _is_not_a_secret(line):
+    """Two shapes that match the credential pattern but never hold a credential.
+
+    A constant whose value is its own name is a Redux/action identifier. A
+    Google AIza value is a client key, reported by MAPS-KEY-RESTRICTION with
+    advice that actually applies (restrict it) rather than as a leak.
+    """
+    if re.search(r"AIza[0-9A-Za-z_\-]{30,}", line):
+        return True
+    m = re.search(r"\b([A-Za-z_][A-Za-z0-9_]{3,})\b\s*[:=]\s*['\"]([^'\"]+)['\"]", line)
+    if m and m.group(1).lower() == m.group(2).lower():
+        return True
+    return False
+
+
 def iter_files(root):
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
@@ -193,6 +218,8 @@ def scan_patterns(root, findings):
                 if len(line) > 2000:
                     continue
                 if rx.search(line):
+                    if rule_id == "SECRET-HARDCODED" and _is_not_a_secret(line):
+                        continue
                     findings.append({
                         "id": rule_id,
                         "severity": "LOW" if is_test and sev in ("BLOCKER", "HIGH") else sev,
@@ -620,7 +647,8 @@ def _grep(root, pattern):
 
 
 # Rules that describe one condition, not N occurrences: report once with a count.
-COLLAPSE_TO_ONE = {"OTA-UPDATES", "WEBVIEW-SHELL", "TRACKING-SDK", "PAYMENT-SDK", "CONSOLE-LOG"}
+COLLAPSE_TO_ONE = {"OTA-UPDATES", "WEBVIEW-SHELL", "TRACKING-SDK", "PAYMENT-SDK",
+                   "CONSOLE-LOG", "MAPS-KEY-RESTRICTION"}
 
 
 def dedupe(findings, per_rule_cap=12):

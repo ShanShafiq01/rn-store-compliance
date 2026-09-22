@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**53 checks total.**
+**55 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 29 checks
+## iOS — 30 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -37,6 +37,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `BACKGROUND-MODES` | MEDIUM | 2.5.4 | Background modes declared — every entry must be genuinely used for its |
 | `ENTITLEMENTS-REVIEW` | MEDIUM | 2.5.1 / 5.1.3 / 5.4 | Entitlements present that reviewers scrutinise: |
 | `LOGIN-ALTERNATIVE` | MEDIUM | 4.8 | Third-party social login found with no privacy-preserving alternative. Offer a login that |
+| `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
 | `OTA-UPDATES` | MEDIUM | 2.3.1 / 2.5.2 | OTA update channel — permitted for fixes and content, not for shipping unreviewed features |
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |
@@ -44,7 +45,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
 
-## Android — 24 checks
+## Android — 25 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -68,6 +69,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ALLOW-BACKUP` | MEDIUM | User Data | android:allowBackup is enabled — app data can reach the user's cloud backup; disable or scope it if the app holds sensitive data |
 | `DATA-SAFETY-INVENTORY` | MEDIUM | Data safety | SDKs that collect data: |
 | `LOCAL-PROPERTIES-TRACKED` | MEDIUM | Quality | android/local.properties exists and is not in .gitignore. It holds machine- |
+| `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
 | `MERGED-MANIFEST-NOT-CHECKED` | MEDIUM | Permissions | Only the source manifest was scanned — no merged manifest found. Build the app and re-check |
 | `OTA-UPDATES` | MEDIUM | Device & Network Abuse | OTA update channel — permitted for fixes and content, not for shipping unreviewed behavior |
 | `TARGET-SDK-UNKNOWN` | MEDIUM | Target API level requirement | Could not determine targetSdkVersion — check the value resolved by the RN gradle plugin |

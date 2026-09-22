@@ -464,7 +464,7 @@ class TestRealWorldFalsePositives2(ScannerTestBase):
     def test_real_secret_still_caught_outside_firebase_config(self):
         """Guard: the allowlist must not blind the rule everywhere else."""
         write(self.proj, "src/config.js",
-              'export const cfg = { mapsKey: "AIzaSyC1234567890abcdefghijklmnopqrstuv" };')
+              'export const cfg = { awsKey: "AKIAIOSFODNN7EXAMPLE" };')
         self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
                              "SECRET-HARDCODED"), "BLOCKER")
 
@@ -657,6 +657,130 @@ class TestBatch2Gaps(ScannerTestBase):
         write(self.proj, "android/build.gradle",
               "buildscript { dependencies { classpath 'com.android.tools.build:gradle:8.7.2' } }")
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AGP-TOO-OLD"))
+
+
+class TestFleetFalsePositives(ScannerTestBase):
+    """Found by running both scanners across 34 real projects."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def test_rn_template_debug_keystore_is_not_a_secret(self):
+        """'android'/'androiddebugkey' are the public values RN ships in every
+        project. Flagging them was half of all signing findings fleet-wide."""
+        write(self.proj, "android/app/build.gradle", """
+android { signingConfigs {
+    debug {
+      storeFile file('debug.keystore')
+      storePassword 'android'
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+    }
+} }
+""")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "SIGNING-SECRET-COMMITTED"))
+
+    def test_release_keystore_password_still_flagged_alongside_debug(self):
+        """Guard: the debug allowlist must not hide a real release credential
+        sitting in the same file."""
+        write(self.proj, "android/app/build.gradle", """
+android { signingConfigs {
+    debug {
+      storePassword 'android'
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+    }
+    release {
+      storePassword 'RealProductionSecret99'
+      keyAlias 'upload'
+      keyPassword 'RealProductionSecret99'
+    }
+} }
+""")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "SIGNING-SECRET-COMMITTED"), "HIGH")
+
+    def test_permission_not_reported_once_per_build_output_copy(self):
+        """AGP writes the same manifest into merged_manifest, merged_manifests,
+        bundle_manifest and packaged_manifests. One permission, one finding."""
+        perm = ('<manifest><uses-permission '
+                'android:name="android.permission.SYSTEM_ALERT_WINDOW"/></manifest>')
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", perm)
+        for d in ("merged_manifest/release", "merged_manifests/release",
+                  "bundle_manifest/release", "packaged_manifests/release"):
+            write(self.proj, f"android/app/build/intermediates/{d}/AndroidManifest.xml", perm)
+        hits = [f for f in run_scan(ANDROID_SCAN, self.proj)["findings"]
+                if f["id"] == "PERM-SYSTEM_ALERT_WINDOW"]
+        self.assertEqual(len(hits), 1, f"expected 1 finding, got {len(hits)}")
+
+    def test_translation_string_is_not_a_blocking_secret(self):
+        """Rocket.Chat: a German locale file has
+        `Certificate_password: 'Zertifikats-Passwort'` — a translated label.
+        Downgraded rather than suppressed, matching how every other
+        non-production path is treated: still visible, never a blocker."""
+        write(self.proj, "app/i18n/locales/de.js",
+              "export default {\n  Certificate_password: 'Zertifikats-Passwort',\n};")
+        self.assertNotIn(sev(run_scan(IOS_SCAN, self.proj), "SECRET-HARDCODED"),
+                         ("BLOCKER", "HIGH"))
+
+
+    def test_key_alias_alone_is_not_a_credential(self):
+        """A key alias is a name, not a secret. It was a third of every signing
+        finding across the fleet."""
+        write(self.proj, "android/app/build.gradle",
+              "android { signingConfigs { release { keyAlias 'upload' } } }")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "SIGNING-SECRET-COMMITTED"))
+
+    def test_store_password_is_still_a_credential(self):
+        write(self.proj, "android/app/build.gradle",
+              "android { signingConfigs { release { storePassword 'RealSecret2050' } } }")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "SIGNING-SECRET-COMMITTED"), "HIGH")
+
+    def test_google_maps_key_is_reported_as_unrestricted_not_as_a_leak(self):
+        """AIza client keys are designed to ship — they are secured by bundle-id
+        restriction, not secrecy. 90 of 106 BLOCKERs fleet-wide were these."""
+        write(self.proj, "src/maps.ts",
+              'const KEY = "AIzaSyC1234567890abcdefghijklmnopqrstuv";')
+        result = run_scan(IOS_SCAN, self.proj)
+        self.assertIsNone(sev(result, "SECRET-HARDCODED"))
+        self.assertEqual(sev(result, "MAPS-KEY-RESTRICTION"), "MEDIUM")
+
+
+    def test_editor_local_history_is_not_scanned(self):
+        """SmartFiit_FE: VS Code's Local History extension keeps timestamped
+        copies under .history/, so one key was reported 8 times."""
+        write(self.proj, ".history/app/config/app_20250418190644.ts",
+              "export const cfg = { awsKey: 'AKIAIOSFODNN7EXAMPLE' };")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SECRET-HARDCODED"))
+
+    def test_action_type_constant_is_not_a_secret(self):
+        """bxr_reactnative: a Redux action type whose value is its own name —
+        `SUBMIT_SEND_CLIENT_NEW_PASSWORD = 'SUBMIT_SEND_CLIENT_NEW_PASSWORD'`."""
+        write(self.proj, "src/login/loginConstants.js",
+              "export const SUBMIT_SEND_CLIENT_NEW_PASSWORD = "
+              "'SUBMIT_SEND_CLIENT_NEW_PASSWORD';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SECRET-HARDCODED"))
+
+    def test_named_google_key_is_a_maps_finding_not_a_leak(self):
+        """`googleAPIKey: 'AIza...'` was still reaching SECRET-HARDCODED through
+        the generic api-key alternate, contradicting the AIza reclassification."""
+        write(self.proj, "app/config/app.ts",
+              "export default { googleAPIKey: 'AIzaSyD1D6RKYjAMkyQa0rtut-kOmcZVe7VSdJY' };")
+        result = run_scan(IOS_SCAN, self.proj)
+        self.assertIsNone(sev(result, "SECRET-HARDCODED"))
+        self.assertEqual(sev(result, "MAPS-KEY-RESTRICTION"), "MEDIUM")
+
+    def test_play_service_account_private_key_is_still_a_blocker(self):
+        """Guard: four projects commit fastlane/google-play-api.json with a Play
+        publishing private key. That must never stop being a BLOCKER."""
+        write(self.proj, "fastlane/google-play-api.json",
+              '{"private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqh"}')
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SECRET-HARDCODED"), "BLOCKER")
 
 
 class TestCitationAccuracy(ScannerTestBase):
