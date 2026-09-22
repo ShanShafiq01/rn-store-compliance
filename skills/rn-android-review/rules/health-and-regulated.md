@@ -75,7 +75,11 @@ analytics().logEvent('view_record', { recordType: 'lab' });
 
 ## Other regulated categories, briefly
 
-- **Finance / lending** — personal loan apps need disclosures (APR, term, fees, a representative example) and are restricted or banned in several markets; short-term personal loans are prohibited in many. The developer entity must hold or clearly disclose the licence.
+- **Finance / lending** — personal loan apps need disclosures (APR, term, fees, a representative example). The specifics matter:
+  - **Short-term loans (repayment in full within 60 days) are banned globally**, with one narrow Pakistan exception added in July 2025.
+  - **US maximum APR is 36%.**
+  - Per-country licensing evidence is required, and the list is long: India (RBI DLA list), Indonesia (OJK), Philippines (SEC + CoA), Nigeria (FCCPC), Kenya (CBK), Pakistan (SECP, one app per NBFC), Thailand (≥15% needs BoT/MoF).
+  - The developer entity must hold or clearly disclose the licence — and under Apple 5.1.1(ix) regulated apps must ship from a **legal entity account, not an individual developer account**.
 - **VPN** — must use the `VPNService` API as its core functionality, declare it in the Console, and must not collect data outside the disclosed purpose.
 - **Accessibility API** — using it for anything other than genuine accessibility is a suspension risk, and it is a common shortcut in RN automation features.
 - **Government / civic** — must be published by or on behalf of the government entity.

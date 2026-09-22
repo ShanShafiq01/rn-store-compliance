@@ -17,7 +17,9 @@ Apple's most human-judgment-heavy section. Rejections here usually cite a missin
 
 Any app with posts, comments, chat, profile photos, uploads, or live audio/video needs **all four**.
 
-The 6 February 2026 update clarified that **apps with random or anonymous chat are subject to 1.2**. If the app pairs strangers — Omegle-style matching, anonymous Q&A, random voice or video rooms — it carries the full UGC obligation even though nothing is persisted. RN apps built on a matching service often assume ephemerality exempts them; it doesn't.
+The 6 February 2026 update clarified that **apps with random or anonymous chat are subject to 1.2**. This is stronger than a moderation obligation. Apple's current 1.2 text lists apps "used primarily for pornographic content, Chatroulette-style experiences, **random or anonymous chat**, objectification of real people" among those that "do not belong on the App Store and may be removed without notice."
+
+So if pairing strangers is the app's *primary* purpose — Omegle-style matching, random voice or video rooms — building report/block does **not** make it compliant; the category itself is removable. Where random matching is one feature of a broader app, the full UGC obligation applies and ephemerality does not exempt it. RN teams routinely get this backwards.
 
 1. A method to filter objectionable material before it appears
 2. A mechanism to report offensive content, with timely response

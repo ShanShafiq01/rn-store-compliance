@@ -16,7 +16,7 @@ Deliberate constraint: **the scanners are Python 3.8+, stdlib only, read-only, n
 ## Commands
 
 ```bash
-python3 tests/test_scanners.py                      # full suite (29 tests, unittest, no pytest needed)
+python3 tests/test_scanners.py                      # full suite (58 tests, unittest, no pytest needed)
 python3 tests/test_scanners.py TestIOSScanner       # one class
 python3 tests/test_scanners.py TestBareRNProjects.test_bare_checks_silent_on_managed_expo   # one test
 
@@ -76,12 +76,18 @@ Bare RN (CLI) vs managed Expo is the other axis: `scan_bare_rn()` holds the six 
 
 Path convention differs by entry point: `SKILL.md` invokes `python3 scripts/scan.py` (relative to the skill dir, where a plugin-installed skill runs); `commands/*.md` invoke `python3 skills/rn-<platform>-review/scripts/scan.py` (repo-relative).
 
+## Citation accuracy is load-bearing
+
+`TestCitationAccuracy` pins guideline numbers that were previously wrong in both the rule files and the scanner output — 2.5.13 is facial recognition, 2.5.14 is recording consent, crypto mining is 2.4.2, and 3.1.6/3.1.7 do not exist. A report citing a guideline that says something else gets dismissed wholesale, so treat a citation change like a code change: verify against the live guidelines, not memory.
+
+The storefront asymmetry in §3.1.1 is the one most likely to be re-broken: **external purchase links need no entitlement on the US storefront** and are prohibited elsewhere. The scanner cannot resolve storefront from code, so `EXTERNAL-PAYMENT` must keep saying so in its finding text.
+
 ## Rule-file voice
 
 Rule files lead with the **TypeScript, `app.json`, gradle and manifest patterns** that trip each rule — not Swift or Kotlin. A rule that can't be tied to something an RN engineer would actually write doesn't belong. Findings are always `guideline number → file:line evidence → why it rejects → the fix`; unevidenced items go under "Not verified" rather than being stated as findings.
 
 ## Known gaps in the working tree
 
-- `README.md` references `.github/workflows/test.yml`; there is no `.github/` directory in the repo yet.
+- `README.md` references `.github/workflows/test.yml`; there is no `.github/` directory in the repo yet. It also still says "20 tests" and cites pre-fix scan results.
 - `CHECKS.md` at the repo root is a byte-identical copy of `docs/CHECKS.md`. `gen_checks.py` only writes `docs/CHECKS.md`, so the root copy will drift silently — it is probably a stray.
 - `<you>` placeholders remain in `plugin.json`, `marketplace.json` and `README.md`; `scripts/prepare_release.py` fills them.

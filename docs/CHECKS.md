@@ -15,9 +15,9 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | ID | Severity | App Store Review Guidelines | What it means |
 |---|---|---|---|
 | `DYNAMIC-CODE` | BLOCKER | 2.5.2 | Dynamic code execution — downloading or evaluating code is prohibited |
-| `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external payment path for digital goods — confirm the SKU is a physical good or real-world service before clearing |
+| `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external payment path for digital goods. Check the storefront before treating this as a blocker: under 3.1.1(a) no entitlement is… |
 | `ICON-NAME-MISSING` | BLOCKER | upload validation | CFBundleIconName is present but empty. The upload fails with |
-| `MINING` | BLOCKER | 2.5.18 | Possible on-device cryptocurrency mining |
+| `MINING` | BLOCKER | 2.4.2 / 3.1.5(ii) | Possible on-device cryptocurrency mining |
 | `PRIVACY-POLICY` | BLOCKER | 5.1.1(i) | No privacy policy reference found in the app. A policy must be linked in App Store Connect |
 | `PRIVATE-API` | BLOCKER | 2.5.1 | Possible private API usage in native code |
 | `SECRET-HARDCODED` | BLOCKER | 1.6 / 2.5 | Possible hardcoded credential — the JS bundle ships in plaintext inside the IPA |
@@ -25,7 +25,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ARBITRARY-LOADS` | HIGH | 1.6 | App Transport Security disabled — cleartext traffic allowed |
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
-| `CLIENT-ENTITLEMENT` | HIGH | 2.5.13 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
+| `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |

@@ -85,9 +85,10 @@ In Expo, these come from `app.json` → `ios.infoPlist.UIBackgroundModes`.
 ### 2.5.6 Web content uses WebKit
 `react-native-webview` is WebKit-backed on iOS — fine. Custom JS engines for browsing are not.
 
-### 2.5.8 No alternate app stores or code distribution
+### 2.5.8 No alternate desktop or home-screen environments
 
-### 2.5.10 No demo/trial/test versions; no "lite" stubs
+### 2.2 No demo/trial/test versions; no "lite" stubs
+(2.5.10 itself is "Intentionally omitted" in the current guidelines.)
 
 ### 2.5.13 Facial recognition for authentication
 Account authentication using face matching must use **LocalAuthentication**, not ARKit,

@@ -53,7 +53,7 @@ Play's spam policy mirrors Apple 4.2/4.3: apps with no meaningful functionality,
 - The app must do what the listing says
 - No fake updates, fake system warnings, or misleading push notifications
 - No unexpected redirects to ad content or app stores
-- Disclosed behavior must match actual behavior — this is where the **Data safety form** ties in (see `play-privacy-data.md`)
+- Disclosed behavior must match actual behavior — this is where the **Data safety form** ties in (see `2-privacy-data.md`)
 
 ---
 

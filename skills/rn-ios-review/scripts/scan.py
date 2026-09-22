@@ -55,7 +55,7 @@ RULES = [
      None),
 
     ("EXTERNAL-PAYMENT", "BLOCKER", "3.1.1",
-     "Possible external payment path for digital goods — confirm the SKU is a physical good or real-world service before clearing",
+     "Possible external payment path for digital goods. Check the storefront before treating this as a blocker: under 3.1.1(a) no entitlement is required for external purchase links in the United States storefront, so this is legal there and prohibited elsewhere. Outside the US, confirm the SKU is a physical good or real-world service, or that the relevant entitlement is held.",
      re.compile(r"(?i)(openURL|Linking\.openURL|WebView[^\n]{0,80})[^\n]{0,120}"
                 r"(stripe\.com|checkout\.stripe|paypal\.com|buy\.stripe|paddle\.com|lemonsqueezy|"
                 r"/checkout|/upgrade|/subscribe|/billing)"),
@@ -67,7 +67,7 @@ RULES = [
                 r"braintree-web-drop-in|react-native-razorpay|@paddle/paddle-js"),
      None),
 
-    ("MINING", "BLOCKER", "2.5.18",
+    ("MINING", "BLOCKER", "2.4.2 / 3.1.5(ii)",
      "Possible on-device cryptocurrency mining",
      re.compile(r"(?i)(coinhive|cryptonight|minerd|stratum\+tcp|hashrate)"),
      None),
@@ -95,7 +95,7 @@ RULES = [
                 r"@segment/analytics|react-native-idfa|react-native-onesignal"),
      {".json", ".ts", ".tsx", ".js", ".jsx"}),
 
-    ("CLIENT-ENTITLEMENT", "HIGH", "2.5.13",
+    ("CLIENT-ENTITLEMENT", "HIGH", "3.1.1",
      "Purchase entitlement possibly trusted from local storage — validate the receipt server-side",
      re.compile(r"(?i)(AsyncStorage|localStorage)[^\n]{0,60}(isPremium|isPro|['\"]pro['\"]|subscribed|entitle)"),
      {".ts", ".tsx", ".js", ".jsx"}),

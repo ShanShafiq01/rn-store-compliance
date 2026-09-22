@@ -6,7 +6,7 @@ metadata:
   author: Bitsol Technologies
   version: 1.0.0
   platform: Android (React Native / Expo)
-  guidelines_current_through: Google Play Developer Program Policy and Play Console requirements; target API and Billing floors verified Sept 2026, policy text not independently re-verified
+  guidelines_current_through: Google Play Developer Program Policy and Play Console requirements; target API and Billing floors verified Sept 2026, policy text not independently re-verified; guideline numbering and §3.1.1 storefront rules re-verified against the live text 22 Sep 2026
 ---
 
 # React Native Android Play Review Auditor

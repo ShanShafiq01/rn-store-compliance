@@ -4,7 +4,12 @@ Payment violations are the highest-cost findings: they are rejections *and* they
 
 ## 3.1.1 In-App Purchase
 
-Digital content, features, subscriptions, unlocks, and services consumed **inside** the app must use StoreKit IAP. You may not steer users to an external purchase mechanism unless you hold the relevant entitlement (External Purchase Link Entitlement / Link Entitlement, or a court-ordered regional allowance), and even then the entitlement dictates the exact UI and disclosure.
+Digital content, features, subscriptions, unlocks, and services consumed **inside** the app must use StoreKit IAP. Steering rules depend on the **storefront**, and getting this backwards is expensive in both directions:
+
+- **United States storefront: no entitlement is required.** 3.1.1(a) states the entitlements are "not required for developers to include buttons, external links, or other calls to action in their United States storefront apps." Treating a US external purchase link as a release blocker is wrong.
+- **Every other storefront:** buttons, external links and calls to action pointing at non-IAP purchasing are prohibited without the relevant entitlement (External Purchase Link Entitlement / Link Entitlement), and the entitlement dictates the exact UI and disclosure.
+
+Before reporting an external payment path as a blocker, check which storefronts the app ships to in App Store Connect. The code alone cannot tell you.
 
 ```ts
 // 🔴 BLOCKER — external payment for digital goods
@@ -40,7 +45,9 @@ Missing terms links on the paywall is one of the most common RN paywall rejectio
 
 ## 3.1.3 Content-based "reader" apps and other exceptions
 
-3.1.3(a) reader apps (magazines, books, audio, video, cloud storage) may let users access previously purchased content and, with the External Link Account Entitlement, link out to account management. 3.1.3(b) multiplatform services, (d) person-to-person experiences, (e) goods and services outside the app, (f) free stand-alone apps, (g) enterprise services.
+3.1.3(a) reader apps (magazines, books, audio, video, cloud storage) may let users access previously purchased content and, with the External Link Account Entitlement, link out to account management. The remaining sub-letters, in Apple's order: **(b)** multiplatform services — content bought elsewhere must *also* be purchasable as IAP inside the app; **(c)** enterprise services; **(d)** person-to-person experiences; **(e)** goods and services outside the app; **(f)** free stand-alone apps; **(g)** advertising management apps.
+
+An app claiming any 3.1.3 exception may not encourage non-IAP purchasing *inside* the app (except on the US storefront, and under 3.1.1(a) / 3.1.3(a)), though it may communicate about it outside the app.
 
 If the app claims an exception, verify it holds: no in-app purchase prompt, no "sign up on our website" copy pointing at a paywall without the entitlement.
 
@@ -62,7 +69,7 @@ payment architecture for most telehealth and coaching apps — a group class in 
 same codebase as a 1:1 session needs a different payment path.
 
 ## 3.2.1 Acceptable business models
-Approved financial institutions, insurance, and similar may operate; loan apps must not exceed 36% APR and must not require repayment in 60 days or less.
+Approved financial institutions, insurance, and similar may operate. Note the loan limits are **3.2.2(ix)** — an *unacceptable* business model, not an acceptable one: personal loan apps must not charge a maximum APR above 36% and must not require repayment in full in 60 days or less.
 
 ## 3.2.2 Unacceptable
 - Artificially inflating rankings or reviews (also 5.6.1)

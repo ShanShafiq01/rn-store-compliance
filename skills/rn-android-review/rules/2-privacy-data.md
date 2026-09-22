@@ -33,7 +33,7 @@ Every permission needs a runtime prompt with context and a genuine feature behin
 | `ACCESS_BACKGROUND_LOCATION` | Requires Console declaration + video demo; only for features that need it while the app is closed. Frequently rejected. |
 | `QUERY_ALL_PACKAGES` | Restricted; allowed only for a narrow set of use cases. Often pulled in transitively — check the **merged** manifest. |
 | `MANAGE_EXTERNAL_STORAGE` | Restricted; use scoped storage / SAF instead. |
-| `READ_SMS`, `RECEIVE_SMS`, `CALL_LOG` | Restricted; SMS-retriever API is the compliant path for OTP. |
+| `READ_SMS`, `RECEIVE_SMS`, `CALL_LOG` | Restricted; SMS Retriever API is the compliant path for OTP. Since the 15 Jul 2026 announcement `READ_CALL_LOG` is **no longer permitted for account verification via phone call** — move to the Digital Credentials API or SMS Retriever. Compliance date 27 Jan 2027. |
 | `READ_MEDIA_IMAGES` / `READ_MEDIA_VIDEO` | Photo/video permissions only for core functionality; otherwise use the **photo picker** (no permission needed). |
 | `AD_ID` (`com.google.android.gms.permission.AD_ID`) | Must be declared if targeting API 33+ and using the advertising ID; must be absent for child-directed apps. |
 | `POST_NOTIFICATIONS` | Runtime prompt on API 33+; requesting at launch with no context is a quality flag. |
@@ -62,7 +62,9 @@ await ImagePicker.launchImageLibraryAsync(); // uses the system picker on modern
 
 ## Age signals
 
-Google's counterpart to Apple's Declared Age Range is the **Play Age Signals API** (`com.google.android.play:age-signals`, minSdk 23). It returns data only for users in jurisdictions with age-verification laws — US states with accountability acts, Brazil's Digital ECA (enforceable since 17 March 2026, which requires version 0.0.3 or higher).
+Google's counterpart to Apple's Declared Age Range is the **Play Age Signals API** (`com.google.android.play:age-signals`, minSdk 23). It returns data only for users in jurisdictions with age-verification laws — US states with accountability acts, Brazil's Digital ECA (enforceable since 17 March 2026).
+
+> The library version floor sometimes quoted for the Brazil ECA path (0.0.3) could not be confirmed against Google's documentation — verify the current minimum directly before relying on it.
 
 Unlike Apple's, it needs no entitlement and no permission, so the integration cost is low. The compliance question is whether the app is in scope at all: 18+ content, or distribution into a regulated market. If the app also ships to iOS, the two APIs are separate integrations with different minimum OS versions — Apple's requires iOS 26 and an entitlement with lead time.
 

@@ -24,7 +24,7 @@ Always confirm the current floor against the live requirements page — this num
 
 ## 16 KB page size support
 
-Recent Android devices use 16 KB memory pages. Apps targeting modern API levels must ship native libraries aligned for 16 KB, or Play Console warns and eventually blocks. RN apps hit this through **native dependencies**: Hermes/JSC, Reanimated, MMKV, SQLite, camera, ML, and analytics SDKs with `.so` files.
+Recent Android devices use 16 KB memory pages. Apps **targeting API 35+** on 64-bit devices must ship native libraries aligned for 16 KB. There is now a hard date: **from 1 February 2027, updates that do not support 16 KB page sizes cannot be released at all.** RN apps hit this through **native dependencies**: Hermes/JSC, Reanimated, MMKV, SQLite, camera, ML, and analytics SDKs with `.so` files.
 
 ```bash
 # find native libs in the build output
@@ -44,6 +44,8 @@ grep -rn "bundleRelease\|assembleRelease" android/app/build.gradle fastlane/ .gi
 
 Android 14+ requires a declared `foregroundServiceType` and a matching permission for each service, and Play requires a Console declaration justifying the use. RN background-task libraries (`react-native-background-actions`, `react-native-background-fetch`, background geolocation) create these.
 
+**Geofencing was removed as an approved foreground-service use case** in the 15 April 2026 announcement — use the Geofence API instead. Compliance date **27 January 2027**. Any RN app pairing `react-native-background-geolocation` (or similar) with a `location` foreground service is on a deadline, and this is a regression risk for apps that were previously compliant.
+
 ```xml
 <service android:name=".MyService"
          android:foregroundServiceType="location" />
@@ -53,7 +55,7 @@ An undeclared or mismatched type crashes at runtime on new devices and is a Play
 
 ## Android App Quality / core vitals
 
-Play surfaces ANR and crash rates; exceeding bad-behavior thresholds reduces discoverability and can trigger warnings. RN-specific causes:
+Play surfaces ANR and crash rates; exceeding the bad-behaviour thresholds reduces discoverability and can trigger warnings. The overall thresholds are a **user-perceived crash rate of 1.09%** and an **ANR rate of 0.47%** (per-device-model thresholds are higher: 8%/4% phone, 8%/5% watch). RN-specific causes:
 - Heavy synchronous work on the JS thread blocking startup
 - Large images decoded on the main thread
 - Unbounded list rendering without `FlatList` windowing
@@ -85,4 +87,6 @@ Play surfaces ANR and crash rates; exceeding bad-behavior thresholds reduces dis
 - [ ] Ads declaration set correctly
 - [ ] Version code increments; Play App Signing configured
 - [ ] Pre-launch report crashes triaged
-- [ ] ANR/crash vitals within thresholds
+- [ ] ANR/crash vitals within thresholds (crash < 1.09%, ANR < 0.47%)
+- [ ] No geofencing via foreground service (deadline 27 Jan 2027)
+- [ ] 16 KB alignment done (hard block from 1 Feb 2027)

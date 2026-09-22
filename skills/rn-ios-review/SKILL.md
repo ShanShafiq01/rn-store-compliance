@@ -6,7 +6,7 @@ metadata:
   author: Bitsol Technologies
   version: 1.0.0
   platform: iOS (React Native / Expo)
-  guidelines_current_through: Apple App Store Review Guidelines, incl. the 6 Feb 2026 and 8 Jun 2026 revisions; verified against Apple Developer news, Sept 2026
+  guidelines_current_through: Apple App Store Review Guidelines, incl. the 6 Feb 2026 and 8 Jun 2026 revisions; verified against Apple Developer news, Sept 2026; guideline numbering and §3.1.1 storefront rules re-verified against the live text 22 Sep 2026
 ---
 
 # React Native iOS App Review Auditor

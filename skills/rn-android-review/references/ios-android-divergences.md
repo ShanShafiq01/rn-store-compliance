@@ -9,7 +9,7 @@ When reporting, name the divergence explicitly rather than averaging the two rul
 | | Apple | Google |
 |---|---|---|
 | Digital goods | StoreKit required | Play Billing required |
-| Linking out to pay | Prohibited without a specific entitlement (External Purchase Link / Link Entitlement), which dictates the exact UI and disclosure | Permitted under alternative and user-choice billing programs in several jurisdictions, each with its own API, fee treatment, and disclosure UI |
+| Linking out to pay | **US storefront: permitted with no entitlement** (3.1.1(a)). Every other storefront: prohibited without the External Purchase Link / Link Entitlement, which dictates the exact UI and disclosure | Permitted under alternative and user-choice billing programs in several jurisdictions, each with its own API, fee treatment, and disclosure UI |
 | Physical goods / real-world services | Must **not** use IAP | Must **not** use Play Billing |
 | Version floor enforcement | None — StoreKit is part of the SDK | Play Billing Library has a rolling ~2-year life; below the floor, the **upload is rejected** |
 

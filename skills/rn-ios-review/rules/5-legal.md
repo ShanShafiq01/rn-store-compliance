@@ -67,13 +67,23 @@ COPPA/GDPR-K compliance; no behavioral advertising; verifiable parental consent 
 | Region | From | What applies |
 |---|---|---|
 | Australia, Brazil, Singapore | 24 Feb 2026 | App Store blocks 18+ downloads unless the user is confirmed an adult; the store does this automatically, but developers may have separate obligations |
-| Brazil (Digital ECA) | 17 Mar 2026 | Age category shared when the user or guardian agrees |
+| Brazil — loot boxes | 24 Feb 2026 | Loot boxes trigger an **18+ rating**; apps containing them must be updated accordingly |
 | Utah (App Store Accountability Act) | 6 May 2026 | Age categories shared for new Apple Accounts via the API |
 | Louisiana | 1 Jul 2026 | Same |
+| **Texas (SB 2420)** | **4 Jun 2026** | The injunction was lifted. New Texas Apple Accounts need age assurance and **guardian consent for downloads, IAP, and significant app updates**. Apple's earlier "Texas paused" notice is superseded — check you are not reading it |
+
+Note: **17 Mar 2026 is the Play Age Signals / Brazil Digital ECA date, not an Apple date.** The two stores have separate regimes and separate deadlines; merging them into one row is a common and expensive mistake.
+
+Three companion obligations that are easy to miss:
+- **PermissionKit `SignificantAppUpdateTopic`** — *you* decide and declare when one of your own updates is "significant" enough to re-trigger guardian consent.
+- **StoreKit `AppStore.ageRatingCode`** — read the rating the store applied.
+- **App Store Server Notifications for consent withdrawal** — a guardian revoking consent is a server-side event you must handle. This is an obligation outside the app binary entirely.
 
 ```ts
 // Requires the com.apple.developer.declared-age-range entitlement,
-// requested from Apple BEFORE submission, and iOS 26+.
+// requested from Apple BEFORE submission. The base API is iOS 26, but the fuller
+// age-assurance fields (confirmation method, parental-control status) need the
+// iOS/iPadOS 26.2 SDK and Xcode 26.2.
 <key>com.apple.developer.declared-age-range</key><true/>
 ```
 
@@ -138,7 +148,8 @@ MDM requires commercial-enterprise/education justification and must not sell dat
 - [ ] App Privacy answers ≡ privacy manifest ≡ the actual SDK inventory
 - [ ] `PrivacyInfo.xcprivacy` present with required-reason API declarations; SDKs up to date
 - [ ] Updated age rating questions answered in App Store Connect (blocks submission if not)
-- [ ] Declared Age Range handled if 18+ or shipping to AU/BR/SG/UT/LA; entitlement requested
+- [ ] Declared Age Range handled if 18+ or shipping to AU/BR/SG/UT/LA/**TX**; entitlement requested
+- [ ] Consent-withdrawal notifications handled server-side
 - [ ] Health data not used for ads, not synced to iCloud
 - [ ] "Always" location only where a background feature requires it
 - [ ] Licensed fonts, icons, audio; no third-party marks in name/icon

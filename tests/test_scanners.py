@@ -659,5 +659,36 @@ class TestBatch2Gaps(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AGP-TOO-OLD"))
 
 
+class TestCitationAccuracy(ScannerTestBase):
+    """A report citing a guideline number that says something else gets the
+    whole report dismissed. Verified against the 8 Jun 2026 guidelines."""
+
+    # Numbers that do not exist, or whose subject is not what we used to claim.
+    WRONG = {
+        "2.5.18": "advertising placement, not crypto mining",
+        "2.5.13": "facial recognition, not purchase validation",
+        "2.5.14": "recording consent, not authentication APIs",
+        "3.1.6": "does not exist (Apple Pay is 4.9)",
+        "3.1.7": "does not exist",
+    }
+
+    def test_no_finding_cites_a_wrong_guideline_number(self):
+        for f in run_scan(IOS_SCAN, self.dirty)["findings"]:
+            cited = (f.get("guideline") or "").split(" / ")
+            for number in cited:
+                self.assertNotIn(number.strip(), self.WRONG,
+                                 f"{f['id']} cites {number}: {self.WRONG.get(number.strip())}")
+
+    def test_external_payment_finding_names_the_us_storefront_carve_out(self):
+        """3.1.1(a): entitlements are NOT required for external purchase links
+        in the United States storefront. Calling it a flat BLOCKER tells a US
+        app that a legal monetization path blocks its release."""
+        for f in run_scan(IOS_SCAN, self.dirty)["findings"]:
+            if f["id"] == "EXTERNAL-PAYMENT":
+                self.assertIn("storefront", f["description"].lower())
+                return
+        self.fail("EXTERNAL-PAYMENT did not fire on the dirty fixture")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
