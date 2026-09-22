@@ -207,13 +207,20 @@ def scan_patterns(root, findings):
 def scan_manifests(root, findings):
     merged_seen = False
     for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        # SKIP_DIRS prunes 'build', but the merged manifest — the one that
+        # actually ships — only exists under it. Keep that one path open, and
+        # accept both the singular and plural spellings AGP has used.
+        dirnames[:] = [d for d in dirnames
+                       if d not in SKIP_DIRS
+                       or d.startswith("merged_manifest")
+                       or (d == "build" and os.path.basename(dirpath) == "app")
+                       or os.path.basename(dirpath) in ("build", "intermediates")]
         for fn in filenames:
             if fn != "AndroidManifest.xml":
                 continue
             path = os.path.join(dirpath, fn)
             rel = os.path.relpath(path, root)
-            if "merged_manifests" in rel:
+            if "merged_manifest" in rel:
                 merged_seen = True
             try:
                 text = open(path, encoding="utf-8", errors="ignore").read()
@@ -420,6 +427,39 @@ def scan_bare_rn(root, findings):
                                "specific SDK paths and sometimes credentials; it should not be committed.",
                 "file": "android/local.properties", "line": 0, "evidence": "",
             })
+
+
+def scan_toolchain(root, findings):
+    """The Android Gradle Plugin version decides whether the rest of the advice
+    is applicable at all. AGP below 3.2 cannot produce an App Bundle, and below
+    7.x cannot compile against a modern API level — so "raise targetSdkVersion"
+    is not a fix that can be applied, it is a build-system migration."""
+    gradle = ""
+    for rel in ("android/build.gradle", "android/build.gradle.kts"):
+        try:
+            gradle += open(os.path.join(root, rel), encoding="utf-8", errors="ignore").read()
+        except OSError:
+            pass
+    m = re.search(r"com\.android\.tools\.build:gradle[:\"']+(\d+)\.(\d+)", gradle)
+    if not m:
+        return
+    major, minor = int(m.group(1)), int(m.group(2))
+    if major >= 7:
+        return
+    cannot_bundle = (major, minor) < (3, 2)
+    findings.append({
+        "id": "AGP-TOO-OLD", "severity": "BLOCKER",
+        "policy": "App Bundle requirement / Target API level",
+        "description": f"Android Gradle Plugin {major}.{minor} is too old to ship. "
+                       + ("It predates the App Bundle format entirely, so no AAB can be produced. "
+                          if cannot_bundle else
+                          "It cannot compile against a current compileSdk. ")
+                       + "Any targetSdkVersion finding on this project is blocked behind a build-system "
+                         "upgrade (AGP, Gradle wrapper, dependency syntax) — budget that work first "
+                         "rather than treating the API level as a one-line change.",
+        "file": "android/build.gradle", "line": gradle[:m.start()].count("\n") + 1,
+        "evidence": m.group(0),
+    })
 
 
 def scan_abi_and_signing(root, findings):
@@ -641,6 +681,7 @@ def main():
     scan_manifests(root, findings)
     scan_build_config(root, findings)
     scan_bare_rn(root, findings)
+    scan_toolchain(root, findings)
     scan_abi_and_signing(root, findings)
     scan_structural(root, findings)
     findings = dedupe(findings)

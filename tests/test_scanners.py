@@ -573,5 +573,91 @@ class TestMissingUploadGates(ScannerTestBase):
                              "KEYSTORE-COMMITTED"), "HIGH")
 
 
+class TestBatch2Gaps(ScannerTestBase):
+    """Second batch: the pbxproj, the merged manifest, privacy-manifest
+    contents, and the build toolchain — all previously unread."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def test_deployment_target_read_from_pbxproj_not_podfile(self):
+        """carecortex: Podfile says `platform :ios, min_ios_version_supported`,
+        which has no digits, so the regex silently parsed nothing. The real
+        value lives in the pbxproj."""
+        write(self.proj, "ios/Podfile", "platform :ios, min_ios_version_supported\n")
+        write(self.proj, "ios/App.xcodeproj/project.pbxproj",
+              "buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 12.4;\n};")
+        self.assertIsNotNone(sev(run_scan(IOS_SCAN, self.proj), "DEPLOYMENT-TARGET-OLD"))
+
+    def test_commented_podfile_platform_is_ignored(self):
+        """mahalkum's Podfile has `# platform :ios, '9.0'` commented out; the
+        regex matched the comment and reported it as the real target."""
+        write(self.proj, "ios/Podfile", "# platform :ios, '9.0'\nplatform :ios, min_ios_version_supported\n")
+        write(self.proj, "ios/App.xcodeproj/project.pbxproj",
+              "buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 8.0;\n};")
+        result = run_scan(IOS_SCAN, self.proj)
+        hit = [f for f in result["findings"] if f["id"] == "DEPLOYMENT-TARGET-OLD"]
+        self.assertTrue(hit, "expected a deployment target finding")
+        self.assertIn("pbxproj", hit[0]["file"],
+                      "should cite the pbxproj, not a commented Podfile line")
+
+    def test_ancient_deployment_target_is_blocker_not_medium(self):
+        """mahalkum ships 8.0. No currently shippable Xcode can build that,
+        so it is not the same finding as 12.4."""
+        write(self.proj, "ios/App.xcodeproj/project.pbxproj",
+              "buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 8.0;\n};")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "DEPLOYMENT-TARGET-OLD"), "BLOCKER")
+
+    def test_privacy_manifest_with_empty_collected_types_is_flagged(self):
+        """PlinkHealth declares an empty NSPrivacyCollectedDataTypes while
+        POSTing health records to its backend. Presence was checked; contents
+        never were."""
+        write(self.proj, "ios/App/PrivacyInfo.xcprivacy", """<plist><dict>
+<key>NSPrivacyCollectedDataTypes</key>
+<array/>
+<key>NSPrivacyTracking</key>
+<false/>
+</dict></plist>""")
+        write(self.proj, "src/api.ts",
+              "export const upload = (d) => api.post('/metrics', d);")
+        self.assertIsNotNone(sev(run_scan(IOS_SCAN, self.proj),
+                                 "PRIVACY-MANIFEST-EMPTY"))
+
+    def test_populated_privacy_manifest_is_not_flagged(self):
+        write(self.proj, "ios/App/PrivacyInfo.xcprivacy", """<plist><dict>
+<key>NSPrivacyCollectedDataTypes</key>
+<array><dict><key>NSPrivacyCollectedDataType</key>
+<string>NSPrivacyCollectedDataTypeHealthFitness</string></dict></array>
+</dict></plist>""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "PRIVACY-MANIFEST-EMPTY"))
+
+    def test_merged_manifest_is_found_under_build_dir(self):
+        """SKIP_DIRS contains 'build', so merged manifests were unreachable by
+        construction and the advisory could never be satisfied."""
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", "<manifest/>")
+        write(self.proj,
+              "android/app/build/intermediates/merged_manifests/release/AndroidManifest.xml",
+              '<manifest><uses-permission android:name="android.permission.CAMERA"/></manifest>')
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "MERGED-MANIFEST-NOT-CHECKED"))
+
+    def test_old_agp_blocks_the_target_sdk_fix(self):
+        """mahalkum is on AGP 2.2.3, which predates App Bundles entirely.
+        Telling it to raise targetSdk without saying so hands over a fix that
+        cannot be applied."""
+        write(self.proj, "android/build.gradle",
+              "buildscript { dependencies { classpath 'com.android.tools.build:gradle:2.2.3' } }")
+        write(self.proj, "android/app/build.gradle",
+              "android { defaultConfig { targetSdkVersion 22 } }")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj), "AGP-TOO-OLD"), "BLOCKER")
+
+    def test_modern_agp_is_not_flagged(self):
+        write(self.proj, "android/build.gradle",
+              "buildscript { dependencies { classpath 'com.android.tools.build:gradle:8.7.2' } }")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AGP-TOO-OLD"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -265,21 +265,38 @@ def scan_bare_rn(root, findings):
     podfile = os.path.join(ios_dir, "Podfile")
     if os.path.isfile(podfile):
         text = open(podfile, encoding="utf-8", errors="ignore").read()
-        m = re.search(r"platform\s+:ios\s*,\s*['\"]?([\d.]+)", text)
+        m = re.search(r"^\s*platform\s+:ios\s*,\s*['\"]?([\d.]+)", text, re.M)
         if m:
             try:
                 major = int(float(m.group(1)))
             except ValueError:
                 major = None
-            if major is not None and major < 15:
-                findings.append({
-                    "id": "DEPLOYMENT-TARGET-OLD", "severity": "MEDIUM", "guideline": "2.4.1",
-                    "description": f"iOS deployment target is {m.group(1)}. Very old targets pull in "
-                                   f"deprecated pod versions that may lack privacy manifests, and block "
-                                   f"newer APIs (Declared Age Range needs iOS 26). Not a rejection by "
-                                   f"itself — check the pods it forces.",
-                    "file": "ios/Podfile", "line": 0, "evidence": m.group(0),
-                })
+            _report_deployment_target(findings, m.group(1), "ios/Podfile", m.group(0))
+
+    # The Podfile on modern RN reads `platform :ios, min_ios_version_supported`,
+    # which has no digits to parse. The authoritative value is in the pbxproj —
+    # which bare RN checks in, and which nothing else here reads.
+    lowest, where = None, None
+    for dirpath, dirnames, filenames in os.walk(ios_dir):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn != "project.pbxproj":
+                continue
+            path = os.path.join(dirpath, fn)
+            try:
+                text = open(path, encoding="utf-8", errors="ignore").read()
+            except OSError:
+                continue
+            for pm in re.finditer(r"IPHONEOS_DEPLOYMENT_TARGET\s*=\s*([\d.]+)", text):
+                try:
+                    val = float(pm.group(1))
+                except ValueError:
+                    continue
+                if lowest is None or val < lowest:
+                    lowest, where = val, os.path.relpath(path, root)
+    if lowest is not None:
+        _report_deployment_target(findings, ("%g" % lowest), where,
+                                  "IPHONEOS_DEPLOYMENT_TARGET = %g" % lowest)
 
     # --- Third-party pods: each needs its own privacy manifest
     lock = os.path.join(ios_dir, "Podfile.lock")
@@ -372,6 +389,37 @@ def scan_upload_gates(root, findings):
         })
 
 
+def scan_privacy_manifest_contents(root, findings):
+    """Presence was checked; contents never were. An empty
+    NSPrivacyCollectedDataTypes on an app that transmits user data contradicts
+    whatever App Privacy says, and the mismatch is itself the finding."""
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn != "PrivacyInfo.xcprivacy":
+                continue
+            rel = os.path.relpath(os.path.join(dirpath, fn), root)
+            try:
+                text = open(os.path.join(dirpath, fn), encoding="utf-8", errors="ignore").read()
+            except OSError:
+                continue
+            if "NSPrivacyCollectedDataTypes" not in text:
+                continue
+            empty = re.search(r"<key>NSPrivacyCollectedDataTypes</key>\s*<array\s*/>", text)
+            if not empty:
+                continue
+            findings.append({
+                "id": "PRIVACY-MANIFEST-EMPTY", "severity": "HIGH", "guideline": "5.1.1 / 5.1.2",
+                "description": "PrivacyInfo.xcprivacy declares NSPrivacyCollectedDataTypes as an empty "
+                               "array. If the app sends anything to your own backend or to an analytics "
+                               "SDK — account details, health metrics, user content — that is collection "
+                               "and must be declared here and match the App Privacy answers. Apple treats "
+                               "the mismatch between the two as the violation.",
+                "file": rel, "line": text[:empty.start()].count("\n") + 1,
+                "evidence": "<key>NSPrivacyCollectedDataTypes</key> <array/>",
+            })
+
+
 def scan_icon(root, findings):
     """CFBundleIconName must be present and non-empty on iOS 11+ SDK builds,
     or the upload fails with ITMS-90713."""
@@ -399,6 +447,36 @@ def scan_icon(root, findings):
                     "file": rel, "line": text[:m.start()].count("\n") + 1,
                     "evidence": "<key>CFBundleIconName</key> <string></string>",
                 })
+
+
+def _report_deployment_target(findings, value, rel, evidence):
+    """Severity tracks buildability, not age: a target below 12 cannot be built
+    by any currently shippable Xcode, which is a different problem from merely
+    supporting old devices."""
+    try:
+        major = int(float(value))
+    except ValueError:
+        return
+    if major >= 15:
+        return
+    if any(f["id"] == "DEPLOYMENT-TARGET-OLD" for f in findings):
+        return
+    blocking = major < 12
+    findings.append({
+        "id": "DEPLOYMENT-TARGET-OLD",
+        "severity": "BLOCKER" if blocking else "MEDIUM",
+        "guideline": "2.4.1",
+        "description": f"iOS deployment target is {value}. "
+                       + ("No currently shippable Xcode can build for this target — it has to be "
+                          "raised before the project can be archived at all. "
+                          if blocking else
+                          "Old targets pull in deprecated pod versions that may lack privacy "
+                          "manifests, and block newer APIs (Declared Age Range needs iOS 26). ")
+                       + "Cross-check it against the floor your pods build at: if the app target is "
+                         "lower, the App Store offers the app to devices where it will crash on "
+                         "missing symbols.",
+        "file": rel, "line": 0, "evidence": evidence,
+    })
 
 
 def scan_structural(root, findings):
@@ -607,6 +685,7 @@ def main():
     scan_bare_rn(root, findings)
     scan_upload_gates(root, findings)
     scan_icon(root, findings)
+    scan_privacy_manifest_contents(root, findings)
     scan_structural(root, findings)
     findings = dedupe(findings)
 
