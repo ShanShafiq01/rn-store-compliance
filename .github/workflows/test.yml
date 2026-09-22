@@ -25,22 +25,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Scanners must remain stdlib-only
-        run: |
-          # No requirements file, no install step. If either scanner ever grows
-          # a third-party import, importing it on a bare interpreter fails here.
-          python -c "import ast,sys
-for f in ('skills/rn-ios-review/scripts/scan.py','skills/rn-android-review/scripts/scan.py'):
-    tree = ast.parse(open(f).read())
-    mods = set()
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import):
-            mods |= {a.name.split('.')[0] for a in node.names}
-        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
-            mods.add(node.module.split('.')[0])
-    extra = mods - set(sys.stdlib_module_names if hasattr(sys,'stdlib_module_names') else
-                       {'argparse','json','os','re','sys','subprocess','collections'})
-    assert not extra, f'{f} imports non-stdlib: {extra}'
-    print(f'{f}: stdlib only')"
+        # No requirements file, no install step. The check imports each module
+        # and fails if any resolves into site-packages.
+        run: python scripts/check_stdlib_only.py
 
       - name: Tests
         run: python tests/test_scanners.py

@@ -50,7 +50,7 @@ Nothing leaves your machine. The scanners are read-only, make no network calls, 
 ### Claude Code — as a plugin
 
 ```bash
-/plugin marketplace add <you>/rn-store-compliance
+/plugin marketplace add ShanShafiq01/rn-store-compliance
 /plugin install rn-store-compliance@bitsol-mobile
 ```
 
@@ -192,7 +192,7 @@ rn-store-compliance/
 │   └── CHECKS.md                 # all 53 checks, generated from source
 ├── scripts/
 │   ├── gen_checks.py             # regenerates docs/CHECKS.md
-│   └── prepare_release.py        # fills the <you> placeholders
+│   └── prepare_release.py        # fills the ShanShafiq01 placeholders
 ├── tests/
 │   └── test_scanners.py          # 58 tests
 ├── .github/workflows/test.yml
@@ -277,7 +277,7 @@ python3 tests/test_scanners.py
 - **Regressions** — the five real-world false positives above, pinned individually
 - **Contract** — JSON shape, markdown rendering, exit codes, empty-project handling
 
-CI runs them on Python 3.8 and 3.12, validates both manifests, and fails the build if an unreplaced `<you>` placeholder is still present.
+CI runs them on Python 3.8 and 3.12, validates both manifests, and fails the build if an unreplaced `ShanShafiq01` placeholder is still present.
 
 ## Release checklist
 
@@ -287,7 +287,7 @@ Before publishing this as your own marketplace:
   ```bash
   python3 scripts/prepare_release.py --org my-github-org --author "My Name"
   ```
-  Add `--dry-run` to preview, `--marketplace my-skills` to rename what users type after `@`. CI fails while any `<you>` remains.
+  Add `--dry-run` to preview, `--marketplace my-skills` to rename what users type after `@`. CI fails while any `ShanShafiq01` remains.
 - [ ] Confirm `author` in `plugin.json` and the `LICENSE` copyright holder — `--author` above sets both.
 - [ ] Decide on the marketplace name — `bitsol-mobile` is what users type after `@`. It appears in `marketplace.json` and three README commands.
 - [ ] Run both scanners against two or three of your own RN repos and check the noise level before anyone else installs it.
