@@ -1,0 +1,24 @@
+{
+  "name": "rn-store-compliance",
+  "version": "2.3.0",
+  "description": "Audits React Native / Expo codebases against Apple's App Store Review Guidelines and Google Play's Developer Program Policies, reporting rejection and enforcement risk with file:line evidence and fixes.",
+  "author": {
+    "name": "Bitsol Technologies"
+  },
+  "homepage": "https://github.com/<you>/rn-store-compliance",
+  "repository": "https://github.com/<you>/rn-store-compliance",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "expo",
+    "ios",
+    "android",
+    "app-store",
+    "google-play",
+    "app-review",
+    "compliance",
+    "privacy",
+    "storekit",
+    "play-billing"
+  ]
+}
