@@ -53,7 +53,12 @@ If the app uses a third-party or social login, it must also offer a login option
 
 Sign in with Apple satisfies this — but offering the button is necessary, not sufficient.
 
-### 4.8 — the design requirements, not just the presence of the button
+### Sign in with Apple: the design requirements (guideline 4 + HIG, not 4.8)
+
+**Cite this correctly.** 4.8 is *Login Services* — it governs *offering* an equivalent
+login service, and contains nothing about re-asking for data the framework returned.
+The rejection below points at **guideline 4 (Design)** and the Human Interface
+Guidelines. Citing 4.8 for it invites the reviewer to disagree with your premise.
 
 A real rejection, verbatim:
 

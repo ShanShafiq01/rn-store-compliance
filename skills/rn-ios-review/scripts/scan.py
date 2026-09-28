@@ -38,6 +38,8 @@ CODE_EXT = {
 # the whole category. Real secrets elsewhere are unaffected.
 PUBLIC_CONFIG = re.compile(r"(GoogleService-Info\.plist|google-services\.json)$", re.I)
 
+LOCALE_HINT = re.compile(r"/i18n/|/locales?/|/translations?/|/lang/", re.I)
+
 TEST_HINT = re.compile(
     r"(__tests__|__mocks__|\.test\.|\.spec\.|\.stories\.|/mocks?/|/fixtures?/|"
     r"/i18n/|/locales?/|/translations?/|/lang/|"
@@ -163,22 +165,47 @@ VAGUE_PURPOSE = re.compile(
 # never fire on a non-health app, which is how an absence check stays usable.
 HEALTH_SDK_RX = (r"react-native-healthkit|react-native-health\b|react-native-health-connect|"
                  r"@kingstinct/react-native-healthkit|\bfhir\b|expo-health")
-MEDICAL_ADVICE_RX = (r"(?i)\b(diagnos|treatment|prescrib|statin|dosage|mg/dL|"
-                     r"blood pressure|cholesterol|symptom)\w*")
+MEDICAL_ADVICE_RX = (r"(?i)\b(diagnosis|diagnose[sd]?|prescrib\w*|statins?|dosage|mg/dL|"
+                     r"blood pressure|cholesterol|symptoms?|treatment plan|"
+                     r"medical advice)\b")
 DISCLAIMER_RX = (r"(?i)(not (a substitute for|intended as) (professional )?medical advice|"
                  r"consult (your|a) (physician|doctor|healthcare)|"
                  r"does not (provide|constitute) medical advice|"
                  r"check with (your|a) doctor)")
 CITATION_RX = r"(?i)(pubmed|doi\.org|nih\.gov|\bcitations?\b|\bsources?\s*:)"
+# One leading (?i) only: a second inline flag mid-pattern is a PatternError on
+# Python 3.11+, which is what Homebrew and Ubuntu 24.04 ship.
+# "plan", "upgrade" and "renew" occur freely in comments and identifiers;
+# only unambiguous billing vocabulary counts.
+BILLING_CONTEXT = (r"price|pricing|billing|billed|free trial|paywall|/month|per month|"
+                   r"cancel any ?time|manage your|auto-?renew")
+SUBSCRIPTION_COPY_RX = (r"(?i)(?:\bsubscriptions?\b[^\n]{0,80}(?:" + BILLING_CONTEXT + r")"
+                        r"|(?:" + BILLING_CONTEXT + r")[^\n]{0,80}\bsubscriptions?\b)")
+re.compile(SUBSCRIPTION_COPY_RX)   # fail loudly at import, not mid-scan
+
 SENSOR_ONLY_RX = (r"(?i)(measure|check|scan|read|take)\w*[^\n]{0,40}"
                   r"(blood pressure|blood glucose|blood oxygen|body temperature|x-?ray)")
 DEVICE_SENSOR_RX = r"react-native-vision-camera|expo-camera|Accelerometer|\bPPG\b"
 
 
 def _is_health_app(root):
-    """Health signal gate. Without it these checks fire on every project."""
-    return bool(_grep(root, HEALTH_SDK_RX)
-                or _grep(root, r"(?i)\b(patient|clinical|vitals|biomarker)\b"))
+    """Health signal gate.
+
+    A dependency is the only signal strong enough to stand alone. Prose words
+    are not: "thanks for being patient" and a Diagnostics screen are ordinary
+    English and near-universal in RN, so OR-ing them in made every app a health
+    app — the fleet-wide noise this whole tool exists to avoid. Prose therefore
+    needs two independent hits, and the words are narrowed to ones that do not
+    occur casually.
+    """
+    if _grep(root, HEALTH_SDK_RX):
+        return True
+    prose = [w for w in (r"\bpatients?\b(?![^\n]{0,20}(while|with us|for us))",
+                         r"(?i)\bclinical(ly)?\b", r"(?i)\bbiomarkers?\b",
+                         r"(?i)\b(vital signs|blood glucose|blood oxygen)\b",
+                         r"(?i)\b(diagnosis|diagnose[sd]?)\b")
+             if _grep(root, w)]
+    return len(prose) >= 2
 
 
 def _is_not_a_secret(line):
@@ -552,7 +579,7 @@ def scan_structural(root, findings):
     # --- Guideline 1.4.1, health apps only
     if _is_health_app(root):
         has_medical_language = _grep(root, MEDICAL_ADVICE_RX)
-        if has_medical_language and not _grep(root, DISCLAIMER_RX):
+        if has_medical_language and not _grep_incl_locales(root, DISCLAIMER_RX):
             findings.append({
                 "id": "MEDICAL-NO-DISCLAIMER", "severity": "HIGH", "guideline": "1.4.1",
                 "description": "Health app surfaces medical language with no disclaimer found. "
@@ -562,7 +589,7 @@ def scan_structural(root, findings):
                                "this rejection is often fixed in metadata rather than code.",
                 "file": "(repo-wide)", "line": 0, "evidence": "",
             })
-        if has_medical_language and not _grep(root, CITATION_RX):
+        if has_medical_language and not _grep_incl_locales(root, CITATION_RX):
             findings.append({
                 "id": "MEDICAL-NO-CITATION", "severity": "MEDIUM", "guideline": "1.4.1",
                 "description": "Medical or health information with no citations found. 1.4.1 "
@@ -572,7 +599,11 @@ def scan_structural(root, findings):
                                "behind it rather than citing them only in the privacy policy.",
                 "file": "(repo-wide)", "line": 0, "evidence": "",
             })
-    if _grep(root, SENSOR_ONLY_RX) and _grep(root, DEVICE_SENSOR_RX):
+    external_source = _grep(root, r"(?i)\b(bluetooth|\bble\b|cuff|thermometer|"
+                                  r"monitor|paired|apple ?watch|healthkit|"
+                                  r"health ?connect|wearable|oximeter)\b")
+    if _grep(root, SENSOR_ONLY_RX) and _grep(root, DEVICE_SENSOR_RX) \
+            and not external_source:
         findings.append({
             "id": "SENSOR-ONLY-VITALS", "severity": "BLOCKER", "guideline": "1.4.1",
             "description": "Possible claim to measure a vital sign using only device "
@@ -589,13 +620,9 @@ def scan_structural(root, findings):
     # "subscription" alone is a data-model word — Rocket.Chat's room
     # subscriptions, GraphQL subscriptions, RxJS .subscribe(). Only purchase
     # context counts, so require billing language on the same line.
-    if _grep(root, r"(?i)\bsubscriptions?\b[^\n]{0,80}"
-                   r"(price|plan|billing|billed|renew|trial|upgrade|paywall|/month|per month|"
-                   r"cancel any ?time|manage your)|"
-                   r"(?i)(price|plan|billing|billed|renew|trial|upgrade|paywall|manage your)"
-                   r"[^\n]{0,80}\bsubscriptions?\b") and not _grep(
+    if _grep(root, SUBSCRIPTION_COPY_RX) and not _grep(
             root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|"
-                  r"react-native-qonversion|StoreKit"):
+                  r"react-native-qonversion|react-native-adapty|expo-iap|glassfy|\bStoreKit\b"):
         findings.append({
             "id": "SUBSCRIPTION-COPY-MISMATCH", "severity": "MEDIUM",
             "guideline": "3.1.1 / 3.1.3(e)",
@@ -613,9 +640,13 @@ def scan_structural(root, findings):
     if _grep(root, r"@invertase/react-native-apple-authentication|"
                    r"expo-apple-authentication|appleAuth\.performRequest") \
             and _grep(root, r"(?i)(CompleteProfile|complete[-_]?profile|"
-                            r"ProfileSetup|profile[-_]?setup|onboarding/name)"):
+                            r"ProfileSetup|profile[-_]?setup|onboarding/name)") \
+            and _grep(root, r"(?i)(placeholder=[\"']?(full ?name|your name|email)|"
+                            r"\b(fullName|firstName|lastName|emailAddress)\b|"
+                            r"label=[\"']?(full ?name|email))"):
         findings.append({
-            "id": "SIWA-REDUNDANT-PROFILE", "severity": "HIGH", "guideline": "4.8",
+            "id": "SIWA-REDUNDANT-PROFILE", "severity": "HIGH",
+            "guideline": "4 (Design) / HIG",
             "description": "Sign in with Apple is present alongside a profile-completion "
                            "screen. Apple rejects apps that ask for a name or email the "
                            "Authentication Services framework already returned. The RN trap: "
@@ -721,9 +752,19 @@ def _exists(root, name):
 _grep_cache = {}
 
 
-def _grep(root, pattern):
+def _grep_incl_locales(root, pattern):
+    """_grep, but reaching into i18n/locale trees.
+
+    Absence checks are asymmetric: the trigger is a component or identifier name
+    (which _grep sees) while the rebuttal is user-facing copy, which in any
+    localised RN app lives exactly where _grep refuses to look.
+    """
+    return _grep(root, pattern, include_locales=True)
+
+
+def _grep(root, pattern, include_locales=False):
     """Cheap repo-wide existence check, ignoring test/fixture paths."""
-    key = (root, pattern)
+    key = (root, pattern, include_locales)
     if key in _grep_cache:
         return _grep_cache[key]
     rx = re.compile(pattern)
@@ -731,7 +772,8 @@ def _grep(root, pattern):
     for path in iter_files(root):
         if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx", ".json", ".plist"}:
             continue
-        if TEST_HINT.search(os.path.relpath(path, root)):
+        rel = os.path.relpath(path, root)
+        if TEST_HINT.search(rel) and not (include_locales and LOCALE_HINT.search(rel)):
             continue
         try:
             with open(path, encoding="utf-8", errors="ignore") as f:

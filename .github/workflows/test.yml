@@ -17,6 +17,11 @@ jobs:
             python-version: "3.8"
           - os: ubuntu-latest
             python-version: "3.12"
+          # 3.11 made a mid-pattern inline regex flag a hard error, and Homebrew
+          # and Ubuntu 24.04 both ship 3.12/3.13 — so the newest interpreter is
+          # what most users actually run.
+          - os: ubuntu-latest
+            python-version: "3.13"
     steps:
       - uses: actions/checkout@v4
 

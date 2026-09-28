@@ -470,6 +470,23 @@ def scan_bare_rn(root, findings):
             })
 
 
+# Health Connect permission names do NOT all match their record type names, and
+# two of them are capability grants with no record type at all. A naive
+# SCREAMING_SNAKE -> PascalCase conversion told teams to delete permissions they
+# actively read. Only the exceptions are listed; the rest convert correctly.
+HEALTH_RECORD_ALIASES = {
+    "EXERCISE": "ExerciseSession",
+    "PLANNED_EXERCISE": "PlannedExerciseSession",
+    "SLEEP": "SleepSession",
+    "MINDFULNESS": "MindfulnessSession",
+    "HEART_RATE_VARIABILITY": "HeartRateVariabilityRmssd",
+    "MENSTRUATION": "Menstruation",      # MenstruationFlow / MenstruationPeriod
+    "VO2_MAX": "Vo2Max",
+}
+# Capability grants, not data types — they can never appear as a record type.
+HEALTH_NON_RECORD = {"HEALTH_DATA_IN_BACKGROUND", "HEALTH_DATA_HISTORY"}
+
+
 def scan_health_permissions(root, findings):
     """Health Connect grants are per data type, against a declared use case.
 
@@ -491,14 +508,19 @@ def scan_health_permissions(root, findings):
             except OSError:
                 continue
             declared |= set(re.findall(
-                r"android\.permission\.health\.(?:READ|WRITE)_([A-Z_]+)", text))
+                r"android\.permission\.health\.(?:READ|WRITE)_([A-Z0-9_]+)", text))
     if not declared:
         return
     unused = []
     for perm in sorted(declared):
-        pascal = "".join(part.capitalize() for part in perm.split("_"))
-        if not _grep(root, r"\b%s\b" % re.escape(pascal)):
-            unused.append(pascal)
+        if perm in HEALTH_NON_RECORD:
+            continue
+        token = HEALTH_RECORD_ALIASES.get(
+            perm, "".join(part.capitalize() for part in perm.split("_")))
+        # Prefix match, not \b...\b: several record types are suffixed variants
+        # (MenstruationFlow, MenstruationPeriod) of the permission's base name.
+        if not _grep(root, r"\b%s\w*" % re.escape(token)):
+            unused.append(token)
     if unused:
         findings.append({
             "id": "HEALTH-PERM-UNUSED", "severity": "HIGH",

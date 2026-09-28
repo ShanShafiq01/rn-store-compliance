@@ -1041,5 +1041,197 @@ class TestAIContentPolicy(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
 
 
+class TestReviewFindings(ScannerTestBase):
+    """Findings from the whole-branch review, each reproduced before fixing."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    # --- C2: permission name != record type name
+    def test_health_record_types_that_differ_from_permission_names(self):
+        """READ_EXERCISE is ExerciseSession, READ_SLEEP is SleepSession,
+        READ_HEART_RATE_VARIABILITY is HeartRateVariabilityRmssd. Naive
+        PascalCase told teams to delete permissions they actively read."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"react-native-health-connect":"3.5.0"}}')
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.health.READ_EXERCISE"/>
+  <uses-permission android:name="android.permission.health.READ_SLEEP"/>
+  <uses-permission android:name="android.permission.health.READ_HEART_RATE_VARIABILITY"/>
+  <uses-permission android:name="android.permission.health.READ_VO2_MAX"/>
+</manifest>""")
+        write(self.proj, "src/health.ts", """
+readRecords('ExerciseSession');
+readRecords('SleepSession');
+readRecords('HeartRateVariabilityRmssd');
+readRecords('Vo2Max');
+""")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "HEALTH-PERM-UNUSED"))
+
+    def test_capability_permissions_are_not_record_types(self):
+        """READ_HEALTH_DATA_IN_BACKGROUND and READ_HEALTH_DATA_HISTORY are
+        capability grants with no record type, so they were wrong 100% of the
+        time."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"react-native-health-connect":"3.5.0"}}')
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND"/>
+  <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_HISTORY"/>
+</manifest>""")
+        write(self.proj, "src/health.ts", "readRecords('Steps');")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "HEALTH-PERM-UNUSED"))
+
+    def test_genuinely_unused_type_is_still_reported(self):
+        """Guard: the check must keep working after the mapping fix."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"react-native-health-connect":"3.5.0"}}')
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.health.READ_STEPS"/>
+  <uses-permission android:name="android.permission.health.READ_BLOOD_PRESSURE"/>
+</manifest>""")
+        write(self.proj, "src/health.ts", "readRecords('Steps');")
+        r = run_scan(ANDROID_SCAN, self.proj)
+        self.assertEqual(sev(r, "HEALTH-PERM-UNUSED"), "HIGH")
+        hit = [f for f in r["findings"] if f["id"] == "HEALTH-PERM-UNUSED"][0]
+        self.assertIn("BloodPressure", hit["description"])
+
+    # --- I3: the health gate must not be tripped by ordinary English
+    def test_ordinary_english_does_not_make_an_app_a_health_app(self):
+        """'Thanks for being patient' and a Diagnostics screen are not health
+        signals. This gate firing wrongly puts medical findings on every app."""
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+        write(self.proj, "src/Copy.tsx",
+              "export const copy = 'Thanks for being patient while we upgrade.';\n"
+              "export const faq = 'How do I treat a stain? See our treatment guide.';")
+        write(self.proj, "src/Diagnostics.tsx", "export function runDiagnostics() {}")
+        for check in ("MEDICAL-NO-DISCLAIMER", "MEDICAL-NO-CITATION"):
+            self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), check), check)
+
+    def test_web_vitals_dependency_is_not_a_health_signal(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","web-vitals":"4.2.0"}}')
+        write(self.proj, "src/Perf.tsx", "export const x = 'diagnostics';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-NO-DISCLAIMER"))
+
+    def test_real_health_app_is_still_gated_in(self):
+        """Guard: a genuine health app must still get the medical checks."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/Insights.tsx",
+              "export const advice = 'Your cholesterol suggests treatment.';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "MEDICAL-NO-DISCLAIMER"), "HIGH")
+
+
+    # --- I4: the rebuttal half of an absence check must see locale files
+    def test_disclaimer_in_a_locale_file_counts(self):
+        """RN apps keep user-facing copy in i18n/. _grep skips those paths, so
+        the trigger survived the skip-list and the rebuttal did not."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/SymptomScreen.tsx",
+              "export const s = 'Review your symptoms and cholesterol trend';")
+        write(self.proj, "src/locales/en.json",
+              '{"disclaimer":"This app does not provide medical advice. Consult your '
+              'physician.","sources":"Sources: https://pubmed.ncbi.nlm.nih.gov/1/"}')
+        for check in ("MEDICAL-NO-DISCLAIMER", "MEDICAL-NO-CITATION"):
+            self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), check), check)
+
+    # --- I5: a camera in package.json is not evidence of a sensor measurement
+    def test_external_device_vocabulary_suppresses_sensor_only(self):
+        """'Read blood oxygen recorded by your Apple Watch' in an app that also
+        uses the camera for avatars is the compliant path, not a BLOCKER."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","expo-camera":"15.0.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/Spo2.tsx",
+              "export const t = 'Read blood oxygen recorded by your Apple Watch';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SENSOR-ONLY-VITALS"))
+
+    def test_manual_entry_of_a_vital_is_not_sensor_only(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","expo-sensors":"13.0.0"}}')
+        write(self.proj, "src/Temp.tsx",
+              "export const t = 'Take a body temperature reading with a thermometer "
+              "and enter it here';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SENSOR-ONLY-VITALS"))
+
+    def test_camera_based_vital_claim_is_still_blocker(self):
+        """Guard: the real violation must survive the narrowing."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","react-native-vision-camera":"4.0.0"}}')
+        write(self.proj, "src/BP.tsx",
+              "export const t = 'Measure your blood pressure using the camera';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SENSOR-ONLY-VITALS"), "BLOCKER")
+
+    # --- I6: SIWA needs evidence of a name/email field, not a screen name
+    def test_profile_screen_without_name_or_email_field_is_silent(self):
+        """Asking for height, weight and a goal is not the cited violation."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@invertase/react-native-apple-authentication":"2.3.0"}}')
+        write(self.proj, "src/ProfileSetup.tsx",
+              "export function ProfileSetup() { return <NumberInput label='Height (cm)' />; }")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SIWA-REDUNDANT-PROFILE"))
+
+    # --- I7: mainstream IAP libraries must count
+    def test_modern_iap_libraries_suppress_subscription_copy(self):
+        for dep in ("react-native-adapty", "expo-iap", "react-native-purchases-ui"):
+            proj = tempfile.mkdtemp(dir=self.tmp)
+            write(proj, "package.json",
+                  '{"dependencies":{"react-native":"0.76.0","%s":"1.0.0"}}' % dep)
+            write(proj, "src/Paywall.tsx", "export const c = 'Manage your subscription';")
+            self.assertIsNone(sev(run_scan(IOS_SCAN, proj),
+                                  "SUBSCRIPTION-COPY-MISMATCH"), dep)
+
+    def test_graphql_subscription_near_the_word_plan_is_not_purchase_copy(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@stripe/stripe-react-native":"0.38.0"}}')
+        write(self.proj, "src/api.ts",
+              "// plan: move these subscriptions into a shared client\n"
+              "export const TICKET_SUB = gql`subscription OnTicket { id }`;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "SUBSCRIPTION-COPY-MISMATCH"))
+
+
+class TestInterpreterCompatibility(ScannerTestBase):
+    """Both scanners must import and run on every supported interpreter.
+
+    A mid-pattern (?i) was deprecated in 3.6 and is an error in 3.11+, so a
+    regex that compiles here can still be a hard crash for most users --
+    Homebrew and Ubuntu 24.04 ship 3.12/3.13.
+    """
+
+    def test_every_scanner_regex_compiles(self):
+        import re as _re
+        for script in (IOS_SCAN, ANDROID_SCAN):
+            src = open(script, encoding="utf-8").read()
+            # Any global inline flag that is not at position 0 of its pattern.
+            for m in _re.finditer(r'r"(?:[^"\\]|\\.)*"', src):
+                lit = m.group(0)[2:-1]
+                if "(?i)" in lit and not lit.startswith("(?i)"):
+                    self.fail(f"{os.path.basename(script)}: mid-pattern (?i) is a "
+                              f"PatternError on Python 3.11+: {lit[:70]}")
+
+    def test_scanners_run_clean_with_deprecation_warnings_as_errors(self):
+        for script, platform in ((IOS_SCAN, "ios"), (ANDROID_SCAN, "android")):
+            out = subprocess.run(
+                [sys.executable, "-W", "error::DeprecationWarning", script,
+                 self.dirty, "--format", "json"],
+                capture_output=True, text=True, timeout=120)
+            self.assertEqual(out.returncode, 0,
+                             f"{platform} scanner failed under -W error: {out.stderr[-400:]}")
+            self.assertEqual(out.stderr.strip(), "",
+                             f"{platform} scanner wrote to stderr, which corrupts "
+                             f"merged json output: {out.stderr[-300:]}")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
