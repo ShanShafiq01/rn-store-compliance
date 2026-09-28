@@ -913,5 +913,38 @@ class TestMedicalChecks(ScannerTestBase):
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SENSOR-ONLY-VITALS"))
 
 
+class TestPurchaseCopyChecks(ScannerTestBase):
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def test_subscription_wording_without_iap_is_flagged(self):
+        """A real 2.1(b) hold was caused by in-app copy calling one-time
+        purchases 'subscriptions' while no IAP products existed."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@stripe/stripe-react-native":"0.38.0"}}')
+        write(self.proj, "src/Paywall.tsx",
+              "export const copy = 'Manage your subscription';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SUBSCRIPTION-COPY-MISMATCH"), "MEDIUM")
+
+    def test_subscription_wording_with_iap_present_is_silent(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","react-native-iap":"12.0.0"}}')
+        write(self.proj, "src/Paywall.tsx",
+              "export const copy = 'Manage your subscription';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "SUBSCRIPTION-COPY-MISMATCH"))
+
+    def test_no_subscription_wording_is_silent(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@stripe/stripe-react-native":"0.38.0"}}')
+        write(self.proj, "src/Paywall.tsx",
+              "export const copy = 'Buy the 3-month program';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "SUBSCRIPTION-COPY-MISMATCH"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

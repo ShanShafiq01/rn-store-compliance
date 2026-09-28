@@ -47,6 +47,25 @@ Missing terms links on the paywall is one of the most common RN paywall rejectio
 
 3.1.3(a) reader apps (magazines, books, audio, video, cloud storage) may let users access previously purchased content and, with the External Link Account Entitlement, link out to account management. The remaining sub-letters, in Apple's order: **(b)** multiplatform services — content bought elsewhere must *also* be purchasable as IAP inside the app; **(c)** enterprise services; **(d)** person-to-person experiences; **(e)** goods and services outside the app; **(f)** free stand-alone apps; **(g)** advertising management apps.
 
+### 3.1.3(e) Goods and Services Outside of the App
+
+Physical goods, and services consumed outside the app, must **not** use IAP — they
+use another payment method. This is the mirror image of 3.1.1, and teams get cited
+in both directions: IAP for a shipped item, or Stripe for a digital unlock.
+
+**Check the number before you cite it.** Physical goods are **3.1.3(e)**. The older
+citation `3.1.5(a)` is stale — 3.1.5 is now *Cryptocurrencies*. A reply to App Review
+quoting a guideline that says something else invites a second round.
+
+The hard case is a mixed bundle: one program fee covering both an in-app feature and
+a shipped lab kit. Apple looks at what the user is actually buying. If the digital
+part can be bought on its own, that part needs IAP.
+
+**Watch the word "subscription".** Copy that calls a one-time purchase a subscription
+sends the reviewer looking for auto-renewing products that do not exist, which reads
+as a missing IAP submission and produces a 2.1(b) hold. If nothing auto-renews, do
+not use the word — in the app, the paywall, or the metadata.
+
 An app claiming any 3.1.3 exception may not encourage non-IAP purchasing *inside* the app (except on the US storefront, and under 3.1.1(a) / 3.1.3(a)), though it may communicate about it outside the app.
 
 If the app claims an exception, verify it holds: no in-app purchase prompt, no "sign up on our website" copy pointing at a paywall without the entitlement.

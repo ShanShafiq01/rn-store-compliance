@@ -584,6 +584,24 @@ def scan_structural(root, findings):
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
+    # Copy that says "subscription" with no IAP in the tree invites a 2.1(b)
+    # hold: the reviewer looks for subscription products and finds none.
+    if _grep(root, r"(?i)\bsubscriptions?\b") and not _grep(
+            root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|"
+                  r"react-native-qonversion|StoreKit"):
+        findings.append({
+            "id": "SUBSCRIPTION-COPY-MISMATCH", "severity": "MEDIUM",
+            "guideline": "3.1.1 / 3.1.3(e)",
+            "description": "In-app copy says 'subscription' but no IAP library is present. "
+                           "If these are one-time purchases, or physical goods and services "
+                           "consumed outside the app under 3.1.3(e), the word invites a "
+                           "2.1(b) hold — the reviewer looks for subscription products, finds "
+                           "none, and asks. Say what it actually is: a one-time purchase, a "
+                           "program fee, or a real auto-renewing subscription, which must then "
+                           "use StoreKit.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Sign in with Apple must not re-ask for what the token already carries.
     if _grep(root, r"@invertase/react-native-apple-authentication|"
                    r"expo-apple-authentication|appleAuth\.performRequest") \
