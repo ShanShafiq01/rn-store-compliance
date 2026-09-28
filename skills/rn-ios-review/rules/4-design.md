@@ -51,7 +51,33 @@ If the app uses a third-party or social login, it must also offer a login option
 - allows the user to keep the email private
 - does not collect interactions for advertising without consent
 
-Sign in with Apple satisfies this. Exceptions exist (apps that use only your own account system, education/enterprise apps with existing accounts).
+Sign in with Apple satisfies this — but offering the button is necessary, not sufficient.
+
+### 4.8 — the design requirements, not just the presence of the button
+
+A real rejection, verbatim:
+
+> "users are required to provide their name and/or email address after using Sign in
+> with Apple even though that information is already provided by the Authentication
+> Services framework."
+
+The RN trap that causes it: `fullName` and `email` are returned **only on the first
+authorization**. Every later sign-in returns null for both, so teams add a "complete
+your profile" screen to fill the gap — and that screen is what gets cited.
+
+```ts
+// 🔴 discards the name, then asks the user for it
+const res = await appleAuth.performRequest();
+navigation.navigate('CompleteProfile');
+
+// ✅ persist on first authorization; never re-prompt
+const res = await appleAuth.performRequest();
+if (res.fullName?.givenName) await api.post('/profile', { name: res.fullName });
+```
+
+If existing accounts have empty names because an earlier build discarded them, backfill
+by migration. Prompting returning users is the violation.
+ Exceptions exist (apps that use only your own account system, education/enterprise apps with existing accounts).
 
 ```tsx
 // 🟡 Google-only login → needs a compliant alternative

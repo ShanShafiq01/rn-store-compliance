@@ -814,5 +814,42 @@ class TestCitationAccuracy(ScannerTestBase):
         self.fail("EXTERNAL-PAYMENT did not fire on the dirty fixture")
 
 
+class TestRejectionDrivenChecks(ScannerTestBase):
+    """Gaps exposed by a real App Store rejection letter for a health app.
+    Each docstring quotes the reviewer's own wording."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@invertase/react-native-apple-authentication":"2.3.0"}}')
+
+    def test_profile_completion_after_apple_signin_is_flagged(self):
+        """'users are required to provide their name and/or email address after
+        using Sign in with Apple even though that information is already
+        provided by the Authentication Services framework.'"""
+        write(self.proj, "src/auth/AppleSignIn.tsx", """
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+export async function signIn() {
+  const res = await appleAuth.performRequest();
+  navigation.navigate('CompleteProfile');
+}
+""")
+        write(self.proj, "src/auth/CompleteProfile.tsx",
+              'export function CompleteProfile() { return <TextInput placeholder="Full name" />; }')
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SIWA-REDUNDANT-PROFILE"), "HIGH")
+
+    def test_apple_signin_without_profile_form_is_silent(self):
+        write(self.proj, "src/auth/AppleSignIn.tsx", """
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+export async function signIn() {
+  const res = await appleAuth.performRequest();
+  await api.post('/session', { identityToken: res.identityToken });
+}
+""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SIWA-REDUNDANT-PROFILE"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

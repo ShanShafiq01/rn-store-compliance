@@ -527,6 +527,22 @@ def scan_structural(root, findings):
               r"google_analytics_adid_collection_enabled[\"']?\s*(?::|=|android:value=)\s*[\"']?false") \
         or _grep(root, r"<key>NSPrivacyTracking</key>\s*<false/>")
 
+    # Sign in with Apple must not re-ask for what the token already carries.
+    if _grep(root, r"@invertase/react-native-apple-authentication|"
+                   r"expo-apple-authentication|appleAuth\.performRequest") \
+            and _grep(root, r"(?i)(CompleteProfile|complete[-_]?profile|"
+                            r"ProfileSetup|profile[-_]?setup|onboarding/name)"):
+        findings.append({
+            "id": "SIWA-REDUNDANT-PROFILE", "severity": "HIGH", "guideline": "4.8",
+            "description": "Sign in with Apple is present alongside a profile-completion "
+                           "screen. Apple rejects apps that ask for a name or email the "
+                           "Authentication Services framework already returned. The RN trap: "
+                           "fullName and email come back ONLY on the first authorization, so "
+                           "persist them there — a returning user yields null and must not be "
+                           "re-prompted. Backfill existing empty names by migration.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Tracking SDKs without ATT
     if not ad_tracking_disabled and \
             _grep(root, r"@react-native-firebase/analytics|react-native-fbsdk|react-native-appsflyer|"
