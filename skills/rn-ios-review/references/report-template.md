@@ -56,3 +56,21 @@ Use this structure. Order findings by severity, not by file. Keep each finding t
 ## Not verified
 
 <Anything not confirmable from the repo — server behavior, App Store Connect settings, moderation processes, policy documents. Being explicit here is what makes the rest of the report trustworthy.>
+
+## What to put in App Review Notes
+
+Fill this in for any app that ingests documents, runs a model, or gates content
+behind a login. These are the questions App Review asks when it cannot see the
+answer in the build — supplying them up front saves a review cycle.
+
+- **Demo account:** credentials, and the exact path to every gated feature.
+- **Sample input:** attach a representative file (lab PDF, statement, scan) plus
+  screenshots of the result it produces.
+- **Processing pipeline:** where uploads are stored, what redacts sensitive data,
+  which model analyses them, where output is written.
+- **AI-generated surfaces:** list every screen whose content a model produced.
+- **Consent and retention:** what the user agrees to, and how long data is kept.
+- **Purchase model:** what each SKU is, whether it auto-renews, and — for physical
+  goods or services consumed outside the app (3.1.3(e)) — why it is not IAP.
+
+Anything left blank here is a question a reviewer will ask instead.

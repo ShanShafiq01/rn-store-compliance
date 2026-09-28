@@ -17,6 +17,34 @@ For a React Native project the SDK floor is the expensive one: it usually forces
 
 ## 2.1 App completeness
 
+### 2.1 — Information Needed, for apps that process documents or run a model
+
+A real 2.1 hold on a health app asked, verbatim:
+
+> - Please provide test lab result uploaded in the app
+> - Please explain what happens after Lab result is uploaded? How does app reads report?
+>   Please specify background process?
+> - Please specify all health results that are produced using AI?
+
+None of that is visible in a build, so review never *finds* it — the reviewer asks,
+and that costs a full cycle. Pre-empt it in App Review Notes whenever the app ingests
+a document or generates output with a model:
+
+- **A sample input.** Attach an actual lab PDF or equivalent, plus screenshots of the
+  resulting screen. A reviewer who cannot produce a result will hold the build.
+- **The pipeline, named end to end.** Where the file is stored, what redacts PHI,
+  which model analyses it, where the output lands. They want the shape —
+  "S3 → redaction → model → result" — not an architecture essay.
+- **An explicit inventory of AI-generated output.** Every surface where a model
+  produced what the user reads. Apple now asks this directly.
+- **Consent and retention** for anything uploaded.
+
+If the app is gated, the demo account must reach all of it. Where a demo account is
+impossible for legal or security reasons, 2.1 permits a **built-in demo mode with
+prior Apple approval** — often the right answer for clinical apps, and it has to be
+requested *before* submission, not negotiated during review.
+
+
 Submit the final version. No placeholders, no "coming soon" screens, no features behind a flag that reviewers can't reach. If login is required, supply a **demo account** in App Store Connect notes — for a healthcare or B2B app, this is the single most common avoidable rejection.
 
 **RN evidence**
