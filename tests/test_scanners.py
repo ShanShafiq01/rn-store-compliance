@@ -851,5 +851,67 @@ export async function signIn() {
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SIWA-REDUNDANT-PROFILE"))
 
 
+class TestMedicalChecks(ScannerTestBase):
+    """Guideline 1.4.1, verified against the live text 2026-09-28."""
+
+    HEALTH_PKG = ('{"dependencies":{"react-native":"0.76.0",'
+                  '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def test_health_app_without_disclaimer_is_flagged(self):
+        """'The app provides medical diagnoses or treatment advice but does not
+        include the required medical disclaimer.'"""
+        write(self.proj, "package.json", self.HEALTH_PKG)
+        write(self.proj, "src/Insights.tsx",
+              "export const advice = 'Your cholesterol suggests starting treatment.';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "MEDICAL-NO-DISCLAIMER"), "HIGH")
+
+    def test_health_app_with_disclaimer_is_silent(self):
+        write(self.proj, "package.json", self.HEALTH_PKG)
+        write(self.proj, "src/Insights.tsx",
+              "export const advice = 'Your cholesterol suggests starting treatment.';")
+        write(self.proj, "src/Disclaimer.tsx",
+              "export const TEXT = 'This app does not provide medical advice. Always "
+              "consult your physician before making medical decisions.';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-NO-DISCLAIMER"))
+
+    def test_health_app_with_citations_is_silent(self):
+        write(self.proj, "package.json", self.HEALTH_PKG)
+        write(self.proj, "src/Insights.tsx",
+              "export const advice = { text: 'Cholesterol guidance', "
+              "source: 'https://pubmed.ncbi.nlm.nih.gov/12345678/' };")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-NO-CITATION"))
+
+    def test_non_health_app_never_sees_medical_findings(self):
+        """Guard: without health signals these must stay silent, or they fire on
+        every project in a fleet."""
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+        write(self.proj, "src/Shop.tsx", "export const price = 10;")
+        for check in ("MEDICAL-NO-DISCLAIMER", "MEDICAL-NO-CITATION", "SENSOR-ONLY-VITALS"):
+            self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), check), check)
+
+    def test_sensor_only_vitals_claim_is_blocker(self):
+        """1.4.1: 'apps that claim to take x-rays, measure blood pressure, body
+        temperature, blood glucose levels, or blood oxygen levels using only the
+        sensors on the device are not permitted.'"""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","react-native-vision-camera":"4.0.0"}}')
+        write(self.proj, "src/BP.tsx",
+              "export const title = 'Measure your blood pressure with the camera';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SENSOR-ONLY-VITALS"), "BLOCKER")
+
+    def test_vitals_from_external_device_is_not_flagged(self):
+        """Guard: a reading from a paired cleared device is the compliant path."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","react-native-ble-plx":"3.0.0"}}')
+        write(self.proj, "src/BP.tsx",
+              "export const title = 'Sync blood pressure from your monitor';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SENSOR-ONLY-VITALS"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

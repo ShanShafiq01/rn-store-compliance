@@ -159,6 +159,28 @@ VAGUE_PURPOSE = re.compile(
 )
 
 
+# --- Guideline 1.4.1. Every pattern below is gated on _is_health_app so these
+# never fire on a non-health app, which is how an absence check stays usable.
+HEALTH_SDK_RX = (r"react-native-healthkit|react-native-health\b|react-native-health-connect|"
+                 r"@kingstinct/react-native-healthkit|\bfhir\b|expo-health")
+MEDICAL_ADVICE_RX = (r"(?i)\b(diagnos|treatment|prescrib|statin|dosage|mg/dL|"
+                     r"blood pressure|cholesterol|symptom)\w*")
+DISCLAIMER_RX = (r"(?i)(not (a substitute for|intended as) (professional )?medical advice|"
+                 r"consult (your|a) (physician|doctor|healthcare)|"
+                 r"does not (provide|constitute) medical advice|"
+                 r"check with (your|a) doctor)")
+CITATION_RX = r"(?i)(pubmed|doi\.org|nih\.gov|\bcitations?\b|\bsources?\s*:)"
+SENSOR_ONLY_RX = (r"(?i)(measure|check|scan|read|take)\w*[^\n]{0,40}"
+                  r"(blood pressure|blood glucose|blood oxygen|body temperature|x-?ray)")
+DEVICE_SENSOR_RX = r"react-native-vision-camera|expo-camera|Accelerometer|\bPPG\b"
+
+
+def _is_health_app(root):
+    """Health signal gate. Without it these checks fire on every project."""
+    return bool(_grep(root, HEALTH_SDK_RX)
+                or _grep(root, r"(?i)\b(patient|clinical|vitals|biomarker)\b"))
+
+
 def _is_not_a_secret(line):
     """Two shapes that match the credential pattern but never hold a credential.
 
@@ -526,6 +548,41 @@ def scan_structural(root, findings):
               r"analytics_default_allow_ad_user_data[\"']?\s*:\s*false|"
               r"google_analytics_adid_collection_enabled[\"']?\s*(?::|=|android:value=)\s*[\"']?false") \
         or _grep(root, r"<key>NSPrivacyTracking</key>\s*<false/>")
+
+    # --- Guideline 1.4.1, health apps only
+    if _is_health_app(root):
+        has_medical_language = _grep(root, MEDICAL_ADVICE_RX)
+        if has_medical_language and not _grep(root, DISCLAIMER_RX):
+            findings.append({
+                "id": "MEDICAL-NO-DISCLAIMER", "severity": "HIGH", "guideline": "1.4.1",
+                "description": "Health app surfaces medical language with no disclaimer found. "
+                               "1.4.1: \"Apps should remind users to check with a doctor in "
+                               "addition to using the app and before making medical decisions.\" "
+                               "Apple checks the App Store DESCRIPTION as well as the app, so "
+                               "this rejection is often fixed in metadata rather than code.",
+                "file": "(repo-wide)", "line": 0, "evidence": "",
+            })
+        if has_medical_language and not _grep(root, CITATION_RX):
+            findings.append({
+                "id": "MEDICAL-NO-CITATION", "severity": "MEDIUM", "guideline": "1.4.1",
+                "description": "Medical or health information with no citations found. 1.4.1 "
+                               "requires apps to \"clearly disclose data and methodology to "
+                               "support accuracy claims\", and the sources must be easy for the "
+                               "user to find — link each recommendation to the study or guideline "
+                               "behind it rather than citing them only in the privacy policy.",
+                "file": "(repo-wide)", "line": 0, "evidence": "",
+            })
+    if _grep(root, SENSOR_ONLY_RX) and _grep(root, DEVICE_SENSOR_RX):
+        findings.append({
+            "id": "SENSOR-ONLY-VITALS", "severity": "BLOCKER", "guideline": "1.4.1",
+            "description": "Possible claim to measure a vital sign using only device "
+                           "sensors. 1.4.1 names these explicitly: apps claiming to take "
+                           "x-rays or measure blood pressure, body temperature, blood "
+                           "glucose or blood oxygen \"using only the sensors on the device "
+                           "are not permitted\". Readings must come from a cleared external "
+                           "device. Confirm what the copy actually claims before reporting.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
 
     # Sign in with Apple must not re-ask for what the token already carries.
     if _grep(root, r"@invertase/react-native-apple-authentication|"

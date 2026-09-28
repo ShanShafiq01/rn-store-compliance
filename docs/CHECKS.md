@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**56 checks total.**
+**59 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 31 checks
+## iOS — 34 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -21,6 +21,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PRIVACY-POLICY` | BLOCKER | 5.1.1(i) | No privacy policy reference found in the app. A policy must be linked in App Store Connect |
 | `PRIVATE-API` | BLOCKER | 2.5.1 | Possible private API usage in native code |
 | `SECRET-HARDCODED` | BLOCKER | 1.6 / 2.5 | Possible hardcoded credential — the JS bundle ships in plaintext inside the IPA |
+| `SENSOR-ONLY-VITALS` | BLOCKER | 1.4.1 | Possible claim to measure a vital sign using only device |
 | `ACCOUNT-DELETION` | HIGH | 5.1.1(v) | Account creation found with no in-app deletion path. Deletion must be initiated |
 | `ARBITRARY-LOADS` | HIGH | 1.6 | App Transport Security disabled — cleartext traffic allowed |
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
@@ -28,6 +29,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
+| `MEDICAL-NO-DISCLAIMER` | HIGH | 1.4.1 | Health app surfaces medical language with no disclaimer found. |
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |
 | `PRIVACY-MANIFEST` | HIGH | Privacy manifests | No PrivacyInfo.xcprivacy found in the ios/ directory. The app target needs one declaring |
 | `PRIVACY-MANIFEST-EMPTY` | HIGH | 5.1.1 / 5.1.2 | PrivacyInfo.xcprivacy declares NSPrivacyCollectedDataTypes as an empty |
@@ -39,6 +41,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ENTITLEMENTS-REVIEW` | MEDIUM | 2.5.1 / 5.1.3 / 5.4 | Entitlements present that reviewers scrutinise: |
 | `LOGIN-ALTERNATIVE` | MEDIUM | 4.8 | Third-party social login found with no privacy-preserving alternative. Offer a login that |
 | `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
+| `MEDICAL-NO-CITATION` | MEDIUM | 1.4.1 | Medical or health information with no citations found. 1.4.1 |
 | `OTA-UPDATES` | MEDIUM | 2.3.1 / 2.5.2 | OTA update channel — permitted for fixes and content, not for shipping unreviewed features |
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |

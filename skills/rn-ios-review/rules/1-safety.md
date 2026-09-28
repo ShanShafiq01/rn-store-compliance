@@ -61,7 +61,29 @@ A parental gate must be a real cognitive barrier (math problem, hold-to-confirm)
 
 - 1.4.1 Medical apps with inaccurate data or that could cause harm need extra scrutiny; dosage calculators must come from the manufacturer, a hospital, university, health insurer, FDA-approved body, or equivalent. Disclose data sources and methodology.
 - 1.4.2 Drug dosage calculators — same sourcing requirement.
-- 1.4.1 **Sensor-only measurement is prohibited.** An app may not claim to measure X-rays, blood pressure, body temperature, blood glucose, or blood oxygen **using only device sensors**. Readings must come from a cleared external device. This is the most mechanically checkable health rejection there is — grep for these metrics alongside camera/flash or accelerometer access.
+- 1.4.1 has three distinct obligations, and RN health apps get cited on all three:
+
+  **Disclose data and methodology.** Accuracy claims about health measurements must
+  be backed by disclosed methodology. If accuracy cannot be validated, Apple rejects.
+
+  **No sensor-only vitals.** Verbatim: *"apps that claim to take x-rays, measure
+  blood pressure, body temperature, blood glucose levels, or blood oxygen levels
+  using only the sensors on the device are not permitted."* A camera-based PPG
+  "blood pressure" feature is a blocker, not a MEDIUM. Readings must come from a
+  cleared external device.
+
+  **Remind users to see a doctor.** Verbatim: *"Apps should remind users to check
+  with a doctor in addition to using the app and before making medical decisions."*
+  A real rejection on this reads: *"The app provides medical diagnoses or treatment
+  advice but does not include the required medical disclaimer."* Note where Apple
+  looks — that rejection asked for the **App Store description** to be revised, not
+  the app. Fix both.
+
+  **Cite your sources.** A companion rejection: *"the app provides health or medical
+  references in the app without citations, such as links to sources."* Every
+  recommendation surface needs a reachable source link — PubMed, a clinical
+  guideline, the manufacturer. Citations in a privacy policy do not count; they must
+  be easy for the user to find at the point the claim is made.
 - 1.4.3 No facilitation of illegal drugs, tobacco, or excessive alcohol use.
 - 1.4.4 DUI checkpoints may only be displayed if published by law enforcement; never encourage drunk driving or reckless behaviour such as excessive speed.
 - 1.4.5 Apps must not urge users into activities (bets, challenges) or device use that risks physical harm — including unsafe use while driving.
