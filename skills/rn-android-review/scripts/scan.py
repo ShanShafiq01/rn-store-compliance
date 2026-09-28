@@ -609,6 +609,23 @@ def scan_abi_and_signing(root, findings):
 
 
 def scan_structural(root, findings):
+    # Play's AI-Generated Content policy: reporting must be reachable in-app.
+    if _grep(root, r"\bopenai\b|@anthropic-ai|generativelanguage|bedrock-runtime|"
+                   r"@google/generative-ai|\breplicate\b|huggingface|@mistralai") \
+            and not _grep(root, r"(?i)(reportContent|report_message|flagContent|"
+                                r"reportResponse|reportMessage|/reports?\b)"):
+        findings.append({
+            "id": "AI-CONTENT-NO-REPORT", "severity": "HIGH",
+            "policy": "AI-Generated Content",
+            "description": "A generative model is called with no in-app reporting or flagging "
+                           "path found. Play requires apps that generate AI content to let "
+                           "users report or flag offensive output WITHOUT leaving the app, and "
+                           "to use that feedback to improve filtering. A support email address "
+                           "or a web form does not satisfy it. Apple 1.2 and 4.7 want the same "
+                           "control, so build it once.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     if _grep(root, r"(?i)(signUp|sign_up|createUser|createAccount|registerUser|auth/register)") \
             and not _grep(root, r"(?i)(deleteAccount|delete_account|account/delete|deleteUser|closeAccount)"):
         findings.append({

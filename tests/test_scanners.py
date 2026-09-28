@@ -980,5 +980,35 @@ class TestHealthConnectPermissions(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "HEALTH-PERM-UNUSED"))
 
 
+class TestAIContentPolicy(ScannerTestBase):
+    """Play: apps that generate AI content must provide in-app reporting or
+    flagging of offensive content, without leaving the app."""
+
+    AI_PKG = '{"dependencies":{"react-native":"0.76.0","openai":"4.0.0"}}'
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def test_ai_chat_without_in_app_reporting_is_flagged(self):
+        write(self.proj, "package.json", self.AI_PKG)
+        write(self.proj, "src/Chat.tsx",
+              "const res = await openai.chat.completions.create({ messages });")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "AI-CONTENT-NO-REPORT"), "HIGH")
+
+    def test_ai_chat_with_reporting_is_silent(self):
+        write(self.proj, "package.json", self.AI_PKG)
+        write(self.proj, "src/Chat.tsx",
+              "const res = await openai.chat.completions.create({ messages });")
+        write(self.proj, "src/Report.tsx",
+              "export const reportContent = (id, reason) => api.post('/reports', { id, reason });")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
+
+    def test_app_with_no_model_sdk_is_silent(self):
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+        write(self.proj, "src/Chat.tsx", "export const x = 1;")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

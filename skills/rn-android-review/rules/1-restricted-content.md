@@ -70,3 +70,38 @@ Play's spam policy mirrors Apple 4.2/4.3: apps with no meaningful functionality,
 - [ ] Substantive functionality beyond a WebView wrapper
 - [ ] Per-client apps published from the client's own developer account
 - [ ] Notifications and in-app messaging aren't deceptive or ad-redirecting
+
+## AI-Generated Content
+
+Play's AI-Generated Content policy applies to any app that produces model output a
+user reads — a chatbot, a summariser, an image generator, an AI-written insight card.
+For an RN app this is triggered by the presence of a model SDK, not by the app's
+category.
+
+**In-app reporting is mandatory.** The policy requires *"in-app user reporting or
+flagging features that allow users to report or flag offensive content"* — and
+crucially, without leaving the app. A `mailto:` support link or a web form does not
+satisfy it. The feedback must also feed back into your filtering, so a report control
+that writes nowhere is a paper control.
+
+```tsx
+// 🔴 the only escape hatch leaves the app
+<Button title="Report a problem" onPress={() => Linking.openURL('mailto:support@…')} />
+
+// ✅ reachable on the AI surface itself, and it writes somewhere
+<Button title="Report this response"
+        onPress={() => reportContent({ messageId, reason: 'offensive' })} />
+```
+
+Three related obligations that are easy to miss:
+
+- **Store listing assets.** The Play Console has a standardized declaration for
+  AI-generated or AI-edited store listing, promotional and YouTube assets. Declared
+  assets get an AI label on the Play Store. This is self-declaration — nobody will
+  ask you for it, and omitting it is still a violation.
+- **Third-party AI integrations are covered by the User Data policy** (clarified
+  15 Jul 2026). Sending user data to a model provider is a disclosure obligation and
+  a Data safety line item; the developer remains responsible for what that provider
+  does with it.
+- **Apple wants the same control.** 1.2 and 4.7 both require a report path on
+  AI surfaces. Build it once and declare it on both stores.

@@ -1,7 +1,7 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**61 checks total.**
+**62 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
@@ -50,7 +50,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
 
-## Android — 26 checks
+## Android — 27 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -62,6 +62,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PRIVACY-POLICY` | BLOCKER | User Data | No privacy policy reference found. A policy URL is required in Play Console and must be |
 | `SECRET-HARDCODED` | BLOCKER | Device & Network Abuse | Possible hardcoded credential — the JS bundle and strings.xml are extractable from the AAB |
 | `ACCOUNT-DELETION` | HIGH | Account deletion | Account creation found with no in-app deletion path. Play requires deletion available |
+| `AI-CONTENT-NO-REPORT` | HIGH | AI-Generated Content | A generative model is called with no in-app reporting or flagging |
 | `CLEARTEXT` | HIGH | Device & Network Abuse | Cleartext HTTP traffic enabled — use a scoped network security config if an exception is genuinely needed |
 | `CLIENT-ENTITLEMENT` | HIGH | Payments | Purchase entitlement possibly trusted from local storage — verify the purchase token with the Play Developer API server-side |
 | `CRASH-PII` | HIGH | Data safety | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in Data safety |
