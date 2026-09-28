@@ -4,6 +4,24 @@ Read this whenever the app touches health, fitness with medical framing, patient
 
 ## Health Connect restricted data policy
 
+**Access is per data type, not per app.** Each `android.permission.health.READ_*`
+you declare is a separate grant against a declared use case. A type in the manifest
+that the code never reads is an over-request with three costs: it widens your Data
+safety disclosure, it is visible to reviewers as an unjustified ask, and an
+unjustified type can cost the whole Health Connect grant rather than just that one.
+Audit the manifest against actual `readRecords` calls before every submission.
+
+Since **5 March 2025** health *records* are tightened further:
+`READ_HEALTH_DATA_IN_RECORDS` requires proving the data is essential to the app's
+primary function, not merely useful to it.
+
+**Divergence from Apple, worth knowing before you write one policy for both stores:**
+Play's Health & Fitness Data guidelines bar using sensitive health data to determine
+**employment or insurance eligibility**. Apple's 5.1.3 *permits* health data to
+deliver a benefit such as a reduced insurance premium, when the benefit provider is
+the one submitting the app. The same feature can be compliant on one store and a
+violation on the other.
+
 Access to Health Connect requires a **declared, approved use case**. Google reviews the request; an app that reads health data without an approved declaration loses access.
 
 Once granted, the data is restricted:

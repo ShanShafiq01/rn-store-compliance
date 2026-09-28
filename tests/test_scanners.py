@@ -946,5 +946,39 @@ class TestPurchaseCopyChecks(ScannerTestBase):
                               "SUBSCRIPTION-COPY-MISMATCH"))
 
 
+class TestHealthConnectPermissions(ScannerTestBase):
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"react-native-health-connect":"3.5.0"}}')
+
+    def test_declared_health_permission_never_read_is_flagged(self):
+        """Health Connect access is granted per data type against a declared use
+        case, so a type the code never reads is an over-request."""
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.health.READ_STEPS"/>
+  <uses-permission android:name="android.permission.health.READ_BLOOD_PRESSURE"/>
+</manifest>""")
+        write(self.proj, "src/health.ts", "readRecords('Steps');")
+        result = run_scan(ANDROID_SCAN, self.proj)
+        self.assertEqual(sev(result, "HEALTH-PERM-UNUSED"), "HIGH")
+        hit = [f for f in result["findings"] if f["id"] == "HEALTH-PERM-UNUSED"][0]
+        self.assertIn("BloodPressure", hit["description"])
+        self.assertNotIn("Steps", hit["description"])
+
+    def test_all_health_permissions_used_is_silent(self):
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><uses-permission '
+              'android:name="android.permission.health.READ_STEPS"/></manifest>')
+        write(self.proj, "src/health.ts", "readRecords('Steps');")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "HEALTH-PERM-UNUSED"))
+
+    def test_no_health_permissions_declared_is_silent(self):
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><uses-permission android:name="android.permission.INTERNET"/></manifest>')
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "HEALTH-PERM-UNUSED"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

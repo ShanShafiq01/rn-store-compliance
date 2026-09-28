@@ -470,6 +470,50 @@ def scan_bare_rn(root, findings):
             })
 
 
+def scan_health_permissions(root, findings):
+    """Health Connect grants are per data type, against a declared use case.
+
+    A type the manifest asks for but the code never reads is an over-request: it
+    widens the Data safety disclosure, and an unjustified type can cost the whole
+    Health Connect grant at review. Permission READ_BLOOD_PRESSURE corresponds to
+    record type BloodPressure, so the check is a SCREAMING_SNAKE to PascalCase
+    conversion and a search for that token anywhere in the source.
+    """
+    declared = set()
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn != "AndroidManifest.xml":
+                continue
+            try:
+                text = open(os.path.join(dirpath, fn), encoding="utf-8",
+                            errors="ignore").read()
+            except OSError:
+                continue
+            declared |= set(re.findall(
+                r"android\.permission\.health\.(?:READ|WRITE)_([A-Z_]+)", text))
+    if not declared:
+        return
+    unused = []
+    for perm in sorted(declared):
+        pascal = "".join(part.capitalize() for part in perm.split("_"))
+        if not _grep(root, r"\b%s\b" % re.escape(pascal)):
+            unused.append(pascal)
+    if unused:
+        findings.append({
+            "id": "HEALTH-PERM-UNUSED", "severity": "HIGH",
+            "policy": "Health Connect restricted data",
+            "description": "Health Connect permissions declared with no matching read found "
+                           "in the code: " + ", ".join(unused) + ". Access is granted per data "
+                           "type against a declared use case, so an unused type is an "
+                           "over-request — it widens your Data safety disclosure, and an "
+                           "unjustified type can cost the whole Health Connect grant on "
+                           "review. Remove it, or use it. Confirm before reporting: a type "
+                           "read through a wrapper or a constant list is still used.",
+            "file": "android/app/src/main/AndroidManifest.xml", "line": 0, "evidence": "",
+        })
+
+
 def scan_toolchain(root, findings):
     """The Android Gradle Plugin version decides whether the rest of the advice
     is applicable at all. AGP below 3.2 cannot produce an App Bundle, and below
@@ -723,6 +767,7 @@ def main():
     scan_manifests(root, findings)
     scan_build_config(root, findings)
     scan_bare_rn(root, findings)
+    scan_health_permissions(root, findings)
     scan_toolchain(root, findings)
     scan_abi_and_signing(root, findings)
     scan_structural(root, findings)

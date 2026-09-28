@@ -1,7 +1,7 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**60 checks total.**
+**61 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
@@ -50,7 +50,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
 
-## Android — 25 checks
+## Android — 26 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -66,6 +66,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CLIENT-ENTITLEMENT` | HIGH | Payments | Purchase entitlement possibly trusted from local storage — verify the purchase token with the Play Developer API server-side |
 | `CRASH-PII` | HIGH | Data safety | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in Data safety |
 | `FGS-TYPE-MISSING` | HIGH | Android 14+ foreground services | Foreground service permission and a service declared, but no foregroundServiceType. |
+| `HEALTH-PERM-UNUSED` | HIGH | Health Connect restricted data | Health Connect permissions declared with no matching read found |
 | `INSECURE-STORAGE` | HIGH | User Data | Token or personal data in AsyncStorage (unencrypted on disk) — use EncryptedSharedPreferences / Keystore |
 | `PAYMENT-SDK` | HIGH | Payments | Third-party payment SDK present — must not serve digital goods unless an alternative-billing program applies |
 | `PERM-&lt;NAME&gt;` | HIGH/MEDIUM | Play permissions policy | 22 restricted or sensitive permissions detected in the manifest, each reported with why it is restricted — `ACCESS_BACKGROUND_LOCATION`,… |

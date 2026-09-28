@@ -77,3 +77,14 @@ Apple checks how you *describe* the permission; Google checks whether you *quali
 2. Branch the audit at payments, disclosure artifacts, deletion, and permissions.
 3. Reconcile the three privacy declarations against one SDK inventory before submitting either store.
 4. Check Play's upload-time gates first; they have the longest lead time to fix and they don't care that Apple approved the same release.
+
+## Health data and insurance or employment eligibility
+
+| | Apple | Google Play |
+|---|---|---|
+| Using health data for insurance or employment eligibility | 5.1.3 permits health data to deliver a benefit such as a **reduced insurance premium**, where the benefit provider submits the app | Health & Fitness Data guidelines (15 Apr 2026) **bar** using sensitive health data to determine employment or insurance eligibility |
+
+One feature, opposite verdicts. An insurer-sponsored wellness app that prices
+premiums off activity data can be compliant on the App Store and a policy violation
+on Play. Do not write one privacy policy sentence for both — and do not "fix" the
+iOS side to match Android.
