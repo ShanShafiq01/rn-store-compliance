@@ -586,7 +586,14 @@ def scan_structural(root, findings):
 
     # Copy that says "subscription" with no IAP in the tree invites a 2.1(b)
     # hold: the reviewer looks for subscription products and finds none.
-    if _grep(root, r"(?i)\bsubscriptions?\b") and not _grep(
+    # "subscription" alone is a data-model word — Rocket.Chat's room
+    # subscriptions, GraphQL subscriptions, RxJS .subscribe(). Only purchase
+    # context counts, so require billing language on the same line.
+    if _grep(root, r"(?i)\bsubscriptions?\b[^\n]{0,80}"
+                   r"(price|plan|billing|billed|renew|trial|upgrade|paywall|/month|per month|"
+                   r"cancel any ?time|manage your)|"
+                   r"(?i)(price|plan|billing|billed|renew|trial|upgrade|paywall|manage your)"
+                   r"[^\n]{0,80}\bsubscriptions?\b") and not _grep(
             root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|"
                   r"react-native-qonversion|StoreKit"):
         findings.append({

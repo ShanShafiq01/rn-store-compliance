@@ -1,5 +1,75 @@
 # Changelog
 
+## [3.1.0] — 2026-09-28
+
+Driven by a real App Store rejection letter for a health app. A rejection is the
+highest-quality input this tool can get: a reviewer has already decided the rule
+applies, so these went in ahead of any speculative coverage. Six of the seven
+points were not covered at all.
+
+### Added — checks
+- `SIWA-REDUNDANT-PROFILE` (HIGH, 4.8) — Sign in with Apple beside a
+  profile-completion screen. Offering the button is not the same as meeting its
+  design requirements. The RN trap: `fullName` and `email` come back only on the
+  FIRST authorization, so teams add a "complete your profile" screen, which is
+  the thing Apple cites.
+- `MEDICAL-NO-DISCLAIMER` (HIGH, 1.4.1) — health app with medical language and
+  no reminder to consult a doctor. The rejection asked for the App Store
+  *description* to be revised, not the app, so the finding says to fix both.
+- `MEDICAL-NO-CITATION` (MEDIUM, 1.4.1) — medical claims with no reachable
+  source. Citations in a privacy policy do not count.
+- `SENSOR-ONLY-VITALS` (BLOCKER, 1.4.1) — quotes the guideline verbatim: apps
+  claiming to take x-rays or measure blood pressure, body temperature, blood
+  glucose or blood oxygen "using only the sensors on the device are not
+  permitted". Deliberately NOT gated on a health SDK: the claim itself is the
+  health signal, and gating would exclude the apps the rule aims at.
+- `SUBSCRIPTION-COPY-MISMATCH` (MEDIUM, 3.1.1 / 3.1.3(e)) — purchase copy saying
+  "subscription" with no IAP library. A real 2.1(b) hold was caused by exactly
+  this: one-time program purchases described as subscriptions, so the reviewer
+  looked for auto-renewing products and found none.
+- `HEALTH-PERM-UNUSED` (HIGH) — Health Connect permissions declared but never
+  read. Access is granted per data type against a declared use case, so an
+  unused type is an over-request that can cost the whole grant.
+- `AI-CONTENT-NO-REPORT` (HIGH) — a model SDK with no in-app reporting path.
+  Play requires users to be able to flag offensive AI output without leaving the
+  app; a support email does not satisfy it. iOS already covered this under 1.2
+  and 4.7; Android had nothing.
+
+### Added — rule prose
+- Guideline 2.1 review-notes guidance for apps that ingest documents or run a
+  model, from a real 2.1 hold that asked for a sample lab result, the upload
+  pipeline, and a list of every AI-produced output. None of that is visible in a
+  build, so review never finds it — the reviewer asks, and that costs a cycle.
+  Also records the built-in demo mode alternative, which needs Apple's approval
+  before submission.
+- Play's AI-Generated Content policy, including the Console self-declaration for
+  AI-generated store listing assets and the 15 Jul 2026 clarification that the
+  User Data policy covers third-party AI integrations.
+- Health Connect per-type approval, and the 5 Mar 2025 health-records tightening.
+
+### Fixed
+- **3.1.3(e), not 3.1.5(a)**, is Goods and Services Outside of the App. 3.1.5 is
+  Cryptocurrencies. The stale number appears in circulating rejection-response
+  templates; quoting it invites a second review round.
+
+### Fixed — false positives, found by scanning 34 projects
+- `SUBSCRIPTION-COPY-MISMATCH` matched Rocket.Chat's room-subscription data
+  model (`subscriptions.get`), and would have matched GraphQL and RxJS
+  subscriptions. Now requires billing context on the same line: 9 projects → 2.
+- `AI-CONTENT-NO-REPORT` matched the English word "replicate" in medical prose
+  about bacteria replicating inside immune cells. Now matches package names
+  only — the same discipline the "adjust" bug taught in 2.1.0.
+
+### Divergence recorded
+Play bars using sensitive health data for employment or insurance eligibility;
+Apple 5.1.3 permits health data to deliver a benefit such as a reduced insurance
+premium when the benefit provider submits the app. One feature, opposite
+verdicts.
+
+### Tests
+69 → 89. Fleet impact: 949 → 964 findings across 35 projects, i.e. 15 net new,
+all inspected.
+
 ## [3.0.0] — 2026-09-22
 
 Audited against a fleet of 34 real bare React Native (CLI) projects rather than

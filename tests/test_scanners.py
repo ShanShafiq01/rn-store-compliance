@@ -936,6 +936,19 @@ class TestPurchaseCopyChecks(ScannerTestBase):
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
                               "SUBSCRIPTION-COPY-MISMATCH"))
 
+    def test_data_model_subscription_is_not_purchase_copy(self):
+        """Rocket.Chat: 'subscriptions.get' is its room subscription data model.
+        GraphQL and RxJS subscriptions are the same shape. None are purchases."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@stripe/stripe-react-native":"0.38.0"}}')
+        write(self.proj, "src/rooms.js", """
+export const getRooms = () => sdk.get('subscriptions.get', { updatedSince });
+const sub = observable.subscribe(next);
+""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "SUBSCRIPTION-COPY-MISMATCH"))
+
     def test_no_subscription_wording_is_silent(self):
         write(self.proj, "package.json",
               '{"dependencies":{"react-native":"0.76.0",'
@@ -1003,6 +1016,24 @@ class TestAIContentPolicy(ScannerTestBase):
         write(self.proj, "src/Report.tsx",
               "export const reportContent = (id, reason) => api.post('/reports', { id, reason });")
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
+
+    def test_english_word_replicate_is_not_a_model_sdk(self):
+        """ms-mobile-app: medical prose 'the mycobacteria continue to replicate
+        inside immune cells' matched the Replicate SDK. Same class as the
+        historical 'adjust' bug — match package names, never bare words."""
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+        write(self.proj, "src/Article.tsx",
+              "export const text = 'The mycobacteria continue to replicate inside "
+              "immune cells, causing a local lesion.';")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
+
+    def test_replicate_as_an_actual_dependency_is_detected(self):
+        """Guard: the real SDK must still be found."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","replicate":"0.34.0"}}')
+        write(self.proj, "src/Gen.tsx", "import Replicate from 'replicate';")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "AI-CONTENT-NO-REPORT"), "HIGH")
 
     def test_app_with_no_model_sdk_is_silent(self):
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')

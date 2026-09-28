@@ -610,8 +610,13 @@ def scan_abi_and_signing(root, findings):
 
 def scan_structural(root, findings):
     # Play's AI-Generated Content policy: reporting must be reachable in-app.
-    if _grep(root, r"\bopenai\b|@anthropic-ai|generativelanguage|bedrock-runtime|"
-                   r"@google/generative-ai|\breplicate\b|huggingface|@mistralai") \
+    # Match the package, never the bare word: "replicate" is ordinary English
+    # (it matched medical prose about bacteria replicating), exactly the class of
+    # bug that made "adjust" match the analytics SDK.
+    if _grep(root, r"[\"']openai[\"']|[\"']replicate[\"']|[\"']@mistralai/|"
+                   r"@anthropic-ai/|@google/generative-ai|@huggingface/|"
+                   r"generativelanguage\.googleapis|bedrock-runtime|"
+                   r"openai\.(chat|completions|responses)") \
             and not _grep(root, r"(?i)(reportContent|report_message|flagContent|"
                                 r"reportResponse|reportMessage|/reports?\b)"):
         findings.append({
