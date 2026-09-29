@@ -568,7 +568,7 @@ def scan_structural(root, findings):
         })
 
     # An app that turns ad-identifier collection off is not "tracking" under
-    # 5.1.2, so requiring an ATT prompt would be wrong. PlinkHealth does exactly
+    # 5.1.2, so requiring an ATT prompt would be wrong. a modern RN health app does exactly
     # this: AdSupport unlinked, ad personalisation and ad user data both false.
     ad_tracking_disabled = _grep(
         root, r"analytics_default_allow_ad_personalization_signals[\"']?\s*:\s*false|"

@@ -384,7 +384,7 @@ class TestBareRNCorrectnessBugs(ScannerTestBase):
         self.proj = tempfile.mkdtemp(dir=self.tmp)
 
     def test_ats_arbitrary_loads_detected_across_plist_lines(self):
-        """mahalkum: plists put <key> and <true/> on separate lines, so the
+        """an RN 0.49 project: plists put <key> and <true/> on separate lines, so the
         line-scoped regex never matched and a HIGH 1.6 check was dead."""
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.72.0"}}')
         write(self.proj, "ios/App/Info.plist", """<plist><dict>
@@ -397,7 +397,7 @@ class TestBareRNCorrectnessBugs(ScannerTestBase):
         self.assertIn("ARBITRARY-LOADS", ids(run_scan(IOS_SCAN, self.proj)))
 
     def test_groovy_dsl_signing_password_detected(self):
-        """carecortex/jp-mobile/mahalkum all use space-separated Groovy DSL;
+        """three real projects all use space-separated Groovy DSL;
         the regex required '=' or ':' so it missed every real one."""
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.72.0"}}')
         write(self.proj, "android/app/build.gradle", """
@@ -416,7 +416,7 @@ android {
                              "SIGNING-SECRET-COMMITTED"), "HIGH")
 
     def test_android_fastlane_apk_build_detected(self):
-        """jp-mobile/carecortex keep Fastfile at android/fastlane/, which was
+        """two real projects keep Fastfile at android/fastlane/, which was
         not in the CI path list, so the APK-NOT-AAB BLOCKER fired on nothing."""
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.72.0"}}')
         write(self.proj, "android/fastlane/Fastfile", """
@@ -481,7 +481,7 @@ class TestRealWorldFalsePositives2(ScannerTestBase):
         self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj), "CLEARTEXT"), "HIGH")
 
     def test_analytics_event_with_no_pii_is_not_flagged(self):
-        """PlinkHealth: every CRASH-PII hit was a bare event name or a count."""
+        """a modern RN health app: every CRASH-PII hit was a bare event name or a count."""
         write(self.proj, "src/analytics.ts", """
 export function track() {
   logEvent({ name: 'onboarding_finished' });
@@ -492,7 +492,7 @@ export function track() {
 
 
     def test_analytics_event_with_no_pii_is_not_flagged_android(self):
-        """Same PlinkHealth false positive, Android scanner."""
+        """Same a modern RN health app false positive, Android scanner."""
         write(self.proj, "src/analytics.ts",
               "logEvent({ name: 'onboarding_finished' });")
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "CRASH-PII"))
@@ -504,7 +504,7 @@ export function track() {
         self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "CRASH-PII"), "HIGH")
 
     def test_att_not_required_when_ad_id_collection_disabled(self):
-        """PlinkHealth deliberately does not link AdSupport and disables ad-id
+        """a modern RN health app deliberately does not link AdSupport and disables ad-id
         collection, so no ATT prompt is required."""
         write(self.proj, "package.json",
               '{"dependencies":{"react-native":"0.84.0",'
@@ -530,14 +530,14 @@ class TestMissingUploadGates(ScannerTestBase):
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.49.0"}}')
 
     def test_uiwebview_in_vendored_pods_is_blocker(self):
-        """mahalkum: UIWebView in FBSDK pods = ITMS-90809, rejected since
+        """an RN 0.49 project: UIWebView in FBSDK pods = ITMS-90809, rejected since
         Dec 2020. Pods/ is in SKIP_DIRS so it was invisible."""
         write(self.proj, "ios/Pods/FBSDKCoreKit/FBSDKWebDialogView.m",
               "@interface FBSDKWebDialogView : UIView <UIWebViewDelegate>\n@end")
         self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "UIWEBVIEW"), "BLOCKER")
 
     def test_empty_cfbundleiconname_is_blocker(self):
-        """jp-mobile ships this today: ITMS-90713."""
+        """an RN 0.72 project ships this today: ITMS-90713."""
         write(self.proj, "ios/App/Info.plist", """<plist><dict>
 <key>CFBundleIcons</key>
 <dict>
@@ -551,7 +551,7 @@ class TestMissingUploadGates(ScannerTestBase):
         self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "ICON-NAME-MISSING"), "BLOCKER")
 
     def test_missing_arm64_abi_is_blocker(self):
-        """mahalkum is armeabi-v7a + x86 only. Play has required 64-bit
+        """an RN 0.49 project is armeabi-v7a + x86 only. Play has required 64-bit
         since Aug 2019 and rejects the upload outright."""
         write(self.proj, "android/app/build.gradle",
               'android { defaultConfig { targetSdkVersion 36\n'
@@ -564,7 +564,7 @@ class TestMissingUploadGates(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "ABI-NO-64BIT"))
 
     def test_tracked_release_keystore_is_high(self):
-        """jp-mobile and mahalkum both commit one. Password + keystore in the
+        """an RN 0.72 project and an RN 0.49 project both commit one. Password + keystore in the
         repo means anyone with clone access can sign as you."""
         subprocess.run(["git", "init", "-q"], cwd=self.proj, check=True)
         write(self.proj, "android/keystores/release.keystore", "not-a-real-keystore")
@@ -582,7 +582,7 @@ class TestBatch2Gaps(ScannerTestBase):
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
 
     def test_deployment_target_read_from_pbxproj_not_podfile(self):
-        """carecortex: Podfile says `platform :ios, min_ios_version_supported`,
+        """an RN 0.76 project: Podfile says `platform :ios, min_ios_version_supported`,
         which has no digits, so the regex silently parsed nothing. The real
         value lives in the pbxproj."""
         write(self.proj, "ios/Podfile", "platform :ios, min_ios_version_supported\n")
@@ -591,7 +591,7 @@ class TestBatch2Gaps(ScannerTestBase):
         self.assertIsNotNone(sev(run_scan(IOS_SCAN, self.proj), "DEPLOYMENT-TARGET-OLD"))
 
     def test_commented_podfile_platform_is_ignored(self):
-        """mahalkum's Podfile has `# platform :ios, '9.0'` commented out; the
+        """an RN 0.49 project's Podfile has `# platform :ios, '9.0'` commented out; the
         regex matched the comment and reported it as the real target."""
         write(self.proj, "ios/Podfile", "# platform :ios, '9.0'\nplatform :ios, min_ios_version_supported\n")
         write(self.proj, "ios/App.xcodeproj/project.pbxproj",
@@ -603,7 +603,7 @@ class TestBatch2Gaps(ScannerTestBase):
                       "should cite the pbxproj, not a commented Podfile line")
 
     def test_ancient_deployment_target_is_blocker_not_medium(self):
-        """mahalkum ships 8.0. No currently shippable Xcode can build that,
+        """an RN 0.49 project ships 8.0. No currently shippable Xcode can build that,
         so it is not the same finding as 12.4."""
         write(self.proj, "ios/App.xcodeproj/project.pbxproj",
               "buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 8.0;\n};")
@@ -611,7 +611,7 @@ class TestBatch2Gaps(ScannerTestBase):
                              "DEPLOYMENT-TARGET-OLD"), "BLOCKER")
 
     def test_privacy_manifest_with_empty_collected_types_is_flagged(self):
-        """PlinkHealth declares an empty NSPrivacyCollectedDataTypes while
+        """a modern RN health app declares an empty NSPrivacyCollectedDataTypes while
         POSTing health records to its backend. Presence was checked; contents
         never were."""
         write(self.proj, "ios/App/PrivacyInfo.xcprivacy", """<plist><dict>
@@ -644,7 +644,7 @@ class TestBatch2Gaps(ScannerTestBase):
                               "MERGED-MANIFEST-NOT-CHECKED"))
 
     def test_old_agp_blocks_the_target_sdk_fix(self):
-        """mahalkum is on AGP 2.2.3, which predates App Bundles entirely.
+        """an RN 0.49 project is on AGP 2.2.3, which predates App Bundles entirely.
         Telling it to raise targetSdk without saying so hands over a fix that
         cannot be applied."""
         write(self.proj, "android/build.gradle",
@@ -751,14 +751,14 @@ android { signingConfigs {
 
 
     def test_editor_local_history_is_not_scanned(self):
-        """SmartFiit_FE: VS Code's Local History extension keeps timestamped
+        """one fleet project: VS Code's Local History extension keeps timestamped
         copies under .history/, so one key was reported 8 times."""
         write(self.proj, ".history/app/config/app_20250418190644.ts",
               "export const cfg = { awsKey: 'AKIAIOSFODNN7EXAMPLE' };")
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SECRET-HARDCODED"))
 
     def test_action_type_constant_is_not_a_secret(self):
-        """bxr_reactnative: a Redux action type whose value is its own name —
+        """one fleet project: a Redux action type whose value is its own name —
         `SUBMIT_SEND_CLIENT_NEW_PASSWORD = 'SUBMIT_SEND_CLIENT_NEW_PASSWORD'`."""
         write(self.proj, "src/login/loginConstants.js",
               "export const SUBMIT_SEND_CLIENT_NEW_PASSWORD = "
@@ -1018,7 +1018,7 @@ class TestAIContentPolicy(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "AI-CONTENT-NO-REPORT"))
 
     def test_english_word_replicate_is_not_a_model_sdk(self):
-        """ms-mobile-app: medical prose 'the mycobacteria continue to replicate
+        """one fleet project: medical prose 'the mycobacteria continue to replicate
         inside immune cells' matched the Replicate SDK. Same class as the
         historical 'adjust' bug — match package names, never bare words."""
         write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
