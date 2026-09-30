@@ -1553,6 +1553,127 @@ class TestPhase2Play(ScannerTestBase):
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "STORE-LISTING-TITLE"))
 
 
+class TestPhase2AppleB(ScannerTestBase):
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_push_gate_without_skip_is_flagged(self):
+        """4.5.4: 'Push Notifications must not be required for the app to
+        function.' 5.1.2(i) bars requiring system functionality for access."""
+        self._deps(**{"expo-notifications": "0.29.0"})
+        write(self.proj, "src/Gate.tsx", """
+import * as Notifications from 'expo-notifications';
+export function Gate({ navigation }) {
+  if (status !== 'granted') {
+    return <View><Text>Notifications are required to continue.</Text></View>;
+  }
+  navigation.replace('Home');
+}
+""")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "PUSH-REQUIRED-GATE"), "HIGH")
+
+    def test_push_primer_with_skip_is_silent(self):
+        self._deps(**{"expo-notifications": "0.29.0"})
+        write(self.proj, "src/Primer.tsx", """
+import * as Notifications from 'expo-notifications';
+export function Primer({ navigation }) {
+  if (status !== 'granted') { return <Button title="Not now" onPress={skip} />; }
+}
+""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "PUSH-REQUIRED-GATE"))
+
+    def test_location_gate_is_not_a_push_gate(self):
+        """A maps app legitimately cannot proceed without location; including
+        expo-location would fire on a large share of real apps."""
+        self._deps(**{"expo-location": "18.0.0"})
+        write(self.proj, "src/Gate.tsx", """
+import * as Location from 'expo-location';
+export function Gate({ navigation }) {
+  if (status !== 'granted') { return <View><Text>Location required.</Text></View>; }
+  navigation.replace('Map');
+}
+""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "PUSH-REQUIRED-GATE"))
+
+    def test_device_restart_copy_is_flagged(self):
+        """2.4.4: 'Apps should never suggest or require a restart of the device
+        or modifications to system settings.'"""
+        write(self.proj, "src/locales/en.json",
+              '{"help":"For background sync, turn off Low Power Mode and restart your device."}')
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "SYSTEM-SETTINGS-PROMPT"), "MEDIUM")
+
+    def test_restart_the_app_is_not_a_device_restart(self):
+        write(self.proj, "src/Help.ts",
+              "export const H = 'If sync stalls, pull to refresh or restart the app.';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SYSTEM-SETTINGS-PROMPT"))
+
+    def test_review_incentive_is_flagged(self):
+        """5.6.3 Discovery Fraud; §3 preamble escalates to expulsion."""
+        write(self.proj, "src/RateUs.tsx",
+              "export const C = 'Rate us 5 stars on the App Store and get 100 free credits!';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "REVIEW-INCENTIVE"), "HIGH")
+
+    def test_rating_something_other_than_the_app_is_silent(self):
+        write(self.proj, "src/Workout.tsx",
+              "export const C = 'Rate your workout to earn 10 points.';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "REVIEW-INCENTIVE"))
+
+    def test_contacts_select_all_is_flagged(self):
+        """5.1.2(v): 'do not include a Select All option or default the
+        selection of all contacts.'"""
+        self._deps(**{"expo-contacts": "13.0.0"})
+        write(self.proj, "src/Invite.tsx",
+              "import * as Contacts from 'expo-contacts';\n"
+              "export const Invite = () => <Button title=\"Select all\" onPress={all} />;")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "CONTACTS-SELECT-ALL"), "HIGH")
+
+    def test_select_all_outside_a_contacts_file_is_silent(self):
+        """A repo-wide grep for 'select all' is unusable — photo pickers,
+        tables and todo lists all have one."""
+        self._deps(**{"expo-contacts": "13.0.0"})
+        write(self.proj, "src/Invite.tsx",
+              "import * as Contacts from 'expo-contacts';\n"
+              "export const Invite = () => <ContactRow onToggle={t} />;")
+        write(self.proj, "src/Gallery.tsx",
+              'export const G = () => <Button title="Select all" onPress={allPhotos} />;')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "CONTACTS-SELECT-ALL"))
+
+    def test_sweepstakes_without_rules_is_flagged(self):
+        """5.3.2: official rules must be in the app and state Apple is not a
+        sponsor."""
+        write(self.proj, "src/locales/en.json",
+              '{"promo":"Enter to win an iPhone! Join the sweepstakes"}')
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "SWEEPSTAKES-NO-RULES"), "MEDIUM")
+
+    def test_sweepstakes_with_rules_is_silent(self):
+        write(self.proj, "src/locales/en.json",
+              '{"promo":"Enter to win an iPhone!",'
+              '"rules":"Official Rules: no purchase necessary. Apple is not a sponsor of '
+              'or involved in this promotion in any manner."}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SWEEPSTAKES-NO-RULES"))
+
+    def test_volume_switch_override_is_flagged(self):
+        """2.5.9 bars altering or disabling standard switches."""
+        self._deps(**{"react-native-volume-manager": "1.10.0"})
+        write(self.proj, "src/Player.tsx",
+              "import { VolumeManager } from 'react-native-volume-manager';\n"
+              "VolumeManager.showNativeVolumeUI({ enabled: false });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "VOLUME-BUTTON-OVERRIDE"), "MEDIUM")
+
+    def test_media_player_volume_prop_is_silent(self):
+        """An in-app volume slider does not touch the hardware switches."""
+        self._deps(**{"react-native-video": "6.0.0"})
+        write(self.proj, "src/Player.tsx",
+              "import Video from 'react-native-video';\n"
+              "export const P = ({ vol }) => <Video source={S} volume={vol} />;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "VOLUME-BUTTON-OVERRIDE"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

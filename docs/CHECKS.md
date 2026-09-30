@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**89 checks total.**
+**95 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 48 checks
+## iOS — 54 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -31,6 +31,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
 | `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
+| `CONTACTS-SELECT-ALL` | HIGH | 5.1.2(v) | A select-all affordance in a file that reads Contacts. 5.1.2(v) |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
 | `FRAMEWORK-UNUSED` | HIGH | 2.1 | The {framework} framework is linked but no {label} integration |
 | `HEALTHKIT-PERM-UNUSED` | HIGH | 2.1 / 5.1.1 | HealthKit types requested but no read or write found for them: |
@@ -40,7 +41,9 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |
 | `PRIVACY-MANIFEST` | HIGH | Privacy manifests | No PrivacyInfo.xcprivacy found in the ios/ directory. The app target needs one declaring |
 | `PRIVACY-MANIFEST-EMPTY` | HIGH | 5.1.1 / 5.1.2 | PrivacyInfo.xcprivacy declares NSPrivacyCollectedDataTypes as an empty |
+| `PUSH-REQUIRED-GATE` | HIGH | 4.5.4 / 5.1.2(i) | An onboarding gate appears to block progress until notifications or |
 | `RESTORE-MISSING` | HIGH | 3.1.1 | IAP integration found with no restore-purchases path. Non-consumables and subscriptions |
+| `REVIEW-INCENTIVE` | HIGH | 5.6.3 | A rating incentivised with a reward. 5.6.3 Discovery Fraud bars manipulating reviews or |
 | `SIWA-REDUNDANT-PROFILE` | HIGH | 4 (Design) / HIG | Sign in with Apple is present alongside a profile-completion |
 | `SOCIAL-REVOKE-MISSING` | HIGH | 5.1.1(v) | Social login present with no revocation path. 5.1.1(v) requires a |
 | `TRACKING-SDK` | HIGH | 5.1.2 | Tracking / analytics / ads SDK — needs ATT before it initializes, plus matching App Privacy answers |
@@ -56,7 +59,10 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |
 | `SUBSCRIPTION-COPY-MISMATCH` | MEDIUM | 3.1.1 / 3.1.3(e) | In-app copy says 'subscription' but no IAP library is present. |
+| `SWEEPSTAKES-NO-RULES` | MEDIUM | 5.3.1 / 5.3.2 | Promotion vocabulary with no official rules found. 5.3.2 requires |
+| `SYSTEM-SETTINGS-PROMPT` | MEDIUM | 2.4.4 | Copy asking the user to restart the device or change unrelated system settings. 2.4.4: |
 | `UGC-COMMENT-REPORT-MISSING` | MEDIUM | 1.2 | Posts can be reported but comments appear not to be. Every |
+| `VOLUME-BUTTON-OVERRIDE` | MEDIUM | 2.5.9 | Hardware volume switch intercepted or its native UI suppressed. 2.5.9 rejects apps that |
 | `WEBVIEW-SHELL` | MEDIUM | 4.2 | WebView usage — if it is the primary surface, the app may be judged a repackaged website |
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |

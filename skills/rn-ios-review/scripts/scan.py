@@ -62,6 +62,37 @@ RULES = [
      re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
+    ("SYSTEM-SETTINGS-PROMPT", "MEDIUM", "2.4.4",
+     "Copy asking the user to restart the device or change unrelated system settings. 2.4.4: "
+     "apps should never suggest a device restart or modifications to system settings unrelated "
+     "to core functionality. Confirm this is user-facing copy, not a support article",
+     re.compile(r"(?i)(?:restart|reboot|power[ -]?cycle)\s+your\s+(?:device|phone|iphone|ipad)"
+                r"|turn\s+off\s+(?:your\s+)?(?:wi-?fi|bluetooth|airplane\s+mode|"
+                r"low\s+power\s+mode|vpn)"
+                r"|disable\s+(?:low\s+power\s+mode|battery\s+saver|screen\s+time|"
+                r"restrictions|background\s+app\s+refresh|content\s+blockers?)"),
+     {".ts", ".tsx", ".js", ".jsx", ".json"}),
+
+    ("REVIEW-INCENTIVE", "HIGH", "5.6.3",
+     "A rating incentivised with a reward. 5.6.3 Discovery Fraud bars manipulating reviews or "
+     "referrals; Section 3's preamble escalates incentivised feedback to expulsion from the "
+     "Developer Program, not merely rejection",
+     re.compile(r"(?i)\b(?:rate|review)\s+(?:us|the\s+app|this\s+app|our\s+app)\b"
+                r"[^\n]{0,60}\b(?:and|to)\s+(?:get|earn|receive|unlock|claim|win)\b"
+                r"[^\n]{0,40}\b(?:\d+\s*)?(?:coins?|points?|credits?|gems?|tokens?|reward|"
+                r"bonus|discount|free\s+\w+|gift\s*card)\b"),
+     {".ts", ".tsx", ".js", ".jsx", ".json"}),
+
+    ("VOLUME-BUTTON-OVERRIDE", "MEDIUM", "2.5.9",
+     "Hardware volume switch intercepted or its native UI suppressed. 2.5.9 rejects apps that "
+     "alter or disable standard switches. Confirm the switch retains its standard behaviour — "
+     "a camera app using it as a shutter has been both approved and rejected historically",
+     re.compile(r"showNativeVolumeUI\s*\(\s*\{?\s*(?:enabled\s*:\s*)?false"
+                r"|VolumeManager\.(?:addVolumeListener|setVolume)"
+                r"|SystemSetting\.setVolume"
+                r"|from\s+['\"](?:react-native-volume-manager|react-native-volume-control)['\"]"),
+     {".ts", ".tsx", ".js", ".jsx"}),
+
     ("MEDIA-DOWNLOADER", "BLOCKER", "5.2.3",
      "Third-party media downloader. 5.2.3 bars the ability to save, convert or download media "
      "from third-party sources (Apple Music, YouTube, SoundCloud, Vimeo) without explicit "
@@ -540,6 +571,40 @@ def scan_icon(root, findings):
                 })
 
 
+def scan_contacts_select_all(root, findings):
+    """5.1.2(v) forbids a Select All option over the user's contacts."""
+    rx_import = re.compile(r"from\s+['\"](expo-contacts|react-native-contacts|"
+                           r"react-native-select-contact)['\"]")
+    rx_all = re.compile(r"(?i)select[ _-]?all|selectAllContacts|checkAll|toggleAll"
+                        r"|set(?:Selected|Checked)\s*\(\s*(?:\[\s*\.\.\.\s*)?"
+                        r"(?:contacts|allContacts)\b")
+    for path in iter_files(root):
+        if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx"}:
+            continue
+        rel = os.path.relpath(path, root)
+        if TEST_HINT.search(rel):
+            continue
+        try:
+            text = open(path, encoding="utf-8", errors="ignore").read(400000)
+        except OSError:
+            continue
+        if not rx_import.search(text):
+            continue
+        m = rx_all.search(text)
+        if m:
+            findings.append({
+                "id": "CONTACTS-SELECT-ALL", "severity": "HIGH", "guideline": "5.1.2(v)",
+                "description": "A select-all affordance in a file that reads Contacts. 5.1.2(v) "
+                               "is flatly prescriptive: do not include a Select All option or "
+                               "default the selection of all contacts, and the user must see how "
+                               "the message will appear to recipients before sending. Confirm "
+                               "this list drives an invite or message send, not a local filter.",
+                "file": rel, "line": text[:m.start()].count("\n") + 1,
+                "evidence": m.group(0)[:80],
+            })
+            return
+
+
 def scan_healthkit_types(root, findings):
     """Declared HealthKit types must match what the app reads.
 
@@ -932,6 +997,40 @@ def scan_structural(root, findings):
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
+    # 4.5.4 / 5.1.2(i) — push must not gate the app. Location is deliberately
+    # excluded: a maps or ride-hail app legitimately cannot proceed without it.
+    if _grep(root, r"expo-notifications|@react-native-firebase/messaging|"
+                   r"PushNotificationIOS\.requestPermissions|requestTrackingPermissionsAsync") \
+            and _grep(root, r"(status|authorizationStatus|granted|permission)\b[^\n]{0,40}"
+                            r"(!==?|===)\s*['\"]?(granted|denied|DENIED|AUTHORIZED)") \
+            and _grep(root, r"navigation\.(replace|reset)\s*\(|are required to continue|"
+                            r"required to use") \
+            and not _grep_incl_locales(root, r"(?i)\b(skip|not now|maybe later|"
+                                             r"continue without|remind me later|no thanks)\b"):
+        findings.append({
+            "id": "PUSH-REQUIRED-GATE", "severity": "HIGH", "guideline": "4.5.4 / 5.1.2(i)",
+            "description": "An onboarding gate appears to block progress until notifications or "
+                           "tracking are enabled, with no skip affordance found. 4.5.4: push "
+                           "must not be required for the app to function; 5.1.2(i) bars "
+                           "requiring system functionality to access content or compensation. "
+                           "Unlike location, there is no core-functionality exception here.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 5.3.2 — sweepstakes need official rules naming Apple as a non-sponsor.
+    if _grep_incl_locales(root, r"(?i)\b(sweepstakes?|raffle|prize\s+draw|enter\s+to\s+win)\b") \
+            and not _grep_incl_locales(root, r"(?i)(official\s+rules|no\s+purchase\s+necessary|"
+                                             r"apple\s+is\s+not\s+a\s+sponsor|"
+                                             r"not\s+sponsored[^\n]{0,30}\bapple\b)"):
+        findings.append({
+            "id": "SWEEPSTAKES-NO-RULES", "severity": "MEDIUM", "guideline": "5.3.1 / 5.3.2",
+            "description": "Promotion vocabulary with no official rules found. 5.3.2 requires "
+                           "the rules to be presented in the app and to make clear Apple is not "
+                           "a sponsor or involved in any manner; 5.3.1 requires the developer to "
+                           "be the sponsor — so confirm who is running this promotion first.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Privacy policy
     if not _grep(root, r"(?i)(privacy[- _]?policy|privacyPolicyUrl)"):
         findings.append({
@@ -1065,6 +1164,7 @@ def main():
     scan_upload_gates(root, findings)
     scan_icon(root, findings)
     scan_privacy_manifest_contents(root, findings)
+    scan_contacts_select_all(root, findings)
     scan_healthkit_types(root, findings)
     scan_linked_frameworks(root, findings)
     scan_structural(root, findings)
