@@ -1201,6 +1201,90 @@ readRecords('Vo2Max');
                               "SUBSCRIPTION-COPY-MISMATCH"))
 
 
+class TestSecondRejectionRound(ScannerTestBase):
+    """A second rejection round on the same app, 30 Sep 2026."""
+
+    UGC = ("export const createPost = b => api.post('/posts', b);\n"
+           "export const postComment = c => api.post('/comments', c);\n")
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def test_reporting_without_self_service_block_is_flagged(self):
+        """Apple credited reporting and admin moderation but still required a
+        self-service block the user controls on the spot. The old check went
+        quiet as soon as ANY moderation path existed."""
+        write(self.proj, "src/Feed.tsx", self.UGC +
+              "export const reportContent = (id, r) => api.post('/reports', { id, r });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "UGC-BLOCK-MISSING"), "HIGH")
+
+    def test_block_present_is_silent(self):
+        write(self.proj, "src/Feed.tsx", self.UGC +
+              "export const reportContent = (id, r) => api.post('/reports', { id, r });\n"
+              "export const blockUser = id => api.post('/blocks', { id });")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "UGC-BLOCK-MISSING"))
+
+    def test_post_reporting_without_comment_reporting_is_flagged(self):
+        """'Add the ability to report individual comments (today only whole
+        posts can be reported).'"""
+        write(self.proj, "src/Feed.tsx", self.UGC +
+              "export const reportPost = id => api.post('/reports/post', { id });\n"
+              "export const blockUser = id => api.post('/blocks', { id });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "UGC-COMMENT-REPORT-MISSING"), "MEDIUM")
+
+    def test_comment_reporting_present_is_silent(self):
+        write(self.proj, "src/Feed.tsx", self.UGC +
+              "export const reportComment = id => api.post('/reports/comment', { id });\n"
+              "export const blockUser = id => api.post('/blocks', { id });")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "UGC-COMMENT-REPORT-MISSING"))
+
+    def test_healthkit_type_requested_but_never_read_is_flagged(self):
+        """'Remove an unused permission so our declared Apple Health access
+        exactly matches what the app actually uses.' Android already had this
+        check; iOS did not."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/health.ts", """
+const PERMS = ['HKQuantityTypeIdentifierStepCount',
+               'HKQuantityTypeIdentifierBloodGlucose'];
+export const read = () => queryQuantitySamples('HKQuantityTypeIdentifierStepCount');
+""")
+        r = run_scan(IOS_SCAN, self.proj)
+        self.assertEqual(sev(r, "HEALTHKIT-PERM-UNUSED"), "HIGH")
+        hit = [f for f in r["findings"] if f["id"] == "HEALTHKIT-PERM-UNUSED"][0]
+        self.assertIn("BloodGlucose", hit["description"])
+        self.assertNotIn("StepCount", hit["description"])
+
+    def test_all_healthkit_types_read_is_silent(self):
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/health.ts",
+              "const PERMS = ['HKQuantityTypeIdentifierStepCount'];\n"
+              "export const read = () => query('HKQuantityTypeIdentifierStepCount');")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "HEALTHKIT-PERM-UNUSED"))
+
+    def test_passkit_linked_without_apple_pay_usage_is_flagged(self):
+        """Verbatim 2.1: 'The app binary includes the PassKit framework for
+        implementing Apple Pay, but we were unable to verify any integration of
+        Apple Pay within the app.'"""
+        write(self.proj, "ios/Podfile.lock",
+              "PODS:\n  - Stripe (23.0.0)\n\nFRAMEWORKS:\n  - PassKit\n")
+        write(self.proj, "src/Pay.tsx", "export const checkout = () => api.post('/charge');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"), "HIGH")
+
+    def test_passkit_with_apple_pay_usage_is_silent(self):
+        write(self.proj, "ios/Podfile.lock", "FRAMEWORKS:\n  - PassKit\n")
+        write(self.proj, "src/Pay.tsx",
+              "import { ApplePayButton, useApplePay } from '@stripe/stripe-react-native';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

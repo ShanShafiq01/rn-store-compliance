@@ -525,6 +525,95 @@ def scan_icon(root, findings):
                 })
 
 
+def scan_healthkit_types(root, findings):
+    """Declared HealthKit types must match what the app reads.
+
+    A reviewer on a brand-new empty account sees no data, questions the Health
+    integration, and holds the build — and an extra type they cannot see used is
+    what turns the question into a rejection. The Android scanner has had the
+    Health Connect equivalent; this is the iOS half.
+    """
+    requested, used = set(), set()
+    for path in iter_files(root):
+        if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx"}:
+            continue
+        rel = os.path.relpath(path, root)
+        if TEST_HINT.search(rel):
+            continue
+        try:
+            text = open(path, encoding="utf-8", errors="ignore").read(400000)
+        except OSError:
+            continue
+        for m in re.finditer(r"HK(?:Quantity|Category|Characteristic|Correlation)"
+                             r"TypeIdentifier(\w+)", text):
+            # A type inside an array of permission constants is requested; one
+            # passed to a query/save call is used. Both shapes appear as the
+            # same token, so treat a line that also calls a read/write API as use.
+            line_start = text.rfind("\n", 0, m.start()) + 1
+            line_end = text.find("\n", m.end())
+            line = text[line_start:line_end if line_end != -1 else len(text)]
+            (used if re.search(r"(?i)(quer|read|save|write|fetch|subscribe|observ)", line)
+             else requested).add(m.group(1))
+    unused = sorted(requested - used)
+    if unused:
+        findings.append({
+            "id": "HEALTHKIT-PERM-UNUSED", "severity": "HIGH", "guideline": "2.1 / 5.1.1",
+            "description": "HealthKit types requested but no read or write found for them: "
+                           + ", ".join(unused) + ". Declared Health access must match what the "
+                           "app actually uses — an extra type invites the reviewer to ask what "
+                           "it is for, and on an empty demo account they cannot see the answer. "
+                           "Remove it, or use it and show it working in review notes.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+
+def scan_linked_frameworks(root, findings):
+    """A framework in the binary that the app never exercises is a 2.1 hold.
+
+    Verbatim from a real rejection: "The app binary includes the PassKit
+    framework for implementing Apple Pay, but we were unable to verify any
+    integration of Apple Pay within the app."
+    """
+    FRAMEWORKS = {
+        "PassKit": (r"(?i)(ApplePay|PKPaymentRequest|useApplePay|ApplePayButton|"
+                    r"isApplePaySupported|presentApplePay)", "Apple Pay"),
+    }
+    blobs = []
+    for rel in ("ios/Podfile.lock", "ios/Podfile"):
+        try:
+            blobs.append(open(os.path.join(root, rel), encoding="utf-8",
+                              errors="ignore").read())
+        except OSError:
+            pass
+    for dirpath, dirnames, filenames in os.walk(os.path.join(root, "ios")):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn == "project.pbxproj":
+                try:
+                    blobs.append(open(os.path.join(dirpath, fn), encoding="utf-8",
+                                      errors="ignore").read(400000))
+                except OSError:
+                    pass
+    linked = "\n".join(blobs)
+    if not linked:
+        return
+    for framework, (usage_rx, label) in FRAMEWORKS.items():
+        if framework not in linked:
+            continue
+        if _grep(root, usage_rx):
+            continue
+        findings.append({
+            "id": "FRAMEWORK-UNUSED", "severity": "HIGH", "guideline": "2.1",
+            "description": f"The {framework} framework is linked but no {label} integration "
+                           f"was found. App Review checks the binary's frameworks against what "
+                           f"they can exercise, and holds the build when they cannot find the "
+                           f"feature. Either point to it in Review Notes, or state plainly that "
+                           f"the app does not implement {label} — a transitive dependency often "
+                           f"pulls this in without you asking.",
+            "file": "ios/Podfile.lock", "line": 0, "evidence": framework,
+        })
+
+
 def _report_deployment_target(findings, value, rel, evidence):
     """Severity tracks buildability, not age: a target below 12 cannot be built
     by any currently shippable Xcode, which is a different problem from merely
@@ -721,6 +810,38 @@ def scan_structural(root, findings):
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
+    # 1.2 requires a self-service block, not just reporting. A real rejection
+    # credited an app's reporting and admin moderation and still held the build:
+    # the user must be able to block on the spot, and the block must notify the
+    # developer so it reaches the moderation queue.
+    has_ugc = _grep(root, r"(?i)(createPost|newComment|postComment|sendMessage|"
+                           r"uploadPhoto|publishPost|<Feed)")
+    if has_ugc and not _grep(root, r"(?i)(blockUser|block_user|blockedUsers|muteUser|"
+                                   r"/blocks?\b|blockAccount)"):
+        findings.append({
+            "id": "UGC-BLOCK-MISSING", "severity": "HIGH", "guideline": "1.2",
+            "description": "User-generated content with reporting but no self-service block. "
+                           "Reporting and admin moderation are not a substitute: 1.2 requires "
+                           "the user to be able to block another user on the spot, with that "
+                           "person's posts and comments disappearing from their feed "
+                           "immediately. The block must also reach your moderation queue — "
+                           "Apple requires the developer be notified.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # Reporting a whole post is not reporting a comment.
+    if has_ugc and _grep(root, r"(?i)(reportPost|reportContent|/reports?\b)") \
+            and not _grep(root, r"(?i)(reportComment|report_comment|flagComment|"
+                                r"reportReply|/reports?/comment)"):
+        findings.append({
+            "id": "UGC-COMMENT-REPORT-MISSING", "severity": "MEDIUM", "guideline": "1.2",
+            "description": "Posts can be reported but comments appear not to be. Every "
+                           "user-generated surface needs its own report control — a real "
+                           "rejection asked specifically for individual comments to be "
+                           "reportable when only whole posts were.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Privacy policy
     if not _grep(root, r"(?i)(privacy[- _]?policy|privacyPolicyUrl)"):
         findings.append({
@@ -854,6 +975,8 @@ def main():
     scan_upload_gates(root, findings)
     scan_icon(root, findings)
     scan_privacy_manifest_contents(root, findings)
+    scan_healthkit_types(root, findings)
+    scan_linked_frameworks(root, findings)
     scan_structural(root, findings)
     findings = dedupe(findings)
 

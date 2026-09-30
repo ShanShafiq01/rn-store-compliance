@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**62 checks total.**
+**65 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 35 checks
+## iOS — 38 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -28,6 +28,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
 | `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
+| `HEALTHKIT-PERM-UNUSED` | HIGH | 2.1 / 5.1.1 | HealthKit types requested but no read or write found for them: |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
 | `MEDICAL-NO-DISCLAIMER` | HIGH | 1.4.1 | Health app surfaces medical language with no disclaimer found. |
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |
@@ -36,6 +37,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `RESTORE-MISSING` | HIGH | 3.1.1 | IAP integration found with no restore-purchases path. Non-consumables and subscriptions |
 | `SIWA-REDUNDANT-PROFILE` | HIGH | 4 (Design) / HIG | Sign in with Apple is present alongside a profile-completion |
 | `TRACKING-SDK` | HIGH | 5.1.2 | Tracking / analytics / ads SDK — needs ATT before it initializes, plus matching App Privacy answers |
+| `UGC-BLOCK-MISSING` | HIGH | 1.2 | User-generated content with reporting but no self-service block. |
 | `UGC-MODERATION` | HIGH | 1.2 | User-generated content features found with no report/block/moderation path. Apple requires |
 | `BACKGROUND-MODES` | MEDIUM | 2.5.4 | Background modes declared — every entry must be genuinely used for its |
 | `ENTITLEMENTS-REVIEW` | MEDIUM | 2.5.1 / 5.1.3 / 5.4 | Entitlements present that reviewers scrutinise: |
@@ -46,6 +48,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |
 | `SUBSCRIPTION-COPY-MISMATCH` | MEDIUM | 3.1.1 / 3.1.3(e) | In-app copy says 'subscription' but no IAP library is present. |
+| `UGC-COMMENT-REPORT-MISSING` | MEDIUM | 1.2 | Posts can be reported but comments appear not to be. Every |
 | `WEBVIEW-SHELL` | MEDIUM | 4.2 | WebView usage — if it is the primary surface, the app may be judged a repackaged website |
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
