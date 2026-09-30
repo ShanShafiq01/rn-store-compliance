@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**65 checks total.**
+**79 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 38 checks
+## iOS — 43 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -22,12 +22,14 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PRIVATE-API` | BLOCKER | 2.5.1 | Possible private API usage in native code |
 | `SECRET-HARDCODED` | BLOCKER | 1.6 / 2.5 | Possible hardcoded credential — the JS bundle ships in plaintext inside the IPA |
 | `SENSOR-ONLY-VITALS` | BLOCKER | 1.4.1 | Possible claim to measure a vital sign using only device |
+| `UIWEBVIEW` | BLOCKER | 2.5.1 / upload validation | Deprecated UIWebView found in {len(hits)} vendored file(s). Apple rejects |
 | `ACCOUNT-DELETION` | HIGH | 5.1.1(v) | Account creation found with no in-app deletion path. Deletion must be initiated |
 | `ARBITRARY-LOADS` | HIGH | 1.6 | App Transport Security disabled — cleartext traffic allowed |
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
 | `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
+| `FRAMEWORK-UNUSED` | HIGH | 2.1 | The {framework} framework is linked but no {label} integration |
 | `HEALTHKIT-PERM-UNUSED` | HIGH | 2.1 / 5.1.1 | HealthKit types requested but no read or write found for them: |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
 | `MEDICAL-NO-DISCLAIMER` | HIGH | 1.4.1 | Health app surfaces medical language with no disclaimer found. |
@@ -45,6 +47,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
 | `MEDICAL-NO-CITATION` | MEDIUM | 1.4.1 | Medical or health information with no citations found. 1.4.1 |
 | `OTA-UPDATES` | MEDIUM | 2.3.1 / 2.5.2 | OTA update channel — permitted for fixes and content, not for shipping unreviewed features |
+| `POD-PRIVACY-MANIFESTS` | MEDIUM | Privacy manifests | {len(third_party)} third-party pods in Podfile.lock. Any SDK on Apple's |
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |
 | `SUBSCRIPTION-COPY-MISMATCH` | MEDIUM | 3.1.1 / 3.1.3(e) | In-app copy says 'subscription' but no IAP library is present. |
@@ -52,14 +55,19 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `WEBVIEW-SHELL` | MEDIUM | 4.2 | WebView usage — if it is the primary surface, the app may be judged a repackaged website |
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
+| `DEPLOYMENT-TARGET-OLD` | varies | 2.4.1 | iOS deployment target is {value}. |
+| `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
-## Android — 27 checks
+## Android — 36 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
 | ID | Severity | Play policy / Console requirement | What it means |
 |---|---|---|---|
+| `ABI-NO-64BIT` | BLOCKER | 64-bit requirement | Native ABIs are restricted to {', '.join(sorted(set(declared)))} with no |
+| `AGP-TOO-OLD` | BLOCKER | App Bundle requirement / Target API level | Android Gradle Plugin {major}.{minor} is too old to ship. |
 | `APK-NOT-AAB` | BLOCKER | App Bundle requirement | Release pipeline builds an APK (assemble) with no bundle task. Play requires an |
+| `BILLING-VERSION` | BLOCKER | Play Billing Library deprecation | Play Billing Library {bill.group(1)}.x detected; the floor moved to |
 | `DYNAMIC-CODE` | BLOCKER | Device & Network Abuse | Dynamic code execution — downloading or executing code outside Play is prohibited |
 | `EXTERNAL-PAYMENT` | BLOCKER | Payments | Possible external payment path for digital goods — confirm the SKU is a physical good or real-world service, |
 | `PRIVACY-POLICY` | BLOCKER | User Data | No privacy policy reference found. A policy URL is required in Play Console and must be |
@@ -72,18 +80,24 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `FGS-TYPE-MISSING` | HIGH | Android 14+ foreground services | Foreground service permission and a service declared, but no foregroundServiceType. |
 | `HEALTH-PERM-UNUSED` | HIGH | Health Connect restricted data | Health Connect permissions declared with no matching read found |
 | `INSECURE-STORAGE` | HIGH | User Data | Token or personal data in AsyncStorage (unencrypted on disk) — use EncryptedSharedPreferences / Keystore |
+| `KEYSTORE-COMMITTED` | HIGH | Device & Network Abuse | {len(keystores)} signing keystore(s) tracked in git. Combined with a password |
+| `NDK-VERSION` | HIGH | 16 KB page size support | ndkVersion is {m.group(1)}. NDK r28+ aligns to 16 KB by default. |
 | `PAYMENT-SDK` | HIGH | Payments | Third-party payment SDK present — must not serve digital goods unless an alternative-billing program applies |
 | `PERM-&lt;NAME&gt;` | HIGH/MEDIUM | Play permissions policy | 22 restricted or sensitive permissions detected in the manifest, each reported with why it is restricted — `ACCESS_BACKGROUND_LOCATION`,… |
 | `PURCHASE-ACK` | HIGH | Payments | Billing integration found with no purchase acknowledgement or token verification. |
+| `SIGNING-SECRET-COMMITTED` | HIGH | Device & Network Abuse | A signing credential appears to be hardcoded in {label}. Anyone with the |
 | `UGC-MODERATION` | HIGH | User Generated Content | UGC features found with no report/block/moderation path. Play requires a user agreement, |
 | `ALLOW-BACKUP` | MEDIUM | User Data | android:allowBackup is enabled — app data can reach the user's cloud backup; disable or scope it if the app holds sensitive data |
+| `BILLING-VERIFY` | MEDIUM | Play Billing Library deprecation | Billing wrapper present — confirm the pinned Play Billing Library major version meets |
 | `DATA-SAFETY-INVENTORY` | MEDIUM | Data safety | SDKs that collect data: |
 | `LOCAL-PROPERTIES-TRACKED` | MEDIUM | Quality | android/local.properties exists and is not in .gitignore. It holds machine- |
 | `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
 | `MERGED-MANIFEST-NOT-CHECKED` | MEDIUM | Permissions | Only the source manifest was scanned — no merged manifest found. Build the app and re-check |
 | `OTA-UPDATES` | MEDIUM | Device & Network Abuse | OTA update channel — permitted for fixes and content, not for shipping unreviewed behavior |
+| `PAGE-SIZE-16KB` | MEDIUM | 16 KB page size support | {len(sos)} native library file(s) in the build output. Each must be built for 16 KB page |
 | `TARGET-SDK-UNKNOWN` | MEDIUM | Target API level requirement | Could not determine targetSdkVersion — check the value resolved by the RN gradle plugin |
 | `TRACKING-SDK` | MEDIUM | Data safety | Tracking / analytics / ads SDK — must appear in the Data safety form, and AD_ID must be declared if used |
 | `WEBVIEW-SHELL` | MEDIUM | Spam & Minimum Functionality | WebView usage — if it is the primary surface, the app may be judged a repackaged website |
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
+| `TARGET-SDK` | varies | Target API level requirement | targetSdkVersion is {target}. New uploads and updates need API |
 

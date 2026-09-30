@@ -422,10 +422,12 @@ def scan_bare_rn(root, findings):
             major = int(m.group(1).split(".")[0])
         except ValueError:
             major = None
-        if major is not None and major < 27:
+        if major is not None and major < 28:
             findings.append({
                 "id": "NDK-VERSION", "severity": "HIGH", "policy": "16 KB page size support",
-                "description": f"ndkVersion is {m.group(1)}. 16 KB page alignment requires NDK r27+. "
+                "description": f"ndkVersion is {m.group(1)}. NDK r28+ aligns to 16 KB by default. "
+                               f"r27 can align but only with explicit linker flags "
+                               f"(-Wl,-z,max-page-size=16384); anything older cannot. "
                                f"Anything compiled with an older NDK ships unaligned, which Play warns on "
                                f"and eventually blocks. Bare RN projects pin this directly — managed Expo "
                                f"does not expose it.",

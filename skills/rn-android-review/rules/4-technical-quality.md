@@ -30,7 +30,7 @@ Recent Android devices use 16 KB memory pages. Apps **targeting API 35+** on 64-
 # find native libs in the build output
 find android -name "*.so" | head -50
 ```
-Fix path: upgrade React Native and every native dependency to versions built with NDK r27+/16 KB alignment. A single stale `.so` from an unmaintained SDK blocks the whole release — identify it early, because replacing an abandoned dependency takes weeks.
+Fix path: upgrade React Native and every native dependency to versions built with NDK r28+ (r27 only with explicit -Wl,-z,max-page-size=16384). A single stale `.so` from an unmaintained SDK blocks the whole release — identify it early, because replacing an abandoned dependency takes weeks.
 
 ## App Bundle format
 

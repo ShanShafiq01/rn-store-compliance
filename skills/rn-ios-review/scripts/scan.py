@@ -82,7 +82,7 @@ RULES = [
 
     ("MINING", "BLOCKER", "2.4.2 / 3.1.5(ii)",
      "Possible on-device cryptocurrency mining",
-     re.compile(r"(?i)(coinhive|cryptonight|minerd|stratum\+tcp|hashrate)"),
+     re.compile(r"(?i)(coinhive|cryptonight|minerd|stratum\+tcp)"),
      None),
 
     ("PRIVATE-API", "BLOCKER", "2.5.1",
@@ -321,8 +321,12 @@ def scan_plists(root, findings):
             else:
                 continue
             findings.append({
+                # The description must START with a string literal: gen_checks.py
+                # reads the source rather than running it, and a comment between
+                # "guideline" and "description" also breaks its adjacency match.
                 "id": "PURPOSE-STRING", "severity": sev, "guideline": "5.1.1(ii)",
-                "description": note, "file": rel, "line": lineno,
+                "description": "Purpose string problem — " + note,
+                "file": rel, "line": lineno,
                 "evidence": (line.strip() + " → " + value)[:180],
             })
 

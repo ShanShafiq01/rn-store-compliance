@@ -1300,6 +1300,32 @@ export const read = () => queryQuantitySamples('HKQuantityTypeIdentifierStepCoun
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"))
 
 
+class TestCheckInventoryCompleteness(ScannerTestBase):
+    """docs/CHECKS.md is the published inventory. A check missing from it is
+    invisible to every user, and gen_checks --check cannot notice because it
+    compares its own render against the file it rendered."""
+
+    def _ids_in_source(self, script):
+        import re as _re
+        src = open(script, encoding="utf-8").read()
+        sev = {"BLOCKER", "HIGH", "MEDIUM", "LOW", "INFO"}
+        ids = set(_re.findall(r'"id":\s*"([A-Z][A-Z0-9\-]+)"', src))
+        ids |= set(_re.findall(r'\(\s*"([A-Z][A-Z0-9\-]+)",\s*'
+                               r'"(?:BLOCKER|HIGH|MEDIUM|LOW)"', src))
+        return ids - sev
+
+    def test_every_emitted_check_is_documented(self):
+        docs = open(os.path.join(ROOT, "docs", "CHECKS.md"), encoding="utf-8").read()
+        missing = []
+        for script in (IOS_SCAN, ANDROID_SCAN):
+            for cid in sorted(self._ids_in_source(script)):
+                if "`%s`" % cid not in docs:
+                    missing.append(cid)
+        self.assertEqual(missing, [],
+                         "checks emitted by a scanner but absent from docs/CHECKS.md "
+                         "(gen_checks.py is dropping them): %s" % ", ".join(missing))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

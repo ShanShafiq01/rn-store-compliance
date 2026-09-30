@@ -31,17 +31,20 @@ def extract(path):
 
     # Pattern-matching rules: (id, severity, rule_ref, description, regex, exts)
     for m in re.finditer(
-        r'\(\s*"([A-Z0-9\-_]+)",\s*"(BLOCKER|HIGH|MEDIUM|LOW)",\s*"([^"]+)",\s*\n\s*"([^"]+)', src
+        r'\(\s*"([A-Z0-9\-_]+)",\s*"(BLOCKER|HIGH|MEDIUM|LOW)",\s*"([^"]+)",\s*\n\s*f?"([^"]+)', src
     ):
         rows.append((m.group(1), m.group(2), m.group(3), m.group(4)))
 
     # Structural and config findings built as dict literals
     for m in re.finditer(
-        r'"id":\s*"([A-Z0-9\-_]+)",\s*"severity":\s*"(BLOCKER|HIGH|MEDIUM|LOW)",\s*'
-        r'"(?:guideline|policy)":\s*"([^"]*)",\s*\n?\s*"description":\s*"([^"]*)',
+        # Severity is not always a literal: several checks compute it (a variable,
+        # or a conditional expression). Those are real checks and must still be
+        # documented, so accept a non-literal and label it "varies".
+        r'"id":\s*"([A-Z0-9\-_]+)",\s*"severity":\s*(?:"(BLOCKER|HIGH|MEDIUM|LOW)"|[^,\n]+),\s*'
+        r'"(?:guideline|policy)":\s*"([^"]*)",\s*\n?\s*"description":\s*f?"([^"]*)',
         src,
     ):
-        rows.append((m.group(1), m.group(2), m.group(3), m.group(4)))
+        rows.append((m.group(1), m.group(2) or "varies", m.group(3), m.group(4)))
 
     # Restricted Android permissions
     perms = re.search(r"PERMISSIONS = \{(.*?)\n\}", src, re.S)
