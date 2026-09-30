@@ -20,6 +20,7 @@ import json
 import os
 import re
 import sys
+import collections
 from collections import defaultdict
 
 SKIP_DIRS = {
@@ -533,12 +534,16 @@ def scan_healthkit_types(root, findings):
     what turns the question into a rejection. The Android scanner has had the
     Health Connect equivalent; this is the iOS half.
     """
-    requested, used = set(), set()
+    # A type that appears exactly once appears only in the permissions array:
+    # it is requested and never referenced again. Counting occurrences is far
+    # more robust than guessing from line context, because the real shape is a
+    # permissions array plus a mapping table plus a formatter, and none of those
+    # lines carries a query verb.
+    counts = collections.Counter()
     for path in iter_files(root):
         if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx"}:
             continue
-        rel = os.path.relpath(path, root)
-        if TEST_HINT.search(rel):
+        if TEST_HINT.search(os.path.relpath(path, root)):
             continue
         try:
             text = open(path, encoding="utf-8", errors="ignore").read(400000)
@@ -546,14 +551,9 @@ def scan_healthkit_types(root, findings):
             continue
         for m in re.finditer(r"HK(?:Quantity|Category|Characteristic|Correlation)"
                              r"TypeIdentifier(\w+)", text):
-            # A type inside an array of permission constants is requested; one
-            # passed to a query/save call is used. Both shapes appear as the
-            # same token, so treat a line that also calls a read/write API as use.
-            line_start = text.rfind("\n", 0, m.start()) + 1
-            line_end = text.find("\n", m.end())
-            line = text[line_start:line_end if line_end != -1 else len(text)]
-            (used if re.search(r"(?i)(quer|read|save|write|fetch|subscribe|observ)", line)
-             else requested).add(m.group(1))
+            counts[m.group(1)] += 1
+    requested = {t for t, n in counts.items() if n == 1}
+    used = {t for t, n in counts.items() if n > 1}
     unused = sorted(requested - used)
     if unused:
         findings.append({

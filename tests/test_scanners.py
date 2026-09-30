@@ -1260,6 +1260,21 @@ export const read = () => queryQuantitySamples('HKQuantityTypeIdentifierStepCoun
         self.assertIn("BloodGlucose", hit["description"])
         self.assertNotIn("StepCount", hit["description"])
 
+    def test_type_wired_through_a_mapping_table_is_not_unused(self):
+        """The real shape: a permissions array plus a metric mapping plus a
+        formatter. No line carries a query verb, but the type is clearly wired
+        in. Occurrence count is the robust signal, not line context."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"@kingstinct/react-native-healthkit":"13.0.0"}}')
+        write(self.proj, "src/perms.ts",
+              "export const READ = ['HKQuantityTypeIdentifierStepCount'];")
+        write(self.proj, "src/map.ts",
+              "export const M = { steps: 'HKQuantityTypeIdentifierStepCount' };")
+        write(self.proj, "src/fmt.ts",
+              "export const label = t => t === 'HKQuantityTypeIdentifierStepCount' ? 'Steps' : '';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "HEALTHKIT-PERM-UNUSED"))
+
     def test_all_healthkit_types_read_is_silent(self):
         write(self.proj, "package.json",
               '{"dependencies":{"react-native":"0.76.0",'
