@@ -16,7 +16,7 @@ Deliberate constraint: **the scanners are Python 3.8+, stdlib only, read-only, n
 ## Commands
 
 ```bash
-python3 tests/test_scanners.py                      # full suite (58 tests, unittest, no pytest needed)
+python3 tests/test_scanners.py                      # full suite (113 tests, unittest, no pytest needed)
 python3 tests/test_scanners.py TestIOSScanner       # one class
 python3 tests/test_scanners.py TestBareRNProjects.test_bare_checks_silent_on_managed_expo   # one test
 
@@ -86,8 +86,35 @@ The storefront asymmetry in §3.1.1 is the one most likely to be re-broken: **ex
 
 Rule files lead with the **TypeScript, `app.json`, gradle and manifest patterns** that trip each rule — not Swift or Kotlin. A rule that can't be tied to something an RN engineer would actually write doesn't belong. Findings are always `guideline number → file:line evidence → why it rejects → the fix`; unevidenced items go under "Not verified" rather than being stated as findings.
 
-## Known gaps in the working tree
+## Run the suite on a modern interpreter, not just yours
 
-- `README.md` references `.github/workflows/test.yml`; there is no `.github/` directory in the repo yet. It also still says "20 tests" and cites pre-fix scan results.
-- `CHECKS.md` at the repo root is a byte-identical copy of `docs/CHECKS.md`. `gen_checks.py` only writes `docs/CHECKS.md`, so the root copy will drift silently — it is probably a stray.
-- `<you>` placeholders remain in `plugin.json`, `marketplace.json` and `README.md`; `scripts/prepare_release.py` fills them.
+`python3` on this machine is 3.8.3 — the declared floor. That is the ONE version
+where a mid-pattern inline regex flag still merely warns. On 3.11+ it is a hard
+`PatternError`, and a defect of exactly that shape once made the iOS scanner die
+on every run for anyone using Homebrew or Ubuntu 24.04, while all tests passed
+locally. Before claiming a scanner change works:
+
+```bash
+python3 tests/test_scanners.py && python3.13 tests/test_scanners.py
+```
+
+CI covers 3.8, 3.12 and 3.13 for the same reason.
+
+## Absence checks are asymmetric — watch the rebuttal half
+
+Most recent checks fire on a *missing* thing (no disclaimer, no block control, no
+citation). The trigger is usually an identifier or component name, which `_grep`
+sees; the rebuttal is usually user-facing copy, which in any localised RN app
+lives under `i18n/` or `locales/` — paths `_grep` deliberately skips. Use
+`_grep_incl_locales` for the negative half, or the check can never go quiet.
+
+Related: gate anything domain-specific on a *dependency*, not on prose. "Thanks
+for being patient" and a `Diagnostics.tsx` screen once made every app a health
+app.
+
+## Names in fixtures and docstrings
+
+Test docstrings name the project a finding was reproduced against. Real client
+names were scrubbed before the repo went public — use "an RN 0.49 project", "a
+modern RN health app". Public open-source projects (Rocket.Chat, bluesky) are
+fine to name, and naming them makes a guard independently verifiable.
