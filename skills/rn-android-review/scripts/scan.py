@@ -71,6 +71,23 @@ RULES = [
      re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
+    ("MINING", "BLOCKER", "Blockchain-based Content",
+     "On-device cryptomining. Product names and the stratum URI scheme only — a hashrate chart "
+     "in a price tracker is legitimate content, not mining",
+     re.compile(r"(?i)(coinhive|cryptonight|randomx|crypto-?loot|webminerpool|minergate|"
+                r"xmrig|\bminerd\b|stratum\+tcp://)"),
+     None),
+
+    ("INCENTIVIZED-RATING", "HIGH", "Store Listing and Promotion",
+     "Rating incentivised with a reward. Play bars inflating ratings by illegitimate means, "
+     "naming 'offering users a discount in exchange for a high rating' explicitly",
+     re.compile(r"(?i)\brate\s+(?:us|this\s+app|the\s+app|our\s+app)\b[^\n]{0,60}"
+                r"\b(?:and|to)\b[^\n]{0,40}"
+                r"\b(?:get|earn|receive|unlock|claim|win)\b[^\n]{0,40}"
+                r"\b(?:\d+\s*)?(?:coins?|points?|credits?|gems?|tokens?|reward|bonus|"
+                r"discount|free\s+\w+|gift\s*card|month|pro)\b"),
+     {".ts", ".tsx", ".js", ".jsx", ".json"}),
+
     ("DYNAMIC-CODE", "BLOCKER", "Device & Network Abuse",
      "Dynamic code execution — downloading or executing code outside Play is prohibited",
      re.compile(r"\beval\s*\(|new\s+Function\s*\(|DexClassLoader|PathClassLoader\s*\(|vm\.runInNewContext"),
@@ -489,6 +506,122 @@ HEALTH_RECORD_ALIASES = {
 HEALTH_NON_RECORD = {"HEALTH_DATA_IN_BACKGROUND", "HEALTH_DATA_HISTORY"}
 
 
+# Template defaults that can never be registered as a Play package. Only these
+# enumerated names — never "a TLD I do not recognise", which would second-guess
+# legitimate reverse-DNS.
+PLACEHOLDER_PKG = re.compile(
+    r"^com\.(example|anonymous|myapp|test|demo|placeholder|yourcompany|companyname|"
+    r"awesomeproject)(\.|$)")
+
+
+def scan_package_name(root, findings):
+    """Play package names must be registered; a template default cannot be."""
+    blobs = []
+    for rel in ("android/app/build.gradle", "android/app/build.gradle.kts",
+                "app.json", "app.config.js", "app.config.ts"):
+        try:
+            blobs.append(open(os.path.join(root, rel), encoding="utf-8",
+                              errors="ignore").read())
+        except OSError:
+            pass
+    text = "\n".join(blobs)
+    names = set(re.findall(r"(?:applicationId|namespace)\s+[\"']([\w.]+)[\"']", text))
+    names |= set(re.findall(r"[\"']package[\"']\s*:\s*[\"']([\w.]+)[\"']", text))
+    bad = sorted(n for n in names if PLACEHOLDER_PKG.match(n))
+    if bad:
+        findings.append({
+            "id": "PACKAGE-NAME-PLACEHOLDER", "severity": "BLOCKER",
+            "policy": "Play Console Requirements",
+            "description": "The application id is still a template default. It cannot be "
+                           "registered as a Play package, and the package name is immutable "
+                           "after the first upload — so this has to be fixed before the first "
+                           "release, not after. Registration is required for every Play "
+                           "package; unregistered apps are removed.",
+            "file": "android/app/build.gradle", "line": 0, "evidence": bad[0],
+        })
+
+
+def scan_accessibility(root, findings):
+    """Agentic automation via the Accessibility API is prohibited.
+
+    Three conjuncts, because each alone is a false positive: a declared
+    accessibility SERVICE (not an a11y prop, not a testing library), which is
+    not a genuine accessibility tool, in an app that also ships a generative
+    model. Deterministic rule-based automation remains permitted, which is why
+    an LLM SDK is required rather than an automation API.
+    """
+    declares_service = False
+    is_a11y_tool = False
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn != "AndroidManifest.xml" and not fn.endswith(".xml"):
+                continue
+            try:
+                text = open(os.path.join(dirpath, fn), encoding="utf-8",
+                            errors="ignore").read(400000)
+            except OSError:
+                continue
+            if "BIND_ACCESSIBILITY_SERVICE" in text or "android.accessibilityservice" in text:
+                declares_service = True
+            if 'isAccessibilityTool="true"' in text:
+                is_a11y_tool = True
+    if not declares_service or is_a11y_tool:
+        return
+    if not _grep(root, r"[\"']openai[\"']|@anthropic-ai/|@google/generative-ai|"
+                       r"generativelanguage\.googleapis|bedrock-runtime|[\"']@mistralai/|"
+                       r"openai\.(chat|completions|responses)"):
+        return
+    findings.append({
+        "id": "ACCESSIBILITY-AGENTIC-AUTOMATION", "severity": "BLOCKER",
+        "policy": "Accessibility API",
+        "description": "An accessibility service is declared in an app that also calls a "
+                       "generative model. The Accessibility API cannot be requested for an app "
+                       "that autonomously initiates, plans and executes actions or decisions. "
+                       "Deterministic rule-based automation is still permitted — if that is "
+                       "what this is, the model must not be deciding what to do. Enforcement "
+                       "here is removal or suspension, not a rejection you can iterate on.",
+        "file": "android/app/src/main/AndroidManifest.xml", "line": 0, "evidence": "",
+    })
+
+
+def scan_store_listing(root, findings):
+    """Play title rules. Only the default locale — a translated app_name is a
+    translation, and character budgets do not transfer across scripts."""
+    path = os.path.join(root, "android", "app", "src", "main", "res", "values", "strings.xml")
+    title = None
+    try:
+        m = re.search(r'<string name="app_name">([^<]*)</string>',
+                      open(path, encoding="utf-8", errors="ignore").read())
+        title = m.group(1).strip() if m else None
+    except OSError:
+        pass
+    if not title:
+        return
+    problems = []
+    if len(title) > 30:
+        problems.append("%d characters (limit 30)" % len(title))
+    if re.search(r"[\U0001F000-\U0001FAFF\u2600-\u27BF]", title):
+        problems.append("contains an emoji")
+    if re.search(r"[!?*~._|-]{2,}", title):
+        problems.append("repeated special characters")
+    if re.search(r"(?i)(\bno\.?\s?1\b|#\s?1\b|best of play|app of the year|"
+                 r"top[- ]rated|award[- ]winning)", title):
+        problems.append("ranking or award claim")
+    if not problems:
+        return
+    findings.append({
+        "id": "STORE-LISTING-TITLE", "severity": "MEDIUM",
+        "policy": "Store Listing and Promotion",
+        "description": "The app title breaks Play's metadata rules: " + "; ".join(problems)
+                       + ". Note this reads res/values/strings.xml, the launcher label — the "
+                         "30-character limit applies to the Play Console store-listing title, "
+                         "which need not be the same string. Treat this as a lead pointing at "
+                         "the Console field.",
+        "file": "android/app/src/main/res/values/strings.xml", "line": 0, "evidence": title[:80],
+    })
+
+
 def scan_health_permissions(root, findings):
     """Health Connect grants are per data type, against a declared use case.
 
@@ -813,6 +946,9 @@ def main():
     scan_manifests(root, findings)
     scan_build_config(root, findings)
     scan_bare_rn(root, findings)
+    scan_package_name(root, findings)
+    scan_accessibility(root, findings)
+    scan_store_listing(root, findings)
     scan_health_permissions(root, findings)
     scan_toolchain(root, findings)
     scan_abi_and_signing(root, findings)

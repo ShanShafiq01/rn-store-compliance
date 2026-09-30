@@ -1442,6 +1442,117 @@ class TestPhase2Apple(ScannerTestBase):
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDIA-DOWNLOADER"))
 
 
+class TestPhase2Play(ScannerTestBase):
+    """Play coverage gaps, policy text verified live 2026-09-30."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def test_template_package_name_is_blocker(self):
+        """Play Console Requirements: packages must be registered, and a
+        template placeholder cannot be. com.example is RFC 2606-reserved."""
+        write(self.proj, "android/app/build.gradle",
+              'android { namespace "com.anonymous.dirtyapp"\n'
+              '  defaultConfig { applicationId "com.anonymous.dirtyapp"\n'
+              '                  targetSdkVersion 36 } }')
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "PACKAGE-NAME-PLACEHOLDER"), "BLOCKER")
+
+    def test_real_package_name_is_silent(self):
+        write(self.proj, "android/app/build.gradle",
+              'android { namespace "tech.bitsol.claims"\n'
+              '  defaultConfig { applicationId "tech.bitsol.claims"\n'
+              '                  targetSdkVersion 36 } }')
+        write(self.proj, "android/app/src/androidTest/java/com/example/AppTest.java",
+              "package com.example;")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "PACKAGE-NAME-PLACEHOLDER"))
+
+    def test_accessibility_service_plus_llm_is_blocker(self):
+        """Accessibility API 'cannot be requested for an app that autonomously
+        initiates, plans, and executes actions or decisions' (30 Oct 2025)."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","openai":"4.0.0"}}')
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><service android:name=".AgentService"\n'
+              '  android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"/></manifest>')
+        write(self.proj, "src/Agent.ts",
+              "import OpenAI from 'openai';\n"
+              "export const run = g => openai.chat.completions.create({ messages: g });")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "ACCESSIBILITY-AGENTIC-AUTOMATION"), "BLOCKER")
+
+    def test_accessibility_props_without_a_service_are_silent(self):
+        """RN a11y props and testing libraries must never match."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0","openai":"4.0.0"}}')
+        write(self.proj, "src/Button.tsx",
+              '<Pressable accessibilityRole="button" accessibilityLabel="Submit" />')
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "ACCESSIBILITY-AGENTIC-AUTOMATION"))
+
+    def test_deterministic_automation_without_llm_is_silent(self):
+        """Rule-based automation is explicitly still permitted."""
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><service android:name=".MacroService"\n'
+              '  android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"/></manifest>')
+        write(self.proj, "src/Macro.ts", "export const tap = n => performGlobalAction(n);")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "ACCESSIBILITY-AGENTIC-AUTOMATION"))
+
+    def test_android_mining_parity(self):
+        """The iOS scanner catches on-device mining; Android was blind."""
+        write(self.proj, "src/Miner.ts",
+              "const POOL = 'stratum+tcp://xmr.pool.example:3333';")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj), "MINING"), "BLOCKER")
+
+    def test_hashrate_chart_is_not_mining(self):
+        write(self.proj, "src/Chart.tsx",
+              "export const Stats = ({ hashrate }) => <Text>{hashrate} TH/s</Text>;")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "MINING"))
+
+    def test_incentivized_rating_is_flagged(self):
+        """Store Listing: bans 'offering users a discount in exchange for a
+        high rating.'"""
+        write(self.proj, "src/Banner.tsx",
+              "export const C = 'Rate us 5 stars to unlock a free month of Pro!';")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "INCENTIVIZED-RATING"), "HIGH")
+
+    def test_rewarded_ads_are_not_incentivized_ratings(self):
+        """'reward' collides head-on with ad SDKs."""
+        write(self.proj, "package.json",
+              '{"dependencies":{"react-native":"0.76.0",'
+              '"react-native-google-mobile-ads":"13.0.0"}}')
+        write(self.proj, "src/Ads.ts",
+              "import { RewardedAd } from 'react-native-google-mobile-ads';\n"
+              "export const onRewardEarned = () => grantCoins(50);")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "INCENTIVIZED-RATING"))
+
+    def test_separate_user_does_not_match_rate_us(self):
+        """Re-pin the historical 'sepaRATE USer' false positive."""
+        write(self.proj, "src/Util.ts",
+              "export const splitUsers = () => separate users into cohorts;")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "INCENTIVIZED-RATING"))
+
+    def test_store_listing_title_too_long_is_flagged(self):
+        write(self.proj, "android/app/src/main/res/values/strings.xml",
+              '<resources><string name="app_name">'
+              '🔥 BEST CLAIMS APP EVER — #1 Insurance Helper!!</string></resources>')
+        self.assertIsNotNone(sev(run_scan(ANDROID_SCAN, self.proj), "STORE-LISTING-TITLE"))
+
+    def test_localized_strings_xml_is_not_checked(self):
+        """A localized app_name is a translation; character budgets and ALL CAPS
+        do not transfer, and 14 locale files would become 14 findings."""
+        write(self.proj, "android/app/src/main/res/values/strings.xml",
+              '<resources><string name="app_name">Bitsol Claims</string></resources>')
+        write(self.proj, "android/app/src/main/res/values-de/strings.xml",
+              '<resources><string name="app_name">'
+              'BITSOL SCHADENSMELDUNG UND ERSTATTUNG BEANTRAGEN</string></resources>')
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "STORE-LISTING-TITLE"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

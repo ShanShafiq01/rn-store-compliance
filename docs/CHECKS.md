@@ -1,7 +1,7 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**84 checks total.**
+**89 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
@@ -63,18 +63,21 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `DEPLOYMENT-TARGET-OLD` | varies | 2.4.1 | iOS deployment target is {value}. |
 | `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
-## Android — 36 checks
+## Android — 41 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
 | ID | Severity | Play policy / Console requirement | What it means |
 |---|---|---|---|
 | `ABI-NO-64BIT` | BLOCKER | 64-bit requirement | Native ABIs are restricted to {', '.join(sorted(set(declared)))} with no |
+| `ACCESSIBILITY-AGENTIC-AUTOMATION` | BLOCKER | Accessibility API | An accessibility service is declared in an app that also calls a |
 | `AGP-TOO-OLD` | BLOCKER | App Bundle requirement / Target API level | Android Gradle Plugin {major}.{minor} is too old to ship. |
 | `APK-NOT-AAB` | BLOCKER | App Bundle requirement | Release pipeline builds an APK (assemble) with no bundle task. Play requires an |
 | `BILLING-VERSION` | BLOCKER | Play Billing Library deprecation | Play Billing Library {bill.group(1)}.x detected; the floor moved to |
 | `DYNAMIC-CODE` | BLOCKER | Device & Network Abuse | Dynamic code execution — downloading or executing code outside Play is prohibited |
 | `EXTERNAL-PAYMENT` | BLOCKER | Payments | Possible external payment path for digital goods — confirm the SKU is a physical good or real-world service, |
+| `MINING` | BLOCKER | Blockchain-based Content | On-device cryptomining. Product names and the stratum URI scheme only — a hashrate chart |
+| `PACKAGE-NAME-PLACEHOLDER` | BLOCKER | Play Console Requirements | The application id is still a template default. It cannot be |
 | `PRIVACY-POLICY` | BLOCKER | User Data | No privacy policy reference found. A policy URL is required in Play Console and must be |
 | `SECRET-HARDCODED` | BLOCKER | Device & Network Abuse | Possible hardcoded credential — the JS bundle and strings.xml are extractable from the AAB |
 | `ACCOUNT-DELETION` | HIGH | Account deletion | Account creation found with no in-app deletion path. Play requires deletion available |
@@ -84,6 +87,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CRASH-PII` | HIGH | Data safety | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in Data safety |
 | `FGS-TYPE-MISSING` | HIGH | Android 14+ foreground services | Foreground service permission and a service declared, but no foregroundServiceType. |
 | `HEALTH-PERM-UNUSED` | HIGH | Health Connect restricted data | Health Connect permissions declared with no matching read found |
+| `INCENTIVIZED-RATING` | HIGH | Store Listing and Promotion | Rating incentivised with a reward. Play bars inflating ratings by illegitimate means, |
 | `INSECURE-STORAGE` | HIGH | User Data | Token or personal data in AsyncStorage (unencrypted on disk) — use EncryptedSharedPreferences / Keystore |
 | `KEYSTORE-COMMITTED` | HIGH | Device & Network Abuse | {len(keystores)} signing keystore(s) tracked in git. Combined with a password |
 | `NDK-VERSION` | HIGH | 16 KB page size support | ndkVersion is {m.group(1)}. NDK r28+ aligns to 16 KB by default. |
@@ -100,6 +104,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `MERGED-MANIFEST-NOT-CHECKED` | MEDIUM | Permissions | Only the source manifest was scanned — no merged manifest found. Build the app and re-check |
 | `OTA-UPDATES` | MEDIUM | Device & Network Abuse | OTA update channel — permitted for fixes and content, not for shipping unreviewed behavior |
 | `PAGE-SIZE-16KB` | MEDIUM | 16 KB page size support | {len(sos)} native library file(s) in the build output. Each must be built for 16 KB page |
+| `STORE-LISTING-TITLE` | MEDIUM | Store Listing and Promotion | The app title breaks Play's metadata rules: |
 | `TARGET-SDK-UNKNOWN` | MEDIUM | Target API level requirement | Could not determine targetSdkVersion — check the value resolved by the RN gradle plugin |
 | `TRACKING-SDK` | MEDIUM | Data safety | Tracking / analytics / ads SDK — must appear in the Data safety form, and AD_ID must be declared if used |
 | `WEBVIEW-SHELL` | MEDIUM | Spam & Minimum Functionality | WebView usage — if it is the primary surface, the app may be judged a repackaged website |

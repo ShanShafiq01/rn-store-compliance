@@ -1,5 +1,61 @@
 # Changelog
 
+## [3.2.0] — 2026-09-30
+
+A second rejection round on the same app, plus a coverage audit against the live
+Apple guidelines and Play Policy Center. 62 → 84 documented checks.
+
+### Fixed — 14 checks were invisible
+`gen_checks.py` builds `docs/CHECKS.md` by reading the scanner source, and its
+extractor required a string-literal severity and a non-f-string description. It
+silently dropped every check computing either — 14 of them, including
+`TARGET-SDK`, `UIWEBVIEW`, `ABI-NO-64BIT`, `AGP-TOO-OLD` and
+`KEYSTORE-COMMITTED`. `--check` could not notice, because it compares the
+generator's output against the file the generator wrote. A test now asserts
+every ID in either scanner appears in `docs/CHECKS.md`.
+
+Also: the 16 KB NDK floor was wrong (r28+ aligns by default; r27 needs explicit
+linker flags, and r27 projects were passing while shipping unaligned), and the
+iOS `MINING` rule matched bare `hashrate`, which a price tracker displays as
+content.
+
+### Added — from the rejection letter
+- `UGC-BLOCK-MISSING` (HIGH, 1.2) — Apple credited an app's reporting *and*
+  admin moderation and still held the build: 1.2 needs a self-service block.
+  The old check went quiet as soon as any moderation path existed.
+- `UGC-COMMENT-REPORT-MISSING` (MEDIUM, 1.2) — reporting a post is not
+  reporting a comment.
+- `HEALTHKIT-PERM-UNUSED` (HIGH, 2.1) — declared Health access must match what
+  the app reads. Android had the Health Connect equivalent; iOS did not.
+- `FRAMEWORK-UNUSED` (HIGH, 2.1) — *"includes the PassKit framework… unable to
+  verify any integration of Apple Pay."*
+
+### Added — Apple coverage
+`IAP-UNFINISHED-TRANSACTION` (2.3.2 / 2.1), `SOCIAL-REVOKE-MISSING` (5.1.1(v)),
+`AD-REPORT-MISSING` (2.5.18 — the entire iOS advertising rule set was absent),
+`HEALTH-DATA-TO-ADS` (5.1.2(vi)), `MEDIA-DOWNLOADER` (5.2.3).
+
+### Added — Play coverage
+`PACKAGE-NAME-PLACEHOLDER` (Console Requirements),
+`ACCESSIBILITY-AGENTIC-AUTOMATION` (clarified 30 Oct 2025 — agentic use of the
+Accessibility API is prohibited; deterministic automation is not),
+`MINING` (parity — iOS caught it, Android was blind), `INCENTIVIZED-RATING`,
+`STORE-LISTING-TITLE`.
+
+### False positives designed out, not discovered later
+Each new check ships with the exclusion that makes it quiet: RevenueCat and
+Qonversion finish transactions internally, so `IAP-UNFINISHED-TRANSACTION`
+skips them; `react-native-fbsdk-next` is login, not Audience Network, so it is
+not an ads trigger; `HEALTH-DATA-TO-ADS` requires the health *value* to reach
+the call rather than an ads SDK merely co-existing; rewarded-ad code cannot
+trigger `INCENTIVIZED-RATING`; localized `strings.xml` is not read for the
+title; and the accessibility check needs a declared *service* plus an LLM, so
+a11y props and testing libraries can never match.
+
+### Tests
+113 → 138, green on Python 3.8.3 and 3.13.0. Fleet impact across 35 projects:
+959 → 973 findings, every new check at or under 3%.
+
 ## [3.1.0] — 2026-09-28
 
 Driven by a real App Store rejection letter for a health app. A rejection is the
