@@ -1,7 +1,7 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**95 checks total.**
+**100 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
@@ -69,7 +69,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `DEPLOYMENT-TARGET-OLD` | varies | 2.4.1 | iOS deployment target is {value}. |
 | `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
-## Android — 41 checks
+## Android — 46 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -97,23 +97,28 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `INSECURE-STORAGE` | HIGH | User Data | Token or personal data in AsyncStorage (unencrypted on disk) — use EncryptedSharedPreferences / Keystore |
 | `KEYSTORE-COMMITTED` | HIGH | Device & Network Abuse | {len(keystores)} signing keystore(s) tracked in git. Combined with a password |
 | `NDK-VERSION` | HIGH | 16 KB page size support | ndkVersion is {m.group(1)}. NDK r28+ aligns to 16 KB by default. |
+| `PAGE-SIZE-16KB-BUILD-CONFIG` | HIGH | 16 KB page size support (hard block 1 Feb 2027) | Build configuration will not produce 16 KB-aligned native libraries: |
 | `PAYMENT-SDK` | HIGH | Payments | Third-party payment SDK present — must not serve digital goods unless an alternative-billing program applies |
 | `PERM-&lt;NAME&gt;` | HIGH/MEDIUM | Play permissions policy | 22 restricted or sensitive permissions detected in the manifest, each reported with why it is restricted — `ACCESS_BACKGROUND_LOCATION`,… |
 | `PURCHASE-ACK` | HIGH | Payments | Billing integration found with no purchase acknowledgement or token verification. |
 | `SIGNING-SECRET-COMMITTED` | HIGH | Device & Network Abuse | A signing credential appears to be hardcoded in {label}. Anyone with the |
+| `SYSTEM-UI-IMITATION` | HIGH | Mobile Unwanted Software | Notification copy imitating a system warning. Play bars apps that mimic system |
 | `UGC-MODERATION` | HIGH | User Generated Content | UGC features found with no report/block/moderation path. Play requires a user agreement, |
 | `ALLOW-BACKUP` | MEDIUM | User Data | android:allowBackup is enabled — app data can reach the user's cloud backup; disable or scope it if the app holds sensitive data |
 | `BILLING-VERIFY` | MEDIUM | Play Billing Library deprecation | Billing wrapper present — confirm the pinned Play Billing Library major version meets |
 | `DATA-SAFETY-INVENTORY` | MEDIUM | Data safety | SDKs that collect data: |
 | `LOCAL-PROPERTIES-TRACKED` | MEDIUM | Quality | android/local.properties exists and is not in .gitignore. It holds machine- |
+| `LOCATION-PRECISE-NO-COARSE` | MEDIUM | Location Permissions (27 Jan 2027) | Precise location requested with no coarse permission declared, so |
 | `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
 | `MERGED-MANIFEST-NOT-CHECKED` | MEDIUM | Permissions | Only the source manifest was scanned — no merged manifest found. Build the app and re-check |
 | `OTA-UPDATES` | MEDIUM | Device & Network Abuse | OTA update channel — permitted for fixes and content, not for shipping unreviewed behavior |
 | `PAGE-SIZE-16KB` | MEDIUM | 16 KB page size support | {len(sos)} native library file(s) in the build output. Each must be built for 16 KB page |
+| `SDK-UNAUDITABLE-SOURCE` | MEDIUM | Use of SDKs In Apps | Dependencies resolved from a git ref or tarball rather than a |
 | `STORE-LISTING-TITLE` | MEDIUM | Store Listing and Promotion | The app title breaks Play's metadata rules: |
 | `TARGET-SDK-UNKNOWN` | MEDIUM | Target API level requirement | Could not determine targetSdkVersion — check the value resolved by the RN gradle plugin |
 | `TRACKING-SDK` | MEDIUM | Data safety | Tracking / analytics / ads SDK — must appear in the Data safety form, and AD_ID must be declared if used |
 | `WEBVIEW-SHELL` | MEDIUM | Spam & Minimum Functionality | WebView usage — if it is the primary surface, the app may be judged a repackaged website |
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
+| `CONTACTS-PICKER-REQUIRED` | varies | Contacts Permissions (deadline 27 Jan 2027) | READ_CONTACTS with no Android Contact Picker call found. From |
 | `TARGET-SDK` | varies | Target API level requirement | targetSdkVersion is {target}. New uploads and updates need API |
 

@@ -71,6 +71,17 @@ RULES = [
      re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
+    ("SYSTEM-UI-IMITATION", "HIGH", "Mobile Unwanted Software",
+     "Notification copy imitating a system warning. Play bars apps that mimic system "
+     "functionality such as notifications or warnings; system-level notifications may only be "
+     "used for an app's integral features. Enforcement is post-publication removal",
+     re.compile(r"(?i)\b(virus (detected|found)|malware detected|"
+                r"your (device|phone) is (infected|at risk)|"
+                r"security (breach|alert) detected|sim card (error|not valid)|"
+                r"android system (warning|alert)|google play protect (alert|warning)|"
+                r"system (memory|storage) critical)\b"),
+     {".ts", ".tsx", ".js", ".jsx"}),
+
     ("MINING", "BLOCKER", "Blockchain-based Content",
      "On-device cryptomining. Product names and the stratum URI scheme only — a hashrate chart "
      "in a price tracker is legitimate content, not mining",
@@ -514,6 +525,96 @@ PLACEHOLDER_PKG = re.compile(
     r"awesomeproject)(\.|$)")
 
 
+def scan_permission_scope(root, findings):
+    """Restricted permissions that now have a minimum-scope alternative.
+
+    Both deadlines are 27 Jan 2027. Contacts must move to the Android Contact
+    Picker unless a Console declaration proves it insufficient; precise location
+    has the location button as the recommended minimum scope.
+    """
+    manifests = ""
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for fn in filenames:
+            if fn == "AndroidManifest.xml":
+                try:
+                    manifests += open(os.path.join(dirpath, fn), encoding="utf-8",
+                                      errors="ignore").read()
+                except OSError:
+                    pass
+    if not manifests:
+        return
+
+    # --- Contacts
+    if "permission.READ_CONTACTS" in manifests and not _grep(
+            root, r"ACTION_PICK_CONTACTS|presentContactPickerAsync|selectContactAsync|"
+                  r"selectContactPhone"):
+        # A default dialer/SMS handler is one of the 11 approved use cases.
+        approved = re.search(r"android\.intent\.action\.DIAL|"
+                             r"android\.provider\.Telephony\.SMS_DELIVER|"
+                             r"android\.telecom\.InCallService", manifests)
+        findings.append({
+            "id": "CONTACTS-PICKER-REQUIRED",
+            "severity": "MEDIUM" if approved else "HIGH",
+            "policy": "Contacts Permissions (deadline 27 Jan 2027)",
+            "description": "READ_CONTACTS with no Android Contact Picker call found. From "
+                           "27 Jan 2027 apps targeting API 37+ must use the picker unless a "
+                           "Console declaration proves it insufficient, and the declaration "
+                           "requires picking one of eleven narrow use cases that an "
+                           "invite-your-friends feature does not qualify for."
+                           + (" This app looks like a default dialer or SMS handler, which is "
+                              "an approved use case — file the declaration rather than "
+                              "rewriting." if approved else ""),
+            "file": "android/app/src/main/AndroidManifest.xml", "line": 0, "evidence": "",
+        })
+
+    # --- Location
+    if "ACCESS_FINE_LOCATION" in manifests and "ACCESS_COARSE_LOCATION" not in manifests \
+            and _grep(root, r"Accuracy\.(Highest|BestForNavigation)|"
+                            r"enableHighAccuracy\s*:\s*true") \
+            and "foregroundServiceType=\"location\"" not in manifests:
+        findings.append({
+            "id": "LOCATION-PRECISE-NO-COARSE", "severity": "MEDIUM",
+            "policy": "Location Permissions (27 Jan 2027)",
+            "description": "Precise location requested with no coarse permission declared, so "
+                           "the app cannot honour a user who grants approximate location. From "
+                           "27 Jan 2027 the location button is the RECOMMENDED minimum scope — "
+                           "this is guidance, not a prohibition, so justify precise location "
+                           "against core functionality or add a coarse path.",
+            "file": "android/app/src/main/AndroidManifest.xml", "line": 0, "evidence": "",
+        })
+
+
+def scan_sdk_provenance(root, findings):
+    """Use of SDKs In Apps: the developer owns third-party behaviour. A
+    dependency that resolves to a git ref or a tarball is not auditable by any
+    registry. Workspace and in-repo file refs are the team's own code."""
+    try:
+        pkg = json.loads(open(os.path.join(root, "package.json"),
+                              encoding="utf-8", errors="ignore").read())
+    except (OSError, ValueError):
+        return
+    deps = {}
+    for key in ("dependencies", "devDependencies", "resolutions", "overrides"):
+        val = pkg.get(key)
+        if isinstance(val, dict):
+            deps.update(val)
+    rx = re.compile(r"^(git\+|github:|git@|bitbucket:|gitlab:|https?://.+\.(tgz|tar\.gz)$)")
+    bad = sorted(n for n, spec in deps.items()
+                 if isinstance(spec, str) and rx.match(spec))
+    if bad:
+        findings.append({
+            "id": "SDK-UNAUDITABLE-SOURCE", "severity": "MEDIUM",
+            "policy": "Use of SDKs In Apps",
+            "description": "Dependencies resolved from a git ref or tarball rather than a "
+                           "registry: " + ", ".join(bad[:5]) + ". You are responsible for "
+                           "ensuring third-party code does not make your app violate Play "
+                           "policy, and must produce compliance evidence on request — nothing "
+                           "audits an unpinned source for you. This is not a verdict on the SDK.",
+            "file": "package.json", "line": 0, "evidence": bad[0],
+        })
+
+
 def scan_package_name(root, findings):
     """Play package names must be registered; a template default cannot be."""
     blobs = []
@@ -669,6 +770,55 @@ def scan_health_permissions(root, findings):
                            "read through a wrapper or a constant list is still used.",
             "file": "android/app/src/main/AndroidManifest.xml", "line": 0, "evidence": "",
         })
+
+
+def scan_16kb_build_config(root, findings):
+    """The pre-build half of 16 KB readiness.
+
+    PAGE-SIZE-16KB only fires when .so files already exist under build/, i.e.
+    only on a machine that has built. On a fresh clone it is silent, and the
+    remediation (replacing an abandoned native dependency) takes weeks.
+    """
+    def read(rel):
+        try:
+            return open(os.path.join(root, rel), encoding="utf-8", errors="ignore").read()
+        except OSError:
+            return ""
+    gradle_root = read("android/build.gradle") + read("android/build.gradle.kts")
+    gradle_app = read("android/app/build.gradle") + read("android/app/build.gradle.kts")
+    props = read("android/gradle.properties")
+    pkg = read("package.json")
+    if not gradle_app and not gradle_root:
+        return
+    m = re.search(r"targetSdkVersion\s*[=:]?\s*[\"']?(\d+)", gradle_root + gradle_app)
+    if not m or int(m.group(1)) < 35:
+        return          # out of scope
+    reasons = []
+    agp = re.search(r"com\.android\.tools\.build:gradle[:\"']+(\d+)\.(\d+)\.(\d+)",
+                    gradle_root)
+    if agp and (int(agp.group(1)), int(agp.group(2)), int(agp.group(3))) < (8, 5, 1):
+        reasons.append("AGP %s.%s.%s is below 8.5.1"
+                       % (agp.group(1), agp.group(2), agp.group(3)))
+    if re.search(r"useLegacyPackaging\s*[= ]\s*true", gradle_app):
+        reasons.append("useLegacyPackaging is true")
+    if re.search(r"enableUncompressedNativeLibs\s*=\s*false", props):
+        reasons.append("enableUncompressedNativeLibs is false")
+    # Deliberately NOT keyed off the React Native version. "RN below 0.77 is
+    # unaligned" would fire on most apps ever written and is the deny-list that
+    # rots; the three build-config signals above are version-independent and
+    # objective. Actual .so alignment is PAGE-SIZE-16KB's job.
+    if not reasons:
+        return
+    findings.append({
+        "id": "PAGE-SIZE-16KB-BUILD-CONFIG", "severity": "HIGH",
+        "policy": "16 KB page size support (hard block 1 Feb 2027)",
+        "description": "Build configuration will not produce 16 KB-aligned native libraries: "
+                       + "; ".join(reasons) + ". From 1 Feb 2027 an update without 16 KB "
+                       "support cannot be released at all. This fires before a build exists, "
+                       "unlike PAGE-SIZE-16KB — replacing an abandoned native dependency takes "
+                       "weeks, so a lead delivered late is worthless.",
+        "file": "android/build.gradle", "line": 0, "evidence": reasons[0],
+    })
 
 
 def scan_toolchain(root, findings):
@@ -947,6 +1097,9 @@ def main():
     scan_build_config(root, findings)
     scan_bare_rn(root, findings)
     scan_package_name(root, findings)
+    scan_permission_scope(root, findings)
+    scan_sdk_provenance(root, findings)
+    scan_16kb_build_config(root, findings)
     scan_accessibility(root, findings)
     scan_store_listing(root, findings)
     scan_health_permissions(root, findings)

@@ -1,5 +1,50 @@
 # Changelog
 
+## [3.3.0] — 2026-09-30
+
+The remaining checks from the live-guidelines coverage audit. 84 → 100
+documented checks; 138 → 162 tests.
+
+### Added — Apple
+- `PUSH-REQUIRED-GATE` (HIGH, 4.5.4 / 5.1.2(i)) — onboarding that will not
+  advance until notifications are enabled. Location is deliberately excluded:
+  a maps or ride-hail app legitimately cannot proceed without it.
+- `SYSTEM-SETTINGS-PROMPT` (MEDIUM, 2.4.4) — "restart your device", "turn off
+  Wi-Fi". Requires the literal *your device*, so `restartApp()` cannot match.
+- `REVIEW-INCENTIVE` (HIGH, 5.6.3) — anchored to *us / the app*, so "rate your
+  workout to earn points" stays silent.
+- `CONTACTS-SELECT-ALL` (HIGH, 5.1.2(v)) — scoped to a file importing a contacts
+  library; a repo-wide grep for "select all" would hit every photo picker.
+- `SWEEPSTAKES-NO-RULES` (MEDIUM, 5.3.1 / 5.3.2).
+- `VOLUME-BUTTON-OVERRIDE` (MEDIUM, 2.5.9) — an in-app volume slider is excluded.
+
+### Added — Play
+- `CONTACTS-PICKER-REQUIRED` (HIGH, deadline 27 Jan 2027) — downgraded to MEDIUM
+  for default dialers and SMS handlers, which are approved use cases.
+- `LOCATION-PRECISE-NO-COARSE` (MEDIUM, 27 Jan 2027) — the policy says
+  *recommended* minimum scope, and the finding text keeps that word.
+- `SDK-UNAUDITABLE-SOURCE` (MEDIUM, Use of SDKs In Apps) — git and tarball
+  dependencies. `workspace:` and in-repo `file:` refs are the team's own code
+  and are excluded.
+- `PAGE-SIZE-16KB-BUILD-CONFIG` (HIGH, hard block 1 Feb 2027) — the pre-build
+  half: `PAGE-SIZE-16KB` only fires if someone already built.
+- `SYSTEM-UI-IMITATION` (HIGH, Mobile Unwanted Software) — fake system warnings.
+  "Update required" is deliberately omitted, since a legitimate force-update
+  prompt uses exactly those words.
+
+### A false positive designed out during implementation
+`PAGE-SIZE-16KB-BUILD-CONFIG` initially keyed partly off the React Native
+version ("below 0.77 ships unaligned core libraries"). It tripped the clean
+fixture immediately — that signal would flag most RN apps ever written, and is
+the deny-list-that-rots pattern. Removed; the check now rests only on
+version-independent build config (AGP below 8.5.1, `useLegacyPackaging`,
+`enableUncompressedNativeLibs`).
+
+### Tests
+162, green on Python 3.8.3 and 3.13.0. Fleet: 986 findings across 35 projects,
+every new check at or under 17% and each one spot-checked — the
+`SDK-UNAUDITABLE-SOURCE` hits are real forked git dependencies.
+
 ## [3.2.0] — 2026-09-30
 
 A second rejection round on the same app, plus a coverage audit against the live

@@ -1674,6 +1674,130 @@ export function Gate({ navigation }) {
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "VOLUME-BUTTON-OVERRIDE"))
 
 
+class TestPhase2PlayB(ScannerTestBase):
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_read_contacts_without_picker_is_flagged(self):
+        """Contacts Permissions policy, deadline 27 Jan 2027: use the Android
+        Contact Picker unless a Console declaration proves it insufficient."""
+        self._deps(**{"expo-contacts": "13.0.0"})
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><uses-permission '
+              'android:name="android.permission.READ_CONTACTS"/></manifest>')
+        write(self.proj, "src/Invite.ts",
+              "import * as Contacts from 'expo-contacts';\n"
+              "export const all = () => Contacts.getContactsAsync();")
+        self.assertIsNotNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                                 "CONTACTS-PICKER-REQUIRED"))
+
+    def test_contact_picker_is_silent(self):
+        self._deps(**{"expo-contacts": "13.0.0"})
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", "<manifest/>")
+        write(self.proj, "src/Invite.ts",
+              "export const pick = () => Contacts.presentContactPickerAsync();")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "CONTACTS-PICKER-REQUIRED"))
+
+    def test_dialer_app_is_downgraded_not_flagged_high(self):
+        """A default dialer is one of the 11 approved use cases."""
+        self._deps(**{"react-native-contacts": "8.0.0"})
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.READ_CONTACTS"/>
+  <application><activity><intent-filter>
+    <action android:name="android.intent.action.DIAL"/>
+  </intent-filter></activity></application></manifest>""")
+        self.assertNotIn(sev(run_scan(ANDROID_SCAN, self.proj), "CONTACTS-PICKER-REQUIRED"),
+                         ("BLOCKER", "HIGH"))
+
+    def test_old_agp_with_target35_flags_16kb_build_config(self):
+        """16 KB is a hard publish block from 1 Feb 2027. The existing check
+        only fires if someone already built; this is the pre-build half."""
+        write(self.proj, "android/build.gradle",
+              "buildscript { dependencies { "
+              "classpath 'com.android.tools.build:gradle:8.2.1' } }")
+        write(self.proj, "android/app/build.gradle",
+              "android { defaultConfig { targetSdkVersion 36 } }")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "PAGE-SIZE-16KB-BUILD-CONFIG"), "HIGH")
+
+    def test_modern_agp_and_rn_is_silent(self):
+        self._deps(**{"react-native": "0.79.0"})
+        write(self.proj, "android/build.gradle",
+              "buildscript { dependencies { "
+              "classpath 'com.android.tools.build:gradle:8.7.2' } }")
+        write(self.proj, "android/app/build.gradle",
+              "android { defaultConfig { targetSdkVersion 36 } }")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "PAGE-SIZE-16KB-BUILD-CONFIG"))
+
+    def test_fake_system_notification_is_flagged(self):
+        """MUwS: 'We don't allow apps or ads that mimic or interfere with
+        system functionality, such as notifications or warnings.'"""
+        self._deps(**{"@notifee/react-native": "9.0.0"})
+        write(self.proj, "src/Push.ts", """
+import notifee from '@notifee/react-native';
+await notifee.displayNotification({
+  title: 'Security alert detected',
+  body: 'Your device is infected. Tap to clean now.',
+});
+""")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "SYSTEM-UI-IMITATION"), "HIGH")
+
+    def test_telehealth_virus_copy_is_silent(self):
+        """A clinic app discussing viruses is the false positive that would
+        discredit this check."""
+        self._deps(**{"@notifee/react-native": "9.0.0"})
+        write(self.proj, "src/Health.tsx",
+              "export const A = 'If a virus is detected in your sample, "
+              "your clinician will call you.';")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj), "SYSTEM-UI-IMITATION"))
+
+    def test_precise_location_without_coarse_is_flagged(self):
+        write(self.proj, "android/app/src/main/AndroidManifest.xml",
+              '<manifest><uses-permission '
+              'android:name="android.permission.ACCESS_FINE_LOCATION"/></manifest>')
+        write(self.proj, "src/Near.ts",
+              "const p = await Location.getCurrentPositionAsync("
+              "{ accuracy: Location.Accuracy.Highest });")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "LOCATION-PRECISE-NO-COARSE"), "MEDIUM")
+
+    def test_coarse_declared_alongside_fine_is_silent(self):
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", """<manifest>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+</manifest>""")
+        write(self.proj, "src/Near.ts",
+              "const p = await Location.getCurrentPositionAsync("
+              "{ accuracy: Location.Accuracy.Highest });")
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "LOCATION-PRECISE-NO-COARSE"))
+
+    def test_git_dependency_is_flagged(self):
+        """Use of SDKs In Apps: you are responsible for third-party code, and
+        a git dependency is not resolvable from any registry that audits it."""
+        write(self.proj, "package.json", json.dumps({"dependencies": {
+            "react-native": "0.76.0",
+            "vendor-sdk": "git+https://github.com/vendor/rn-sdk.git#a1b2c3d"}}))
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "SDK-UNAUDITABLE-SOURCE"), "MEDIUM")
+
+    def test_workspace_and_file_refs_are_silent(self):
+        """Monorepo-internal references to the team's own packages."""
+        write(self.proj, "package.json", json.dumps({"dependencies": {
+            "react-native": "0.76.0", "@acme/ds": "workspace:*",
+            "shared-types": "file:../packages/shared-types"}}))
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "SDK-UNAUDITABLE-SOURCE"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 
