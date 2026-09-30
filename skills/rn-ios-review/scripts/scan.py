@@ -62,6 +62,16 @@ RULES = [
      re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
+    ("MEDIA-DOWNLOADER", "BLOCKER", "5.2.3",
+     "Third-party media downloader. 5.2.3 bars the ability to save, convert or download media "
+     "from third-party sources (Apple Music, YouTube, SoundCloud, Vimeo) without explicit "
+     "authorization from those sources, which must be produced on request",
+     re.compile(r"(?:^|['\"/])(?:ytdl-core|@distube/ytdl-core|react-native-ytdl|youtube-dl-exec|"
+                r"yt-dlp-wrap|react-native-youtube-dl|soundcloud-downloader|scdl|"
+                r"spotify-downloader|node-youtube-music)(?:['\"]|$)"
+                r"|https?://[^\s'\"]*\b(?:y2mate|savefrom\.net|ssyoutube|9convert|snapinsta)\b"),
+     None),
+
     ("DYNAMIC-CODE", "BLOCKER", "2.5.2",
      "Dynamic code execution — downloading or evaluating code is prohibited",
      re.compile(r"\beval\s*\(|new\s+Function\s*\(|Function\s*\(\s*['\"]return|vm\.runInNewContext"),
@@ -669,6 +679,25 @@ def scan_structural(root, findings):
               r"google_analytics_adid_collection_enabled[\"']?\s*(?::|=|android:value=)\s*[\"']?false") \
         or _grep(root, r"<key>NSPrivacyTracking</key>\s*<false/>")
 
+    # 5.1.2(vi) — a health value flowing into an analytics or ads call. Plain
+    # co-presence of a health SDK and an ads SDK is NOT a violation, so the
+    # condition is the value reaching the call, the same shape as CRASH-PII.
+    if _is_health_app(root) and _grep(
+            root, r"(?i)(logEvent|setUserPropert\w*|identify|\btrack\b|setCustomTargeting|"
+                  r"setUserId|logPurchase)\s*\(\s*[^)]{0,160}"
+                  r"\b(HK\w*TypeIdentifier\w+|heart_?rate|blood_?glucose|blood_?pressure|"
+                  r"blood_?oxygen|a1c|hba1c|diagnosis|medication|steps_?count|sleep_?hours)\b"):
+        findings.append({
+            "id": "HEALTH-DATA-TO-ADS", "severity": "BLOCKER",
+            "guideline": "5.1.2(vi) / 2.5.18 / 5.1.3(i)",
+            "description": "A health value appears to flow into an analytics or advertising "
+                           "call. HealthKit, Clinical Health Records and related data may not "
+                           "be used for marketing, advertising or use-based data mining, "
+                           "including by third parties. Confirm which processor the call "
+                           "reaches — first-party use for marketing is barred too.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # --- Guideline 1.4.1, health apps only
     if _is_health_app(root):
         has_medical_language = _grep(root, MEDICAL_ADVICE_RX)
@@ -843,6 +872,63 @@ def scan_structural(root, findings):
                            "user-generated surface needs its own report control — a real "
                            "rejection asked specifically for individual comments to be "
                            "reportable when only whole posts were.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 2.3.2 / 2.1 — StoreKit transactions must be finished. Wrapper SDKs
+    # (RevenueCat, Qonversion, Adapty, Glassfy) finish internally, so an app
+    # using one correctly exposes no finishTransaction call.
+    if _grep(root, r"react-native-iap|\bexpo-iap\b|expo-in-app-purchases") \
+            and not _grep(root, r"react-native-purchases|react-native-qonversion|"
+                                r"react-native-adapty|glassfy") \
+            and _grep(root, r"requestPurchase|requestSubscription|purchaseUpdatedListener|"
+                            r"initConnection|getProducts\s*\(") \
+            and not _grep(root, r"finishTransaction|consumePurchase|acknowledgePurchase|"
+                                r"Transaction\.updates|\.finish\s*\(\s*\)"):
+        findings.append({
+            "id": "IAP-UNFINISHED-TRANSACTION", "severity": "HIGH", "guideline": "2.3.2 / 2.1",
+            "description": "StoreKit purchases are made but no finishTransaction call was "
+                           "found. An unfinished transaction re-presents the purchase sheet on "
+                           "every launch — the reviewer's sandbox account hits it immediately, "
+                           "and shipped it generates refund traffic. Finish every purchase "
+                           "after the entitlement is granted, including restores.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 5.1.1(v) — revoking social credentials is not the same as signing out.
+    if _grep(root, r"@react-native-google-signin/google-signin|react-native-fbsdk-next|"
+                   r"react-native-fbsdk\b") \
+            and _grep(root, r"GoogleSignin\.signIn|LoginManager\.logInWithPermissions|"
+                            r"signInWithCredential|FacebookAuthProvider") \
+            and not _grep(root, r"(?i)(revokeAccess|/me/permissions|deletePermission|"
+                                r"\bunlink\w*\s*\(|(disconnect|unlink|revoke)[A-Za-z]*\s*\(|"
+                                r"['\"][^'\"]*/(disconnect|unlink|revoke)[^'\"]*['\"])"):
+        findings.append({
+            "id": "SOCIAL-REVOKE-MISSING", "severity": "HIGH", "guideline": "5.1.1(v)",
+            "description": "Social login present with no revocation path. 5.1.1(v) requires a "
+                           "mechanism to revoke social network credentials and disable data "
+                           "access between the app and the network from inside the app. "
+                           "signOut/logOut only clears a local token and does not satisfy it — "
+                           "that is the fix engineers reach for first.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 2.5.18 — ads must be reportable in-app. Note fbsdk-next is login, not ads.
+    if _grep(root, r"react-native-google-mobile-ads|@react-native-admob/admob|"
+                   r"\breact-native-admob\b|expo-ads-admob|react-native-applovin-max|"
+                   r"\breact-native-fbads\b|react-native-unity-ads|"
+                   r"react-native-ironsource-mediation|react-native-appodeal") \
+            and _grep(root, r"BannerAd|InterstitialAd|RewardedAd|AppOpenAd|MaxAdView|"
+                            r"showInterstitial|\bloadAd\s*\(") \
+            and not _grep_incl_locales(root, r"(?i)(report\s+(this\s+)?ad\b|reportAd|report_ad|"
+                                             r"inappropriate\s+ad|ad\s*feedback|adFeedback)"):
+        findings.append({
+            "id": "AD-REPORT-MISSING", "severity": "HIGH", "guideline": "2.5.18",
+            "description": "Ads are displayed with no in-app ad-reporting control found. "
+                           "2.5.18: apps that contain ads must include the ability for users to "
+                           "report inappropriate or age-inappropriate ads. AdMob's AdChoices "
+                           "overlay may satisfy this — confirm the control is reachable without "
+                           "leaving the app.",
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 

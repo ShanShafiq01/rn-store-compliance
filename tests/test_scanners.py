@@ -1326,6 +1326,122 @@ class TestCheckInventoryCompleteness(ScannerTestBase):
                          "(gen_checks.py is dropping them): %s" % ", ".join(missing))
 
 
+class TestPhase2Apple(ScannerTestBase):
+    """Apple coverage gaps, guideline text verified live 2026-09-30."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_iap_without_finish_transaction_is_flagged(self):
+        """2.3.2 / 2.1 — an unfinished transaction re-presents the purchase
+        sheet on every launch; the reviewer hits it on the first tap."""
+        self._deps(**{"react-native-iap": "12.0.0"})
+        write(self.proj, "src/Purchases.tsx",
+              "import { initConnection, requestPurchase } from 'react-native-iap';\n"
+              "export const buy = sku => requestPurchase({ sku });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "IAP-UNFINISHED-TRANSACTION"), "HIGH")
+
+    def test_iap_with_finish_transaction_is_silent(self):
+        self._deps(**{"react-native-iap": "12.0.0"})
+        write(self.proj, "src/Purchases.tsx",
+              "import { requestPurchase, finishTransaction } from 'react-native-iap';\n"
+              "export const done = p => finishTransaction({ purchase: p });")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "IAP-UNFINISHED-TRANSACTION"))
+
+    def test_revenuecat_wrapper_is_not_flagged(self):
+        """RevenueCat finishes transactions inside the SDK; exposing no
+        finishTransaction is correct there, not a defect."""
+        self._deps(**{"react-native-purchases": "8.0.0"})
+        write(self.proj, "src/Paywall.tsx",
+              "import Purchases from 'react-native-purchases';\n"
+              "export const buy = p => Purchases.purchasePackage(p);")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "IAP-UNFINISHED-TRANSACTION"))
+
+    def test_social_login_without_revoke_is_flagged(self):
+        """5.1.1(v): 'a mechanism to revoke social network credentials and
+        disable data access between the app and social network from within
+        the app.' Signing out is not revoking."""
+        self._deps(**{"@react-native-google-signin/google-signin": "10.0.0"})
+        write(self.proj, "src/Auth.tsx",
+              "import { GoogleSignin } from '@react-native-google-signin/google-signin';\n"
+              "export const login = () => GoogleSignin.signIn();\n"
+              "export const logout = () => GoogleSignin.signOut();")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SOCIAL-REVOKE-MISSING"), "HIGH")
+
+    def test_social_login_with_revoke_is_silent(self):
+        self._deps(**{"@react-native-google-signin/google-signin": "10.0.0"})
+        write(self.proj, "src/Auth.tsx",
+              "import { GoogleSignin } from '@react-native-google-signin/google-signin';\n"
+              "export const login = () => GoogleSignin.signIn();\n"
+              "export const disconnect = () => GoogleSignin.revokeAccess();")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SOCIAL-REVOKE-MISSING"))
+
+    def test_ads_without_report_control_is_flagged(self):
+        """2.5.18: 'Apps that contain ads must also include the ability for
+        users to report any inappropriate or age-inappropriate ads.'"""
+        self._deps(**{"react-native-google-mobile-ads": "13.0.0"})
+        write(self.proj, "src/Banner.tsx",
+              "import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';\n"
+              "export const Ad = () => <BannerAd unitId={U} size={BannerAdSize.BANNER} />;")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "AD-REPORT-MISSING"), "HIGH")
+
+    def test_ads_with_report_control_in_locale_file_is_silent(self):
+        """The button label lives in en.json in any localised app."""
+        self._deps(**{"react-native-google-mobile-ads": "13.0.0"})
+        write(self.proj, "src/Banner.tsx",
+              "import { BannerAd } from 'react-native-google-mobile-ads';\n"
+              "export const Ad = () => <BannerAd unitId={U} />;")
+        write(self.proj, "src/locales/en.json", '{"ads":{"report":"Report this ad"}}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "AD-REPORT-MISSING"))
+
+    def test_fbsdk_next_is_not_an_ad_sdk(self):
+        """react-native-fbsdk-next is login/analytics; Audience Network is the
+        separate react-native-fbads. One prefix apart."""
+        self._deps(**{"react-native-fbsdk-next": "13.0.0"})
+        write(self.proj, "src/Login.tsx", "import { LoginManager } from 'react-native-fbsdk-next';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "AD-REPORT-MISSING"))
+
+    def test_health_value_into_analytics_is_blocker(self):
+        """5.1.2(vi): HealthKit data 'may not be used for marketing,
+        advertising or use-based data mining, including by third parties.'"""
+        self._deps(**{"react-native-health": "1.18.0",
+                      "@react-native-firebase/analytics": "23.0.0"})
+        write(self.proj, "src/Analytics.tsx",
+              "export const onSync = s => analytics().setUserProperty('blood_glucose', s.bg);")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "HEALTH-DATA-TO-ADS"), "BLOCKER")
+
+    def test_health_app_with_neutral_analytics_is_silent(self):
+        """Co-presence of a health SDK and analytics is not a violation."""
+        self._deps(**{"react-native-health": "1.18.0",
+                      "@react-native-firebase/analytics": "23.0.0"})
+        write(self.proj, "src/Analytics.tsx",
+              "export const onSync = () => analytics().logEvent('sync_done', "
+              "{ source: 'healthkit', duration_ms: 812 });")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "HEALTH-DATA-TO-ADS"))
+
+    def test_media_downloader_package_is_blocker(self):
+        """5.2.3 bars the ability to save, convert or download media from
+        third-party sources without authorization."""
+        self._deps(**{"@distube/ytdl-core": "4.14.4"})
+        write(self.proj, "src/Download.ts", "import ytdl from '@distube/ytdl-core';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "MEDIA-DOWNLOADER"), "BLOCKER")
+
+    def test_legitimate_media_libraries_are_silent(self):
+        """react-native-video and rn-fetch-blob download media legitimately."""
+        self._deps(**{"react-native-video": "6.0.0", "rn-fetch-blob": "0.12.0"})
+        write(self.proj, "src/Offline.ts", "import RNFetchBlob from 'rn-fetch-blob';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDIA-DOWNLOADER"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 
