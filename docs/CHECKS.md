@@ -1,21 +1,21 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**100 checks total.**
+**102 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 54 checks
+## iOS — 56 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
 | ID | Severity | App Store Review Guidelines | What it means |
 |---|---|---|---|
 | `DYNAMIC-CODE` | BLOCKER | 2.5.2 | Dynamic code execution — downloading or evaluating code is prohibited |
-| `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external payment path for digital goods. Check the storefront before treating this as a blocker: under 3.1.1(a) no entitlement is… |
+| `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external purchase LINK for digital goods. 3.1.1(a) removes the entitlement |
 | `HEALTH-DATA-TO-ADS` | BLOCKER | 5.1.2(vi) / 2.5.18 / 5.1.3(i) | A health value appears to flow into an analytics or advertising |
 | `ICON-NAME-MISSING` | BLOCKER | upload validation | CFBundleIconName is present but empty. The upload fails with |
 | `MEDIA-DOWNLOADER` | BLOCKER | 5.2.3 | Third-party media downloader. 5.2.3 bars the ability to save, convert or download media |
@@ -27,6 +27,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `UIWEBVIEW` | BLOCKER | 2.5.1 / upload validation | Deprecated UIWebView found in {len(hits)} vendored file(s). Apple rejects |
 | `ACCOUNT-DELETION` | HIGH | 5.1.1(v) | Account creation found with no in-app deletion path. Deletion must be initiated |
 | `AD-REPORT-MISSING` | HIGH | 2.5.18 | Ads are displayed with no in-app ad-reporting control found. |
+| `AI-DATA-SHARING-CONSENT` | HIGH | 5.1.1(i) / 5.1.2(i) | User data appears to be sent to a third-party AI service with no |
 | `ARBITRARY-LOADS` | HIGH | 1.6 | App Transport Security disabled — cleartext traffic allowed |
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
@@ -53,7 +54,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `ENTITLEMENTS-REVIEW` | MEDIUM | 2.5.1 / 5.1.3 / 5.4 | Entitlements present that reviewers scrutinise: |
 | `LOGIN-ALTERNATIVE` | MEDIUM | 4.8 | Third-party social login found with no privacy-preserving alternative. Offer a login that |
 | `MAPS-KEY-RESTRICTION` | MEDIUM | Device & Network Abuse | Google API (AIza) key in source. These are client keys — they ship in the binary by |
-| `MEDICAL-NO-CITATION` | MEDIUM | 1.4.1 | Medical or health information with no citations found. 1.4.1 |
+| `MEDICAL-NO-CITATION` | MEDIUM | 1.4.1 | Medical or health content with no citation on the same surface: |
 | `OTA-UPDATES` | MEDIUM | 2.3.1 / 2.5.2 | OTA update channel — permitted for fixes and content, not for shipping unreviewed features |
 | `POD-PRIVACY-MANIFESTS` | MEDIUM | Privacy manifests | {len(third_party)} third-party pods in Podfile.lock. Any SDK on Apple's |
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
@@ -67,6 +68,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CONSOLE-LOG` | LOW | Quality · PII leakage risk | console logging in source — strip from release paths and check it never logs personal data |
 | `CROSS-PLATFORM-COPY` | LOW | 2.3.10 | Reference to another platform in user-facing copy |
 | `DEPLOYMENT-TARGET-OLD` | varies | 2.4.1 | iOS deployment target is {value}. |
+| `IN-APP-THIRD-PARTY-PAYMENT` | varies | 3.1.1 | A third-party payment sheet is presented inside the app. If what is |
 | `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
 ## Android — 46 checks

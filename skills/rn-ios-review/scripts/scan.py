@@ -109,7 +109,12 @@ RULES = [
      None),
 
     ("EXTERNAL-PAYMENT", "BLOCKER", "3.1.1",
-     "Possible external payment path for digital goods. Check the storefront before treating this as a blocker: under 3.1.1(a) no entitlement is required for external purchase links in the United States storefront, so this is legal there and prohibited elsewhere. Outside the US, confirm the SKU is a physical good or real-world service, or that the relevant entitlement is held.",
+     "Possible external purchase LINK for digital goods. 3.1.1(a) removes the entitlement "
+     "requirement for buttons and links out to an external purchase mechanism on the United "
+     "States storefront; it does NOT permit taking payment inside the app with a third-party "
+     "processor, which still requires IAP everywhere. Outside the US a link out needs the "
+     "entitlement. Either way, confirm whether the SKU is digital, or a physical good or "
+     "real-world service under 3.1.3(e)",
      re.compile(r"(?i)(openURL|Linking\.openURL|WebView[^\n]{0,80})[^\n]{0,120}"
                 r"(stripe\.com|checkout\.stripe|paypal\.com|buy\.stripe|paddle\.com|lemonsqueezy|"
                 r"/checkout|/upgrade|/subscribe|/billing)"),
@@ -776,15 +781,39 @@ def scan_structural(root, findings):
                                "this rejection is often fixed in metadata rather than code.",
                 "file": "(repo-wide)", "line": 0, "evidence": "",
             })
-        if has_medical_language and not _grep_incl_locales(root, CITATION_RX):
+        # Per FILE, not repo-wide. A real rejection: citations existed on the
+        # AI chat screen and not on the course screens, and a repo-wide check
+        # went quiet because it found one citation somewhere.
+        uncited = []
+        for path in iter_files(root):
+            if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx"}:
+                continue
+            rel = os.path.relpath(path, root)
+            if TEST_HINT.search(rel):
+                continue
+            try:
+                text = open(path, encoding="utf-8", errors="ignore").read(400000)
+            except OSError:
+                continue
+            if re.search(MEDICAL_ADVICE_RX, text) and not re.search(CITATION_RX, text):
+                uncited.append(rel)
+        # A localised app centralises user-facing copy, so per-component
+        # analysis cannot see where a source actually renders. When the locale
+        # tree carries citations, fall back to treating the app as cited and
+        # say so — per-file granularity there would fire on every component.
+        if uncited and _grep_incl_locales(root, CITATION_RX) \
+                and not _grep(root, CITATION_RX):
+            uncited = []
+        if has_medical_language and uncited:
             findings.append({
                 "id": "MEDICAL-NO-CITATION", "severity": "MEDIUM", "guideline": "1.4.1",
-                "description": "Medical or health information with no citations found. 1.4.1 "
-                               "requires apps to \"clearly disclose data and methodology to "
-                               "support accuracy claims\", and the sources must be easy for the "
-                               "user to find — link each recommendation to the study or guideline "
-                               "behind it rather than citing them only in the privacy policy.",
-                "file": "(repo-wide)", "line": 0, "evidence": "",
+                "description": "Medical or health content with no citation on the same surface: "
+                               + ", ".join(sorted(uncited)[:5])
+                               + ". Citations elsewhere in the app do not cover these — a real "
+                                 "rejection cited an app whose AI chat had sources while its "
+                                 "course screens did not. 1.4.1 wants the source easy to find "
+                                 "at the point the claim is made.",
+                "file": sorted(uncited)[0], "line": 0, "evidence": "",
             })
     external_source = _grep(root, r"(?i)\b(bluetooth|\bble\b|cuff|thermometer|"
                                   r"monitor|paired|apple ?watch|healthkit|"
@@ -1028,6 +1057,67 @@ def scan_structural(root, findings):
                            "the rules to be presented in the app and to make clear Apple is not "
                            "a sponsor or involved in any manner; 5.3.1 requires the developer to "
                            "be the sponsor — so confirm who is running this promotion first.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 3.1.1 — payment taken INSIDE the app with a third-party processor. The
+    # 3.1.1(a) US carve-out covers links OUT, not this. Silent when the only
+    # evidence points at a shipped physical good, which is 3.1.3(e) territory.
+    if _grep(root, r"@stripe/stripe-react-native|react-native-paypal|braintree-web-drop-in|"
+                   r"@adyen/react-native|react-native-razorpay|squareup") \
+            and _grep(root, r"confirmPayment|presentPaymentSheet|initPaymentSheet|"
+                            r"createToken|confirmSetupIntent|requestPayment") \
+            :
+        ships_physical = _grep_incl_locales(
+            root, r"(?i)(we ship|shipped to|shipping address|delivery address|"
+                  r"physical (kit|product|good)|lab kit|mailed to)")
+        findings.append({
+            "id": "IN-APP-THIRD-PARTY-PAYMENT",
+            "severity": "HIGH" if ships_physical else "BLOCKER",
+            "guideline": "3.1.1",
+            "description": "A third-party payment sheet is presented inside the app. If what is "
+                           "being bought is digital content, services or functionality used in "
+                           "the app, 3.1.1 requires In-App Purchase — and the 3.1.1(a) US "
+                           "storefront carve-out does NOT reach this, because it covers links "
+                           "out to an external mechanism, not payment taken in-app. Only "
+                           "physical goods and real-world services under 3.1.3(e) may use "
+                           "another processor. "
+                           + ("This app also ships something physical, so it is a MIXED BUNDLE "
+                              "— the hardest case, and not an exemption. Apple judges it on "
+                              "what the user is actually buying: if the digital half can be "
+                              "bought on its own, or is what the fee really unlocks, it needs "
+                              "IAP regardless of the kit in the box."
+                              if ships_physical else
+                              "Only physical goods and real-world services under 3.1.3(e) may "
+                              "use another processor."),
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 5.1.1(i) / 5.1.2(i) — sending user data to a third-party model needs
+    # disclosure of what and to whom, and permission BEFORE the send. Apple is
+    # explicit that a privacy policy alone does not satisfy this.
+    # Either a model SDK in the client, or a call to the app's own AI endpoint —
+    # most RN apps proxy, because an API key cannot ship inside a bundle.
+    if (_grep(root, r"[\"']openai[\"']|@anthropic-ai/|@google/generative-ai|@mistralai/|"
+                    r"generativelanguage\.googleapis|bedrock-runtime|"
+                    r"openai\.(chat|completions)")
+            or _grep(root, r"['\"]/[a-z-]*(ai|chat|assistant|llm|completion)[a-z/-]*['\"]|"
+                           r"\b(askAi|aiChat|sendToAi|chatCompletion|streamAssistant)\b")) \
+            and not _grep_incl_locales(
+                root, r"(?i)(ai[ _-]?consent|consent[ _-]?to[ _-]?ai|aiDisclosure|"
+                      r"share[^\n]{0,40}with (openai|anthropic|our ai|a third-party ai)|"
+                      r"sent to (openai|anthropic|a third-party)|"
+                      r"agree to share[^\n]{0,40}(ai|assistant))"):
+        findings.append({
+            "id": "AI-DATA-SHARING-CONSENT", "severity": "HIGH",
+            "guideline": "5.1.1(i) / 5.1.2(i)",
+            "description": "User data appears to be sent to a third-party AI service with no "
+                           "in-app disclosure or consent gate found. Apple requires all four: "
+                           "say what data is sent, name who it is sent to, obtain permission "
+                           "BEFORE sending, and cover it in the privacy policy. Apple states "
+                           "explicitly that putting it only in the Terms or Privacy Policy is "
+                           "not sufficient — the disclosure and the opt-in have to be in the "
+                           "app, before the first request.",
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 

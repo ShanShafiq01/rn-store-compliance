@@ -1,5 +1,44 @@
 # Changelog
 
+## [3.4.0] — 2026-10-21
+
+A third rejection round on the same app. Two of the three points were checks
+this plugin already had and got wrong — which is the more useful finding.
+
+### Fixed — a finding that argued against a real rejection
+`EXTERNAL-PAYMENT` said the 3.1.1(a) US storefront carve-out made an external
+payment path "legal there". Apple then rejected a US app for exactly this. The
+carve-out covers **links out** to an external purchase mechanism; it does not
+permit **taking payment inside the app** with a third-party processor, which
+still requires IAP everywhere. The old text would have talked a reader out of a
+genuine blocker.
+
+### Fixed — citations on one surface do not cover another
+`MEDICAL-NO-CITATION` was repo-wide: one citation anywhere silenced it. The
+rejection reads *"the app provides health or medical recommendations and
+references in the AI chat / courses, etc without citations"* — citations existed
+on the chat screen and not on the course screens, and the check went quiet. Now
+per surface, naming each uncited file. A localised app still falls back to
+repo-wide, because per-component analysis cannot see where a source renders.
+
+### Added
+- `IN-APP-THIRD-PARTY-PAYMENT` (BLOCKER, 3.1.1) — a Stripe/PayPal payment sheet
+  presented inside the app. Shipping vocabulary **downgrades** it to HIGH and
+  relabels it a mixed bundle; it does not suppress. The rejected app genuinely
+  ships lab kits *and* sells a digital program, and Apple judged the bundle on
+  what the user is actually buying — an exemption here would have reproduced
+  the exact false negative.
+- `AI-DATA-SHARING-CONSENT` (HIGH, 5.1.1(i) / 5.1.2(i)) — user data sent to a
+  third-party AI with no in-app disclosure or consent gate. Apple requires all
+  four: what data, to whom, permission **before** sending, and the privacy
+  policy — and states that putting it only in the Terms or Privacy Policy is
+  not sufficient. Detects **backend-proxied** AI as well as a client-side SDK,
+  because most RN apps proxy; an SDK-only check was blind to the rejected app.
+
+### Tests
+172, green on Python 3.8.3 and 3.13.0. All three rejection points verified
+firing on the app that actually received the letter.
+
 ## [3.3.0] — 2026-09-30
 
 The remaining checks from the live-guidelines coverage audit. 84 → 100

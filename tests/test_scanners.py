@@ -1798,6 +1798,137 @@ await notifee.displayNotification({
                               "SDK-UNAUDITABLE-SOURCE"))
 
 
+class TestThirdRejectionRound(ScannerTestBase):
+    """A third round on the same app, 21 Oct 2026. Two of these are checks we
+    already had that were wrong or silent on exactly this case."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_in_app_third_party_payment_for_digital_goods_is_flagged(self):
+        """'The program can be purchased in the app using payment mechanisms
+        other than In-App Purchase.' This is payment taken INSIDE the app, not
+        a link out — the 3.1.1(a) US carve-out does not reach it."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "src/Checkout.tsx", """
+import { useStripe } from '@stripe/stripe-react-native';
+export function Checkout() {
+  const { confirmPayment } = useStripe();
+  return <Button title="Buy the 3-month program" onPress={() => confirmPayment(secret)} />;
+}
+""")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "IN-APP-THIRD-PARTY-PAYMENT"), "BLOCKER")
+
+    def test_mixed_bundle_is_downgraded_not_suppressed(self):
+        """The rejected app ships lab kits AND sells a digital program. Shipping
+        vocabulary must not suppress the finding — Apple judged the bundle on
+        what the user is actually buying and required IAP for the digital half."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "src/Checkout.tsx",
+              "import { useStripe } from '@stripe/stripe-react-native';\n"
+              "export const pay = () => confirmPayment(secret);\n"
+              "export const SHIP = 'We ship the lab kit to your home address.';\n"
+              "export const PROGRAM = 'Your 3-month coaching program unlocks in the app.';")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "IN-APP-THIRD-PARTY-PAYMENT"), "HIGH")
+
+    def test_backend_proxied_ai_is_still_flagged(self):
+        """Most RN AI apps proxy through their own backend, because API keys
+        cannot ship in a bundle. The rejected app's chatbot works this way and
+        a model-SDK-only check was blind to it."""
+        self._deps()
+        write(self.proj, "src/Chat.ts",
+              "export const ask = (profile, q) => api.post('/ai/chat', { profile, q });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "AI-DATA-SHARING-CONSENT"), "HIGH")
+
+    def test_unrelated_api_route_is_not_an_ai_proxy(self):
+        self._deps()
+        write(self.proj, "src/Api.ts",
+              "export const save = d => api.post('/profile/update', d);")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "AI-DATA-SHARING-CONSENT"))
+
+    def test_stripe_for_a_shipped_physical_good_is_not_blocker(self):
+        """3.1.3(e): physical goods must NOT use IAP. Stripe is correct there."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "src/Kit.tsx", """
+import { useStripe } from '@stripe/stripe-react-native';
+export const orderKit = () => confirmPayment(secret);
+export const SHIPPING = 'We ship the lab kit to your home address.';
+""")
+        self.assertNotIn(sev(run_scan(IOS_SCAN, self.proj), "IN-APP-THIRD-PARTY-PAYMENT"),
+                         ("BLOCKER",))
+
+    def test_external_payment_text_does_not_excuse_in_app_payment(self):
+        """The old finding text said the US storefront makes this 'legal
+        there', which would have talked a reader out of a real rejection."""
+        write(self.proj, "package.json", '{"dependencies":{"react-native":"0.76.0"}}')
+        write(self.proj, "src/Pay.tsx",
+              "Linking.openURL('https://buy.stripe.com/checkout');")
+        for f in run_scan(IOS_SCAN, self.proj)["findings"]:
+            if f["id"] == "EXTERNAL-PAYMENT":
+                d = f["description"].lower()
+                self.assertIn("link", d, "must distinguish linking out from in-app payment")
+                self.assertNotIn("legal there", d)
+                return
+        self.fail("EXTERNAL-PAYMENT did not fire")
+
+    def test_citations_on_one_surface_do_not_cover_another(self):
+        """'the app provides health or medical recommendations and references in
+        the AI chat / courses, etc without citations.' Citations existed for the
+        chat; the courses had none, and a repo-wide check went quiet."""
+        self._deps(**{"@kingstinct/react-native-healthkit": "13.0.0"})
+        write(self.proj, "src/AiChat.tsx",
+              "export const reply = 'Your cholesterol is elevated. "
+              "Source: https://pubmed.ncbi.nlm.nih.gov/12345678/';")
+        write(self.proj, "src/CourseLesson.tsx",
+              "export const lesson = 'Lowering cholesterol reduces your "
+              "blood pressure and treatment risk.';")
+        r = run_scan(IOS_SCAN, self.proj)
+        self.assertEqual(sev(r, "MEDICAL-NO-CITATION"), "MEDIUM")
+        hit = [f for f in r["findings"] if f["id"] == "MEDICAL-NO-CITATION"][0]
+        self.assertIn("CourseLesson", hit["description"] + hit.get("file", ""))
+
+    def test_every_medical_surface_cited_is_silent(self):
+        self._deps(**{"@kingstinct/react-native-healthkit": "13.0.0"})
+        write(self.proj, "src/AiChat.tsx",
+              "export const reply = 'Your cholesterol is elevated. "
+              "Source: https://pubmed.ncbi.nlm.nih.gov/12345678/';")
+        write(self.proj, "src/CourseLesson.tsx",
+              "export const lesson = 'Lowering cholesterol helps. "
+              "Source: https://doi.org/10.1000/abc';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-NO-CITATION"))
+
+    def test_user_data_to_third_party_ai_without_consent_is_flagged(self):
+        """5.1.1(i) / 5.1.2(i): disclose what data is sent, to whom, and get
+        permission BEFORE sending. A privacy policy alone is not sufficient."""
+        self._deps(**{"openai": "4.0.0"})
+        write(self.proj, "src/Chat.ts", """
+import OpenAI from 'openai';
+export const ask = (profile, question) =>
+  openai.chat.completions.create({ messages: [{ role: 'user', content: profile + question }] });
+""")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "AI-DATA-SHARING-CONSENT"), "HIGH")
+
+    def test_ai_with_explicit_consent_gate_is_silent(self):
+        self._deps(**{"openai": "4.0.0"})
+        write(self.proj, "src/Chat.ts",
+              "import OpenAI from 'openai';\n"
+              "export const ask = q => openai.chat.completions.create({ messages: q });")
+        write(self.proj, "src/locales/en.json",
+              '{"ai":{"consent":"We send your question and profile to OpenAI to generate a '
+              'reply. Do you agree to share this data?"}}')
+        write(self.proj, "src/AiConsent.tsx",
+              "export const AiConsentGate = () => <Button title='I agree' onPress={grant} />;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "AI-DATA-SHARING-CONSENT"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 
