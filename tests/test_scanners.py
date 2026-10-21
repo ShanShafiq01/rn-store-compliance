@@ -1929,6 +1929,49 @@ export const ask = (profile, question) =>
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "AI-DATA-SHARING-CONSENT"))
 
 
+class TestPluginManifests(ScannerTestBase):
+    """The manifests are what make this installable at all.
+
+    Three releases shipped with BOTH manifests truncated to 0 bytes, because a
+    version bump used `open(f,"w").write(open(f).read()...)` — Python evaluates
+    `open(f,"w")` first, emptying the file before it is read. CI had a manifest
+    step, but nothing in the suite did, so every local run stayed green.
+    """
+
+    def _load(self, name):
+        path = os.path.join(ROOT, ".claude-plugin", name)
+        raw = open(path, encoding="utf-8").read()
+        self.assertTrue(raw.strip(), f"{name} is empty — the plugin cannot load")
+        try:
+            return json.loads(raw)
+        except ValueError as e:
+            self.fail(f"{name} is not valid JSON: {e}")
+
+    def test_manifests_are_valid_and_agree_on_version(self):
+        plugin = self._load("plugin.json")
+        market = self._load("marketplace.json")
+        entry = market["plugins"][0]
+        self.assertEqual(plugin["version"], entry["version"],
+                         "plugin.json and marketplace.json disagree on version")
+        self.assertEqual(plugin["name"], entry["name"])
+
+    def test_manifests_carry_the_fields_install_needs(self):
+        plugin = self._load("plugin.json")
+        for field in ("name", "version", "description", "repository"):
+            self.assertTrue(plugin.get(field), f"plugin.json is missing {field}")
+        self.assertNotIn("<you>", plugin["repository"],
+                         "unreplaced release placeholder")
+        market = self._load("marketplace.json")
+        self.assertTrue(market.get("name"))
+        self.assertTrue(market["plugins"][0].get("source"))
+
+    def test_changelog_documents_the_current_version(self):
+        plugin = self._load("plugin.json")
+        changelog = open(os.path.join(ROOT, "CHANGELOG.md"), encoding="utf-8").read()
+        self.assertIn("[%s]" % plugin["version"], changelog,
+                      "CHANGELOG has no entry for the version being shipped")
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

@@ -64,7 +64,14 @@ Also asserted: the scanner never prints a discovered credential into its own out
 2. Add a dirty-fixture assertion **and** a clean-fixture silence assertion in `tests/test_scanners.py`.
 3. Document the human-judgment half in the matching `rules/*.md` — the scanner is a lead generator; the rule file is what Claude actually reasons from.
 4. `python3 tests/test_scanners.py && python3 scripts/gen_checks.py`.
-5. Bump `version` in **both** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` (they must agree) and add a CHANGELOG entry. `metadata.version` inside each `SKILL.md` is the skill's own version and tracks separately.
+5. Bump `version` in **both** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` (they must agree) and add a CHANGELOG entry.
+
+   **Never bump a version with `open(f,"w").write(open(f).read()...)`.** Python
+   evaluates `open(f,"w")` before the argument, so the file is truncated before
+   it is read and you write an empty string. Three releases shipped with both
+   manifests at 0 bytes — uninstallable — because every local run stayed green:
+   CI had a manifest step, the test suite did not. `TestPluginManifests` now
+   covers it. Read fully into a variable, then open for write. `metadata.version` inside each `SKILL.md` is the skill's own version and tracks separately.
 
 ## Dual-store structure
 
