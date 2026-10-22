@@ -1,5 +1,29 @@
 # Changelog
 
+## [3.5.1] — 2026-10-22
+
+Corrections from an independent sweep of live Play enforcement. No new checks.
+
+- **`expo-iap` was missing from five billing trigger sites** across both
+  scanners. A current, maintained library (6.1.1, published four days ago) got
+  no purchase-acknowledgement and no unfinished-transaction findings at all.
+- **The clean fixture modelled a non-compliant app**: `react-native-purchases`
+  8.0.0 resolves Play Billing 7, whose floor expired 31 Aug 2026.
+- **CSAE prose over-scoped.** The Child Safety *Standards* policy scopes on the
+  Anonymous Chat, Random Chat, Social and Dating Console categories — a
+  category you select, not a property of your code. As written it told every
+  health app with a comment feed to appoint a CSAE point of contact.
+- **An unverifiable claim added in 3.1.0 is now marked as such.** Two
+  independent sweeps failed to find Google documentation for a Console
+  declaration covering AI-generated store listing assets. Marked rather than
+  deleted, because the reasoning is the point.
+- Age Signals floor question closed (current is 0.0.4), and the one redirecting
+  URL in the repo now points at its destination.
+- **Largest prose gap closed:** every permission finding offered
+  `tools:node="remove"`, which `expo prebuild` destroys on the next build.
+  Managed Expo needs `android.blockedPermissions`. Advice an RN engineer cannot
+  act on does not belong in a rule file.
+
 ## [3.5.0] — 2026-10-22
 
 The full rejection history of two health apps, plus a live sweep of what is
