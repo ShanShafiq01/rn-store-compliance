@@ -1075,7 +1075,7 @@ def scan_structural(root, findings):
             })
 
     # IAP without restore
-    if _grep(root, r"react-native-iap|react-native-purchases|expo-in-app-purchases") \
+    if _grep(root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|\bexpo-iap\b") \
             and not _grep(root, r"(?i)(restorePurchases|restoreCompletedTransactions|getAvailablePurchases|restore)"):
         findings.append({
             "id": "RESTORE-MISSING", "severity": "HIGH", "guideline": "3.1.1",

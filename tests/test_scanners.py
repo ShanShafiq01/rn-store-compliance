@@ -96,7 +96,9 @@ def make_clean(base):
     write(base, "package.json", json.dumps({
         "name": "clean", "dependencies": {
             "react-native": "0.76.0",
-            "react-native-purchases": "8.0.0",
+            # 9.x is the first RevenueCat line resolving Play Billing 8; 8.x
+            # resolves PBL 7, whose floor expired 2026-08-31.
+            "react-native-purchases": "9.2.0",
             "expo-secure-store": "13.0.0",
             "expo-tracking-transparency": "5.0.0",
             "expo-apple-authentication": "7.0.0",
@@ -2380,6 +2382,32 @@ class TestHealthCategory(ScannerTestBase):
               'treat, cure, or prevent any medical condition."}}')
         self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
                               "MEDICAL-DEVICE-DISCLAIMER"))
+
+
+class TestBillingLibraryCoverage(ScannerTestBase):
+    """expo-iap is a current, maintained billing library that three call sites
+    did not recognise, so those apps got no billing findings at all."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def test_expo_iap_gets_purchase_acknowledgement_checks(self):
+        write(self.proj, "package.json", json.dumps({"dependencies": {
+            "react-native": "0.76.0", "expo-iap": "6.1.1"}}))
+        write(self.proj, "src/Buy.ts",
+              "import { requestPurchase } from 'expo-iap';\n"
+              "export const buy = sku => requestPurchase({ sku });")
+        write(self.proj, "android/app/src/main/AndroidManifest.xml", "<manifest/>")
+        self.assertIsNotNone(sev(run_scan(ANDROID_SCAN, self.proj), "PURCHASE-ACK"))
+
+    def test_expo_iap_gets_the_ios_finish_transaction_check(self):
+        write(self.proj, "package.json", json.dumps({"dependencies": {
+            "react-native": "0.76.0", "expo-iap": "6.1.1"}}))
+        write(self.proj, "src/Buy.ts",
+              "import { requestPurchase } from 'expo-iap';\n"
+              "export const buy = sku => requestPurchase({ sku });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "IAP-UNFINISHED-TRANSACTION"), "HIGH")
 
 
 class TestInterpreterCompatibility(ScannerTestBase):

@@ -369,7 +369,7 @@ def scan_build_config(root, findings):
 
     # Play Billing Library version
     pkg = read("package.json")
-    if re.search(r"react-native-iap|react-native-purchases|expo-in-app-purchases", pkg):
+    if re.search(r"react-native-iap|react-native-purchases|expo-in-app-purchases|\bexpo-iap\b", pkg):
         bill = re.search(r"billingclient[:\s\"']*(?:billing[:\s\"']*)?(\d+)\.", gradle)
         if bill and int(bill.group(1)) < BILLING_MAJOR_FLOOR:
             findings.append({
@@ -1021,7 +1021,7 @@ def scan_structural(root, findings):
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
-    if _grep(root, r"react-native-iap|react-native-purchases|expo-in-app-purchases") \
+    if _grep(root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|\bexpo-iap\b") \
             and not _grep(root, r"(?i)(acknowledgePurchase|finishTransaction|verifyPurchase|purchaseToken)"):
         findings.append({
             "id": "PURCHASE-ACK", "severity": "HIGH", "policy": "Payments",

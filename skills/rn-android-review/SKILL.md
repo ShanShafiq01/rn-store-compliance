@@ -95,7 +95,7 @@ If the user only describes the app, still produce the audit — mark evidence as
 
 ## References
 
-- Play policy center: https://play.google.com/about/developer-content-policy/
+- Play policy center: https://play.google/developer-content-policy/
 - Target API level requirements: https://support.google.com/googleplay/android-developer/answer/11926878
 - Play Billing deprecation schedule: https://developer.android.com/google/play/billing/deprecation-faq
 - Data safety: https://support.google.com/googleplay/android-developer/answer/10787469

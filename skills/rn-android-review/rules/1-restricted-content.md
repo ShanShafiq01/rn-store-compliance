@@ -17,7 +17,18 @@ Apps with UGC must implement:
 - blocking of abusive users
 - for apps where UGC is the primary purpose, a documented moderation approach in the Play Console declaration
 
-Play additionally requires attention to **CSAE (child sexual abuse and exploitation)** — apps with UGC and social features must have CSAE standards, published in-app reporting, and a CSAE point of contact. This is a Play-specific declaration Apple doesn't ask for and RN teams routinely miss.
+Play additionally requires attention to **CSAE (child sexual abuse and exploitation)**,
+and the scope matters because it is easy to over-apply:
+
+- The **Child Safety Standards** policy — written standards, published in-app reporting,
+  and a CSAE point of contact — scopes on apps in the **Anonymous Chat, Random Chat,
+  Social and Dating** Play Console categories. That is a *category you select in Console*,
+  not a property of your code. A health app with a comment feed is **not** in scope.
+- The broader **Child Endangerment** policy applies to every app regardless of category.
+
+Having UGC does not by itself put you in the Standards programme. Check the category you
+submit under first; if it is one of the four, the declaration is mandatory and RN teams
+routinely miss it.
 
 ```ts
 // Evidence to find in an RN UGC app
@@ -95,10 +106,12 @@ that writes nowhere is a paper control.
 
 Three related obligations that are easy to miss:
 
-- **Store listing assets.** The Play Console has a standardized declaration for
-  AI-generated or AI-edited store listing, promotional and YouTube assets. Declared
-  assets get an AI label on the Play Store. This is self-declaration — nobody will
-  ask you for it, and omitting it is still a violation.
+- **Store listing assets — unverified, do not cite.** A declaration for AI-generated
+  store listing and promotional assets is widely reported in ASO commentary, but two
+  independent sweeps of Google's own documentation failed to find it. Treat it as a
+  rumour until you see it in Console yourself. This repo's rule is that an unverifiable
+  claim is worse than a gap: a reader who repeats it to a reviewer loses credibility on
+  everything else in the report.
 - **Third-party AI integrations are covered by the User Data policy** (clarified
   15 Jul 2026). Sending user data to a model provider is a disclosure obligation and
   a Data safety line item; the developer remains responsible for what that provider
