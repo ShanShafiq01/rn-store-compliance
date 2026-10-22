@@ -54,6 +54,8 @@ SUBSCRIPTION_COPY_RX = (r"(?i)(?:\bsubscriptions?\b[^\n]{0,80}(?:" + BILLING_CON
                         r"|(?:" + BILLING_CONTEXT + r")[^\n]{0,80}\bsubscriptions?\b)")
 re.compile(SUBSCRIPTION_COPY_RX)   # fail at import, not mid-scan
 
+LOCALE_HINT = re.compile(r"/i18n/|/locales?/|/translations?/|/lang/", re.I)
+
 DEBUG_VARIANT = re.compile(r"/src/(debug|androidTest|test)/")
 
 TEST_HINT = re.compile(
@@ -922,6 +924,23 @@ def scan_abi_and_signing(root, findings):
 
 
 def scan_structural(root, findings):
+    # Play requires non-device health apps to carry a clear disclaimer that the
+    # app is not a medical device and does not diagnose, treat, cure or prevent.
+    if _is_health_app(root) and not _grep_incl_locales(
+            root, r"(?i)(not a medical device|does not (diagnose|treat|cure|prevent)|"
+                  r"510\(k\)|FDA[- ](cleared|approved)|CE[- ]mark)"):
+        findings.append({
+            "id": "MEDICAL-DEVICE-DISCLAIMER", "severity": "HIGH",
+            "policy": "Health Content and Services",
+            "description": "Health app with no medical-device disclaimer found. Play requires "
+                           "health and medical apps that are not regulated devices to carry a "
+                           "clear disclaimer that the app is 'not a medical device and does not "
+                           "diagnose, treat, cure, or prevent any medical condition' — and Play "
+                           "wants it in the STORE LISTING description, not only in the app. An "
+                           "app that IS a regulated device must declare that instead.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Parity with the iOS scanner: both of these existed only there, so a
     # dual-store audit reported them on one platform and stayed silent on the
     # other. Play's UGC and payment expectations are the same shape.
@@ -1045,8 +1064,31 @@ def scan_structural(root, findings):
 _grep_cache = {}
 
 
-def _grep(root, pattern):
-    key = (root, pattern)
+def _grep_incl_locales(root, pattern):
+    """_grep, reaching into i18n/locale trees. Ported from the iOS scanner.
+
+    Without it the rebuttal half of any absence check is invisible on a
+    localised app, because TEST_HINT skips exactly where user-facing copy lives.
+    """
+    return _grep(root, pattern, include_locales=True)
+
+
+def _is_health_app(root):
+    """Health signal gate, ported from the iOS scanner. A dependency stands
+    alone; prose needs two independent hits, because single prose words once
+    made every app a health app."""
+    if _grep(root, r"react-native-health-connect|expo-health-connect|"
+                   r"android\.permission\.health\.|\bfhir\b"):
+        return True
+    prose = [w for w in (r"\bpatients?\b", r"(?i)\bclinical(ly)?\b", r"(?i)\bbiomarkers?\b",
+                         r"(?i)\b(vital signs|blood glucose|blood oxygen)\b",
+                         r"(?i)\b(diagnosis|diagnose[sd]?)\b")
+             if _grep(root, w)]
+    return len(prose) >= 2
+
+
+def _grep(root, pattern, include_locales=False):
+    key = (root, pattern, include_locales)
     if key in _grep_cache:
         return _grep_cache[key]
     rx = re.compile(pattern)
@@ -1054,7 +1096,8 @@ def _grep(root, pattern):
     for path in iter_files(root):
         if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx", ".json", ".xml"}:
             continue
-        if TEST_HINT.search(os.path.relpath(path, root)):
+        rel = os.path.relpath(path, root)
+        if TEST_HINT.search(rel) and not (include_locales and LOCALE_HINT.search(rel)):
             continue
         try:
             with open(path, encoding="utf-8", errors="ignore") as f:

@@ -1,5 +1,60 @@
 # Changelog
 
+## [3.5.0] — 2026-10-22
+
+The full rejection history of two health apps, plus a live sweep of what is
+currently biting React Native apps on both stores. 110 → 118 checks, 186 → 213
+tests.
+
+### Added — from real rejection letters
+`HEALTHKIT-NO-PRIMARY-FEATURE` (2.5.1), `HEALTH-NO-PRIVACY-POLICY` (5.1.1(i)),
+`UGC-EULA-MISSING` (1.2), `REQUIRED-CONTACT-FIELD` (5.1.1(x)), and
+`UGC-BLOCK-MISSING` / `SUBSCRIPTION-COPY-MISMATCH` ported to Android, where a
+dual-store audit had been reporting them on one platform only.
+
+### Fixed — a rejection Apple issued twice, suppressed by a substring
+`FRAMEWORK-UNUSED` missed *"the app binary includes the PassKit framework… but
+we were still unable to verify any integration of Apple Pay."* PassKit is
+almost never linked by name — it arrives via the `in-app-payments` entitlement
+or a pod subspec like `StripeApplePay`. Worse, the usage rebuttal
+substring-matched `ApplePay`, and the real app's only match was
+**`toApplePayload()`**, a heart-rate mapping helper. A function about health
+data silenced a payments rejection.
+
+### Added — 2026 rejection trends
+- `BUILD-SDK-FLOOR` — Apple pins the **build SDK** (iOS 26 since 28 Apr 2026).
+  CLAUDE.md names this as the Apple-side axis and the Android scanner has had a
+  dated constant since 3.0.0; iOS had no counterpart.
+- `SPLASH-NEVER-HIDDEN` — the highest-volume RN cause of "failed to load any
+  content at launch". Skips `expo-router`, which owns the splash lifecycle.
+- `LOGIN-OTP-ONLY` — no static demo credential gets a reviewer past an SMS code.
+- `ACCOUNT-DELETION-SUPPORT-ONLY` — enforcement moved from *absent* deletion to
+  *partial*. Finishing on a web page is permitted; mailto and chat are not.
+- `SIWA-RELAY-DOMAIN` — relay addresses moved to `private.icloud.com` on
+  24 Aug 2026; matching only the old domain breaks sign-in for every new user.
+- `HIDDEN-FEATURE-REVIEW-GATE` — **2.5.19**, new 16 Oct 2026, carrying developer
+  account termination. Hidden features moved out of 2.3.1; the prose follows.
+
+### Added — the health, medical and fitness category
+- `CONTRACEPTION-CLAIM` (BLOCKER) — cycle prediction presented as pregnancy
+  prevention is a regulated contraceptive claim. Requires three signals
+  together, so a sexual-health education module saying "birth control" stays
+  quiet, and the disclaimer every careful cycle app ships silences it.
+- `HEALTHKIT-ICLOUD-SYNC` (BLOCKER), `MEDICAL-DEVICE-CLAIM` (HIGH),
+  `MEDICAL-DEVICE-DISCLAIMER` (HIGH, Android — Play wants it in the listing).
+- **`HEALTH-DATA-TO-ADS` had no cycle, fertility, pregnancy or mental-health
+  tokens** — precisely the data a fertility app would leak into an analytics
+  call. Added `menstrual`, `ovulation`, `fertile`, `pregnan*`, `phq-9`, `gad-7`,
+  `mood_score`, `hiv`, `sti`.
+- Ported `_is_health_app()` and `_grep_incl_locales()` to the Android scanner,
+  which had neither — without the second, the rebuttal half of every Android
+  absence check was invisible on a localised app.
+
+### A note on rigour
+The health research found **no citable Apple basis** for a crisis-hotline or
+self-harm requirement — a grep of the live guidelines returns zero hits. No
+check was written for it rather than inventing a citation.
+
 ## [3.4.0] — 2026-10-21
 
 A third rejection round on the same app. Two of the three points were checks

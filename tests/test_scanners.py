@@ -2272,6 +2272,116 @@ class TestCurrentRejectionTrends(ScannerTestBase):
                               "HIDDEN-FEATURE-REVIEW-GATE"))
 
 
+class TestHealthCategory(ScannerTestBase):
+    """The agency's core category. Apple text verified live 2026-10-22."""
+
+    HK = {"@kingstinct/react-native-healthkit": "13.0.0"}
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_cycle_prediction_presented_as_birth_control_is_blocker(self):
+        """A cycle app presenting prediction as pregnancy prevention claims a
+        regulated contraceptive function."""
+        self._deps(**self.HK)
+        write(self.proj, "src/cycle/FertileWindow.tsx",
+              "export function fertileWindow(len) { return predictOvulation(len); }")
+        write(self.proj, "src/locales/en.json",
+              '{"cycle":{"safeDays":"Green days — you are not fertile, '
+              'so you can skip birth control."}}')
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "CONTRACEPTION-CLAIM"), "BLOCKER")
+
+    def test_cycle_app_with_the_disclaimer_is_silent(self):
+        """Every careful cycle app ships this, and it lives in i18n."""
+        self._deps(**self.HK)
+        write(self.proj, "src/cycle/FertileWindow.tsx",
+              "export function fertileWindow(len) { return predictOvulation(len); }")
+        write(self.proj, "src/locales/en.json",
+              '{"cycle":{"window":"Your estimated fertile window",'
+              '"disclaimer":"This app is not a form of birth control and does not '
+              'prevent pregnancy. Talk to your doctor about contraception."}}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "CONTRACEPTION-CLAIM"))
+
+    def test_sexual_health_education_copy_is_silent(self):
+        """Education modules legitimately contain 'birth control' with no
+        prediction identifier beside it."""
+        self._deps()
+        write(self.proj, "src/learn/Article.tsx",
+              "export const A = 'Birth control options include implants and IUDs.';")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "CONTRACEPTION-CLAIM"))
+
+    def test_cycle_data_into_analytics_is_blocker(self):
+        """HEALTH-DATA-TO-ADS had no cycle, fertility, pregnancy or
+        mental-health tokens — the exact data a fertility app would leak."""
+        self._deps(**dict(self.HK, **{"@react-native-firebase/analytics": "23.0.0"}))
+        write(self.proj, "src/track.ts",
+              "export const t = c => analytics().logEvent('cycle', "
+              "{ ovulation: c.ovulationDate, pregnancy_status: c.pregnant });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "HEALTH-DATA-TO-ADS"), "BLOCKER")
+
+    def test_mental_health_score_into_analytics_is_blocker(self):
+        self._deps(**dict(self.HK, **{"@react-native-firebase/analytics": "23.0.0"}))
+        write(self.proj, "src/track.ts",
+              "export const t = s => analytics().logEvent('assessment', "
+              "{ phq9: s.phq9Score });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "HEALTH-DATA-TO-ADS"), "BLOCKER")
+
+    def test_healthkit_data_synced_to_icloud_is_blocker(self):
+        """Apple bars HealthKit data from iCloud sync."""
+        self._deps(**self.HK)
+        write(self.proj, "src/sync.ts",
+              "import iCloudStorage from 'react-native-icloudstore';\n"
+              "export const backup = s => iCloudStorage.setItem('hk', "
+              "JSON.stringify(s.heartRateSamples));")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "HEALTHKIT-ICLOUD-SYNC"), "BLOCKER")
+
+    def test_icloud_without_health_data_is_silent(self):
+        self._deps()
+        write(self.proj, "src/sync.ts",
+              "import iCloudStorage from 'react-native-icloudstore';\n"
+              "export const backup = p => iCloudStorage.setItem('prefs', p);")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "HEALTHKIT-ICLOUD-SYNC"))
+
+    def test_diagnosis_claim_without_clearance_is_flagged(self):
+        self._deps(**self.HK)
+        write(self.proj, "src/locales/en.json",
+              '{"home":{"tag":"Our AI diagnoses your skin condition in seconds."}}')
+        self.assertIsNotNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-DEVICE-CLAIM"))
+
+    def test_diagnosis_claim_with_clearance_evidence_is_silent(self):
+        self._deps(**self.HK)
+        write(self.proj, "src/locales/en.json",
+              '{"home":{"tag":"Our AI diagnoses your skin condition in seconds.",'
+              '"reg":"FDA-cleared under 510(k) K123456."}}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "MEDICAL-DEVICE-CLAIM"))
+
+    def test_android_health_app_without_device_disclaimer_is_flagged(self):
+        """Play: non-device health apps must carry a clear disclaimer that the
+        app is not a medical device."""
+        self._deps(**{"react-native-health-connect": "3.5.0"})
+        write(self.proj, "src/Home.tsx",
+              "export const H = 'Track your blood pressure and cholesterol trends.';")
+        self.assertEqual(sev(run_scan(ANDROID_SCAN, self.proj),
+                             "MEDICAL-DEVICE-DISCLAIMER"), "HIGH")
+
+    def test_android_health_app_with_disclaimer_in_locales_is_silent(self):
+        """Needs _grep_incl_locales on the Android side, which did not exist."""
+        self._deps(**{"react-native-health-connect": "3.5.0"})
+        write(self.proj, "src/Home.tsx",
+              "export const H = 'Track your blood pressure and cholesterol trends.';")
+        write(self.proj, "src/locales/en.json",
+              '{"legal":{"d":"This app is not a medical device and does not diagnose, '
+              'treat, cure, or prevent any medical condition."}}')
+        self.assertIsNone(sev(run_scan(ANDROID_SCAN, self.proj),
+                              "MEDICAL-DEVICE-DISCLAIMER"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 

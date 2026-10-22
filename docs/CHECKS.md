@@ -1,23 +1,25 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**114 checks total.**
+**118 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 66 checks
+## iOS — 69 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
 | ID | Severity | App Store Review Guidelines | What it means |
 |---|---|---|---|
+| `CONTRACEPTION-CLAIM` | BLOCKER | 1.4.1 | Cycle prediction appears to be presented as pregnancy prevention. |
 | `DYNAMIC-CODE` | BLOCKER | 2.5.2 | Dynamic code execution — downloading or evaluating code is prohibited |
 | `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external purchase LINK for digital goods. 3.1.1(a) removes the entitlement |
 | `HEALTH-DATA-TO-ADS` | BLOCKER | 5.1.2(vi) / 2.5.18 / 5.1.3(i) | A health value appears to flow into an analytics or advertising |
 | `HEALTH-NO-PRIVACY-POLICY` | BLOCKER | 5.1.1(i) | HealthKit or CareKit is used with no privacy policy reference |
+| `HEALTHKIT-ICLOUD-SYNC` | BLOCKER | 5.1.3 | HealthKit data appears to reach iCloud or CloudKit. Apple does not |
 | `HIDDEN-FEATURE-REVIEW-GATE` | BLOCKER | 2.5.19 | Code that appears to detect App Review and change behaviour. 2.5.19 (new 16 Oct 2026, |
 | `ICON-NAME-MISSING` | BLOCKER | upload validation | CFBundleIconName is present but empty. The upload fails with |
 | `MEDIA-DOWNLOADER` | BLOCKER | 5.2.3 | Third-party media downloader. 5.2.3 bars the ability to save, convert or download media |
@@ -44,6 +46,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `IAP-UNFINISHED-TRANSACTION` | HIGH | 2.3.2 / 2.1 | StoreKit purchases are made but no finishTransaction call was |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
 | `LOGIN-OTP-ONLY` | HIGH | 2.1 | The only sign-in path looks like a phone or email one-time code. |
+| `MEDICAL-DEVICE-CLAIM` | HIGH | 1.4.1 | Copy claims to diagnose, treat or be clinically proven, with no |
 | `MEDICAL-NO-DISCLAIMER` | HIGH | 1.4.1 | Health app surfaces medical language with no disclaimer found. |
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |
 | `PRIVACY-MANIFEST` | HIGH | Privacy manifests | No PrivacyInfo.xcprivacy found in the ios/ directory. The app target needs one declaring |
@@ -81,7 +84,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `IN-APP-THIRD-PARTY-PAYMENT` | varies | 3.1.1 | A third-party payment sheet is presented inside the app. If what is |
 | `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
-## Android — 48 checks
+## Android — 49 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -108,6 +111,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `INCENTIVIZED-RATING` | HIGH | Store Listing and Promotion | Rating incentivised with a reward. Play bars inflating ratings by illegitimate means, |
 | `INSECURE-STORAGE` | HIGH | User Data | Token or personal data in AsyncStorage (unencrypted on disk) — use EncryptedSharedPreferences / Keystore |
 | `KEYSTORE-COMMITTED` | HIGH | Device & Network Abuse | {len(keystores)} signing keystore(s) tracked in git. Combined with a password |
+| `MEDICAL-DEVICE-DISCLAIMER` | HIGH | Health Content and Services | Health app with no medical-device disclaimer found. Play requires |
 | `NDK-VERSION` | HIGH | 16 KB page size support | ndkVersion is {m.group(1)}. NDK r28+ aligns to 16 KB by default. |
 | `PAGE-SIZE-16KB-BUILD-CONFIG` | HIGH | 16 KB page size support (hard block 1 Feb 2027) | Build configuration will not produce 16 KB-aligned native libraries: |
 | `PAYMENT-SDK` | HIGH | Payments | Third-party payment SDK present — must not serve digital goods unless an alternative-billing program applies |

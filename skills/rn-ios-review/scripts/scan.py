@@ -851,7 +851,9 @@ def scan_structural(root, findings):
             root, r"(?i)(logEvent|setUserPropert\w*|identify|\btrack\b|setCustomTargeting|"
                   r"setUserId|logPurchase)\s*\(\s*[^)]{0,160}"
                   r"\b(HK\w*TypeIdentifier\w+|heart_?rate|blood_?glucose|blood_?pressure|"
-                  r"blood_?oxygen|a1c|hba1c|diagnosis|medication|steps_?count|sleep_?hours)\b"):
+                  r"blood_?oxygen|a1c|hba1c|diagnosis|medication|steps_?count|sleep_?hours|"
+                  r"menstrual|menstruation|ovulation|fertile|cycle_?length|"
+                  r"period_?start|pregnan\w*|phq-?9|gad-?7|mood_?score|\bhiv\b|\bsti\b)\b"):
         findings.append({
             "id": "HEALTH-DATA-TO-ADS", "severity": "BLOCKER",
             "guideline": "5.1.2(vi) / 2.5.18 / 5.1.3(i)",
@@ -860,6 +862,66 @@ def scan_structural(root, findings):
                            "be used for marketing, advertising or use-based data mining, "
                            "including by third parties. Confirm which processor the call "
                            "reaches — first-party use for marketing is barred too.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # A cycle prediction presented as pregnancy prevention claims a regulated
+    # contraceptive function. All three signals are required together, because
+    # a sexual-health education module legitimately says "birth control".
+    if _grep(root, r"(?i)(MenstruationFlow|OvulationTest|CervicalMucus|"
+                   r"HKCategoryTypeIdentifierMenstrualFlow|"
+                   r"(fertile ?window|ovulation|menstrua\w*|cycle ?length|luteal phase))") \
+            and _grep(root, r"(?i)\b(predict\w*|forecast\w*|fertileWindow|nextPeriod|"
+                            r"cyclePrediction|safeDays)\b") \
+            and _grep_incl_locales(root, r"(?i)\b(birth control|contracepti(on|ve)|"
+                                         r"prevent(ing)? pregnancy|avoid(ing)? pregnancy|"
+                                         r"safe days?|green days?)\b") \
+            and not _grep_incl_locales(
+                root, r"(?i)(not (a|intended as a)( form of)? (birth control|contracepti(on|ve))|"
+                      r"does not prevent pregnancy|"
+                      r"should not be used (as|for) (birth control|contracepti(on|ve))|"
+                      r"510\(k\)|FDA[- ](cleared|approved)|CE[- ]mark|notified body)"):
+        findings.append({
+            "id": "CONTRACEPTION-CLAIM", "severity": "BLOCKER", "guideline": "1.4.1",
+            "description": "Cycle prediction appears to be presented as pregnancy prevention. "
+                           "That is a regulated contraceptive claim, and without clearance it "
+                           "fails 1.4.1's accuracy-and-methodology bar on the Apple side and "
+                           "Play's health-functionalities policy on the other. Either ship the "
+                           "clearance, or carry the disclaimer every careful cycle app ships: "
+                           "this is not a form of birth control and does not prevent pregnancy.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # Apple does not permit HealthKit data to be synced to iCloud.
+    if _is_health_app(root) \
+            and _grep(root, r"(?i)(icloudstore|CloudKit|NSUbiquitousKeyValueStore|"
+                            r"react-native-cloud-store|com\.apple\.developer\.icloud)") \
+            and _grep(root, r"(?i)(HK\w*TypeIdentifier\w+|heartRateSamples|healthSamples|"
+                            r"healthKitData|hkSamples)"):
+        findings.append({
+            "id": "HEALTHKIT-ICLOUD-SYNC", "severity": "BLOCKER", "guideline": "5.1.3",
+            "description": "HealthKit data appears to reach iCloud or CloudKit. Apple does not "
+                           "permit HealthKit data to be stored in iCloud, and 5.1.3 governs "
+                           "where health data may go. Sync it to your own backend under your "
+                           "own policy, or keep it on device.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # A diagnose/treat/cleared claim with nothing in the tree to back it.
+    if _is_health_app(root) \
+            and _grep_incl_locales(root, r"(?i)\b(diagnos(e|es|ing)|treats? your|"
+                                         r"cures?|clinically proven|medical[- ]grade)\b") \
+            and not _grep_incl_locales(root, r"(?i)(510\(k\)|FDA[- ](cleared|approved)|"
+                                             r"CE[- ]mark|MDR 2017/745|notified body|"
+                                             r"not a medical device)"):
+        findings.append({
+            "id": "MEDICAL-DEVICE-CLAIM", "severity": "HIGH", "guideline": "1.4.1",
+            "description": "Copy claims to diagnose, treat or be clinically proven, with no "
+                           "clearance reference and no 'not a medical device' disclaimer found. "
+                           "1.4.1 reviews such apps with greater scrutiny and rejects where "
+                           "accuracy or methodology cannot be validated. Since 26 Mar 2026 "
+                           "Apple also requires regulated-medical-device status to be declared "
+                           "in App Store Connect for Health & Fitness and Medical apps.",
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
