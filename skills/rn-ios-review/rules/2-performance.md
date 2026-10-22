@@ -62,7 +62,22 @@ Demos, betas and trials belong in TestFlight, not the App Store. An app whose ma
 
 ## 2.3 Accurate metadata
 
-2.3.1 forbids hidden or undocumented features — including **any functionality unlocked remotely after review**. This is the OTA rule in disguise; see 2.5.2 below.
+Hidden and undocumented features moved to **2.5.19** on 16 October 2026 — Apple's own
+note says the new guideline "clarifies long-standing policy on hidden, dormant, or
+undocumented features, formerly covered in Guideline 2.3.1." Cite 2.5.19, not 2.3.1.
+
+Verbatim: *"Don't include any hidden, dormant, or undocumented features in your app;
+your app's functionality should be clear to end users and App Review. Attempting to
+hide undocumented features in your app binary, such as through code obfuscation or
+other methods, is grounds for removal of your app from the App Store and termination
+of your developer account."*
+
+Note the penalty: **account termination**, not a rejection you iterate on. Any
+server-controlled flag that can reveal a surface the reviewer never saw belongs in
+Notes for Review, or out of the binary. This is the OTA rule in disguise; see 2.5.2.
+
+2.3.1(a) still applies separately and requires every new feature to be *"described
+with specificity … (generic descriptions will be rejected)."*
 
 2.3.2–2.3.13: screenshots must show the app in use, description must match behavior, keywords must not name competitors, age rating must reflect the highest-rated content, and in-app events/subscriptions must be described accurately.
 

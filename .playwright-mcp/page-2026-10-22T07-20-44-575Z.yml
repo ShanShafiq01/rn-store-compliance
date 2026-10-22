@@ -1,0 +1,200 @@
+- generic [ref=f26e2]:
+  - generic [ref=f26e3]:
+    - link "DuckDuckGo" [ref=f26e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f26e5]:
+      - generic [ref=f26e6]:
+        - textbox [ref=f26e7]: reddit app removed google play background location permission declaration demo video rejected 2026
+        - button "Submit" [ref=f26e8] [cursor=pointer]
+      - combobox [ref=f26e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f26e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f26e15]:
+    - generic [ref=f26e17]:
+      - heading [level=2] [ref=f26e18]:
+        - 'link "Google Play''s April 2026 Permission Changes: Contacts, Location ..." [ref=f26e19] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappcompliance.io%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermission%2Dchanges%2F&rut=66ec1e5b45a14b220e056d84face932d702d4d63af50438120f739f0be26d43e
+      - generic [ref=f26e21]:
+        - link [ref=f26e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappcompliance.io%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermission%2Dchanges%2F&rut=66ec1e5b45a14b220e056d84face932d702d4d63af50438120f739f0be26d43e
+        - link "appcompliance.io/blog/google-play-april-2026-permission-changes/" [ref=f26e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappcompliance.io%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermission%2Dchanges%2F&rut=66ec1e5b45a14b220e056d84face932d702d4d63af50438120f739f0be26d43e
+        - text: 2026-06-20T00:00:00.0000000
+      - link "Google Play's April 15, 2026 update reshaped contacts, location, and foreground-service permissions, and dropped geofencing as an approved use case. Here is each change and the fix." [ref=f26e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappcompliance.io%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermission%2Dchanges%2F&rut=66ec1e5b45a14b220e056d84face932d702d4d63af50438120f739f0be26d43e
+    - generic [ref=f26e27]:
+      - heading [level=2] [ref=f26e28]:
+        - link "Understanding location in the background permissions" [ref=f26e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F9799150&rut=8fd3dd31c5c4ec8b0d9dcf3d035be38ea9307e6ce42a09e13af9f98c0326a537
+      - generic [ref=f26e31]:
+        - link [ref=f26e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F9799150&rut=8fd3dd31c5c4ec8b0d9dcf3d035be38ea9307e6ce42a09e13af9f98c0326a537
+        - link "support.google.com/googleplay/android-developer/answer/9799150" [ref=f26e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F9799150&rut=8fd3dd31c5c4ec8b0d9dcf3d035be38ea9307e6ce42a09e13af9f98c0326a537
+      - link "Here's a list of features that could potentially be used with foreground instead of background location access. Having these features doesn't mean that your app will be automatically rejected for access to a location in the background. We evaluate each app based on its declared core functionality. But if features like these are the only reason your app requires access to location in the ..." [ref=f26e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F9799150&rut=8fd3dd31c5c4ec8b0d9dcf3d035be38ea9307e6ce42a09e13af9f98c0326a537
+    - generic [ref=f26e37]:
+      - heading [level=2] [ref=f26e38]:
+        - 'link "Google Play Permissions Policy 2026: Contact Picker, Location Button ..." [ref=f26e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.appstemple.com%2Fguides%2Fgoogle%2Dplay%2Dpermissions%2Dupdate%2D2026%2F&rut=29a6edb94df54af78622248d7ea7d8e32022c5e919871d8c2b9a4dd26dc8d44b
+      - generic [ref=f26e41]:
+        - link [ref=f26e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.appstemple.com%2Fguides%2Fgoogle%2Dplay%2Dpermissions%2Dupdate%2D2026%2F&rut=29a6edb94df54af78622248d7ea7d8e32022c5e919871d8c2b9a4dd26dc8d44b
+        - link "www.appstemple.com/guides/google-play-permissions-update-2026/" [ref=f26e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.appstemple.com%2Fguides%2Fgoogle%2Dplay%2Dpermissions%2Dupdate%2D2026%2F&rut=29a6edb94df54af78622248d7ea7d8e32022c5e919871d8c2b9a4dd26dc8d44b
+        - text: 2026-07-22T00:00:00.0000000
+      - 'link "Google Play''s October 28, 2026 deadline covers 3 changes: contact picker migration, location button default, and AI content disclosure. Here''s what to update." [ref=f26e45] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.appstemple.com%2Fguides%2Fgoogle%2Dplay%2Dpermissions%2Dupdate%2D2026%2F&rut=29a6edb94df54af78622248d7ea7d8e32022c5e919871d8c2b9a4dd26dc8d44b
+    - generic [ref=f26e47]:
+      - heading [level=2] [ref=f26e48]:
+        - 'link "Always Location Rejections: The Sentence Apple Reads and the Form ..." [ref=f26e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fnewly.app%2Fguides%2Flocation%2Dpermission%2Dalways%2Drejection&rut=ec07722ca20344b2254796bcb39a34f4dfb490de1e9d630efa6070334000f2ff
+      - generic [ref=f26e51]:
+        - link [ref=f26e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fnewly.app%2Fguides%2Flocation%2Dpermission%2Dalways%2Drejection&rut=ec07722ca20344b2254796bcb39a34f4dfb490de1e9d630efa6070334000f2ff
+        - link "newly.app/guides/location-permission-always-rejection" [ref=f26e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fnewly.app%2Fguides%2Flocation%2Dpermission%2Dalways%2Drejection&rut=ec07722ca20344b2254796bcb39a34f4dfb490de1e9d630efa6070334000f2ff
+        - text: 2026-10-21T00:00:00.0000000
+      - link "Apple rejects Always location under guideline 5.1.1 (ii) when the purpose string does not clearly and completely describe your use of the data, and Apple's own insufficient example is 'To use location.' Google Play approves background location through a declaration form that evaluates one named feature. Both read on 21 October 2026." [ref=f26e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fnewly.app%2Fguides%2Flocation%2Dpermission%2Dalways%2Drejection&rut=ec07722ca20344b2254796bcb39a34f4dfb490de1e9d630efa6070334000f2ff
+    - generic [ref=f26e57]:
+      - heading [level=2] [ref=f26e58]:
+        - link "My app was rejecting for accessing background location in my app" [ref=f26e59] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F246116505%2Fmy%2Dapp%2Dwas%2Drejecting%2Dfor%2Daccessing%2Dbackground%2Dlocation%2Din%2Dmy%2Dapp%3Fhl%3Den&rut=954ad3c8326928931d59c780dcc3562124075d4f4319dfbf26bfeda352336b3e
+      - generic [ref=f26e61]:
+        - link [ref=f26e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F246116505%2Fmy%2Dapp%2Dwas%2Drejecting%2Dfor%2Daccessing%2Dbackground%2Dlocation%2Din%2Dmy%2Dapp%3Fhl%3Den&rut=954ad3c8326928931d59c780dcc3562124075d4f4319dfbf26bfeda352336b3e
+        - link "support.google.com/googleplay/android-developer/thread/246116505/my-app-was-rejecting-for-accessing-background-location-in-my-app?hl=en" [ref=f26e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F246116505%2Fmy%2Dapp%2Dwas%2Drejecting%2Dfor%2Daccessing%2Dbackground%2Dlocation%2Din%2Dmy%2Dapp%3Fhl%3Den&rut=954ad3c8326928931d59c780dcc3562124075d4f4319dfbf26bfeda352336b3e
+      - link "Google Play has a policy that prohibits apps from accessing location in the background unless they have a good reason to do so. This is to protect users' privacy and battery life. If your app is being rejected for accessing location in the background, there are a few things you can do to try to get it approved. First, make sure that your app really needs to access location in the background ..." [ref=f26e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F246116505%2Fmy%2Dapp%2Dwas%2Drejecting%2Dfor%2Daccessing%2Dbackground%2Dlocation%2Din%2Dmy%2Dapp%3Fhl%3Den&rut=954ad3c8326928931d59c780dcc3562124075d4f4319dfbf26bfeda352336b3e
+    - generic [ref=f26e67]:
+      - heading [level=2] [ref=f26e68]:
+        - link "Google Play Console new background permission policy - Reddit" [ref=f26e69] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fk0mm0h%2Fgoogle_play_console_new_background_permission%2F&rut=fb70f625f0d7b7c5bea43f629883a75cc2aa80386317299c4fd746656e80f4d6
+      - generic [ref=f26e71]:
+        - link [ref=f26e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fk0mm0h%2Fgoogle_play_console_new_background_permission%2F&rut=fb70f625f0d7b7c5bea43f629883a75cc2aa80386317299c4fd746656e80f4d6
+        - link "www.reddit.com/r/androiddev/comments/k0mm0h/google_play_console_new_background_permission/" [ref=f26e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fk0mm0h%2Fgoogle_play_console_new_background_permission%2F&rut=fb70f625f0d7b7c5bea43f629883a75cc2aa80386317299c4fd746656e80f4d6
+      - link "So in our 30-second video we show the alert telling the user we will be accessing your location so that the following features work and all. And Google seems to be rejecting it saying that they need to see the feature in-app in the video." [ref=f26e75] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fk0mm0h%2Fgoogle_play_console_new_background_permission%2F&rut=fb70f625f0d7b7c5bea43f629883a75cc2aa80386317299c4fd746656e80f4d6
+    - generic [ref=f26e77]:
+      - heading [level=2] [ref=f26e78]:
+        - 'link "Google Play''s April 2026 Permissions Crackdown: What Developers Must Do ..." [ref=f26e79] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsarvaya.in%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermissions%2Dpolicy&rut=d15b9979e9876b0cf03445b4fb1d9f6f1a315048b33429b472c45a59ce5e8cd6
+      - generic [ref=f26e81]:
+        - link [ref=f26e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsarvaya.in%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermissions%2Dpolicy&rut=d15b9979e9876b0cf03445b4fb1d9f6f1a315048b33429b472c45a59ce5e8cd6
+        - link "sarvaya.in/blog/google-play-april-2026-permissions-policy" [ref=f26e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsarvaya.in%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermissions%2Dpolicy&rut=d15b9979e9876b0cf03445b4fb1d9f6f1a315048b33429b472c45a59ce5e8cd6
+        - text: 2026-04-23T00:00:00.0000000
+      - link "Google Play's April 15 policy update gives developers 30 days to fix broad contacts and location permissions or face app removal. Act before the deadline." [ref=f26e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsarvaya.in%2Fblog%2Fgoogle%2Dplay%2Dapril%2D2026%2Dpermissions%2Dpolicy&rut=d15b9979e9876b0cf03445b4fb1d9f6f1a315048b33429b472c45a59ce5e8cd6
+    - generic [ref=f26e87]:
+      - heading [level=2] [ref=f26e88]:
+        - 'link "April 2026 Google Play Policy Updates: Contacts & Location - ASO World" [ref=f26e89] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fasoworld.com%2Fblog%2Fapril%2D2026%2Dgoogle%2Dplay%2Dpolicy%2Dupdates%2Dkey%2Dchanges%2Dfor%2Dcontacts%2Dpermissions%2Dlocation%2Dprivacy%2Daccount%2Dtransfers%2F&rut=32af533c274c94ebd8e89f1a0e0bc6062272cc3827627c2c22c62ce6a0857368
+      - generic [ref=f26e91]:
+        - link [ref=f26e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fasoworld.com%2Fblog%2Fapril%2D2026%2Dgoogle%2Dplay%2Dpolicy%2Dupdates%2Dkey%2Dchanges%2Dfor%2Dcontacts%2Dpermissions%2Dlocation%2Dprivacy%2Daccount%2Dtransfers%2F&rut=32af533c274c94ebd8e89f1a0e0bc6062272cc3827627c2c22c62ce6a0857368
+        - link "asoworld.com/blog/april-2026-google-play-policy-updates-key-changes-for-contacts-permissions-location-privacy-account-transfers/" [ref=f26e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fasoworld.com%2Fblog%2Fapril%2D2026%2Dgoogle%2Dplay%2Dpolicy%2Dupdates%2Dkey%2Dchanges%2Dfor%2Dcontacts%2Dpermissions%2Dlocation%2Dprivacy%2Daccount%2Dtransfers%2F&rut=32af533c274c94ebd8e89f1a0e0bc6062272cc3827627c2c22c62ce6a0857368
+        - text: 2026-04-20T00:00:00.0000000
+      - link "Google Play's April 2026 policy update introduces new Contacts Permissions, location button, and mandatory account transfer rules. Here's what developers need to do.." [ref=f26e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fasoworld.com%2Fblog%2Fapril%2D2026%2Dgoogle%2Dplay%2Dpolicy%2Dupdates%2Dkey%2Dchanges%2Dfor%2Dcontacts%2Dpermissions%2Dlocation%2Dprivacy%2Daccount%2Dtransfers%2F&rut=32af533c274c94ebd8e89f1a0e0bc6062272cc3827627c2c22c62ce6a0857368
+    - generic [ref=f26e97]:
+      - heading [level=2] [ref=f26e98]:
+        - 'link "Google Play App Rejected: Reasons and Fixes (2026) | Cadrant" [ref=f26e99] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcadrant.ai%2Fblog%2Fgoogle%2Dplay%2Dapp%2Drejected&rut=38c95bd38cc58a63390dd57d0801af257991366e55d223cdc34a7c5def6414f0
+      - generic [ref=f26e101]:
+        - link [ref=f26e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcadrant.ai%2Fblog%2Fgoogle%2Dplay%2Dapp%2Drejected&rut=38c95bd38cc58a63390dd57d0801af257991366e55d223cdc34a7c5def6414f0
+        - link "cadrant.ai/blog/google-play-app-rejected" [ref=f26e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcadrant.ai%2Fblog%2Fgoogle%2Dplay%2Dapp%2Drejected&rut=38c95bd38cc58a63390dd57d0801af257991366e55d223cdc34a7c5def6414f0
+        - text: 2026-10-05T00:00:00.0000000
+      - 'link "Google Play app rejected: the reasons and how to respond (2026) Rejected, removed or suspended on Google Play? The email names a policy, and the right move depends on it and on the status: fix a declaration, fix the app, or appeal. The eight policy issues behind most rejections, and a checklist before you send for review again." [ref=f26e105] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcadrant.ai%2Fblog%2Fgoogle%2Dplay%2Dapp%2Drejected&rut=38c95bd38cc58a63390dd57d0801af257991366e55d223cdc34a7c5def6414f0
+    - generic [ref=f26e107]:
+      - heading [level=2] [ref=f26e108]:
+        - link "Access location in the background | Sensors and location | Android ..." [ref=f26e109] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdeveloper.android.com%2Fdevelop%2Fsensors%2Dand%2Dlocation%2Flocation%2Fbackground&rut=252ce491baa93e272da6bd737516d968cfba5905b8713cb8c8a1428e54c00dfc
+      - generic [ref=f26e111]:
+        - link [ref=f26e113] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdeveloper.android.com%2Fdevelop%2Fsensors%2Dand%2Dlocation%2Flocation%2Fbackground&rut=252ce491baa93e272da6bd737516d968cfba5905b8713cb8c8a1428e54c00dfc
+        - link "developer.android.com/develop/sensors-and-location/location/background" [ref=f26e114] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdeveloper.android.com%2Fdevelop%2Fsensors%2Dand%2Dlocation%2Flocation%2Fbackground&rut=252ce491baa93e272da6bd737516d968cfba5905b8713cb8c8a1428e54c00dfc
+        - text: 2026-02-26T00:00:00.0000000
+      - link "This document provides guidelines and best practices for Android apps requiring background location access, focusing on critical functionality, user benefits, and compliance with Google Play policies and privacy. It includes a checklist for identifying and evaluating background location usage within an app." [ref=f26e115] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdeveloper.android.com%2Fdevelop%2Fsensors%2Dand%2Dlocation%2Flocation%2Fbackground&rut=252ce491baa93e272da6bd737516d968cfba5905b8713cb8c8a1428e54c00dfc
+    - button "Next" [ref=f26e118] [cursor=pointer]
+    - link "Feedback" [ref=f26e120] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

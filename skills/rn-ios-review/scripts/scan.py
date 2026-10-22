@@ -62,6 +62,16 @@ RULES = [
      re.compile(r"AIza[0-9A-Za-z_\-]{30,}"),
      None),
 
+    ("HIDDEN-FEATURE-REVIEW-GATE", "BLOCKER", "2.5.19",
+     "Code that appears to detect App Review and change behaviour. 2.5.19 (new 16 Oct 2026, "
+     "moved out of 2.3.1) bars hidden, dormant or undocumented features and attaches removal "
+     "and DEVELOPER ACCOUNT TERMINATION, not a rejection you can iterate on",
+     re.compile(r"(?i)\b(?:is)?(?:app_?store|apple)_?review(?:ing|_?mode|_?build)\b"
+                r"|\breviewer_?(?:mode|bypass|account_?mode)\b"
+                r"|\bis_?under_?review\b|\bAPP_?REVIEW_?MODE\b"
+                r"|\bhide_?(?:for|from)_?(?:apple|review)\b"),
+     {".ts", ".tsx", ".js", ".jsx", ".json"}),
+
     ("SYSTEM-SETTINGS-PROMPT", "MEDIUM", "2.4.4",
      "Copy asking the user to restart the device or change unrelated system settings. 2.4.4: "
      "apps should never suggest a device restart or modifications to system settings unrelated "
@@ -675,6 +685,57 @@ def scan_healthkit_types(root, findings):
         })
 
 
+# Apple pins the SDK you BUILD WITH; Google pins the API level you target. This
+# is the Apple-side axis and is categorically different from the deployment
+# target that DEPLOYMENT-TARGET-OLD reports.
+BUILD_SDK_FLOOR_XCODE = 26   # uploads refused below this since 2026-04-28; 27 from April 2027
+
+
+def scan_build_sdk(root, findings):
+    """An Xcode pin below the floor in a config that actually builds."""
+    blobs, is_build_config = [], False
+    for rel in ("eas.json", ".gitlab-ci.yml", "bitrise.yml", "codemagic.yaml",
+                "fastlane/Fastfile", "ios/fastlane/Fastfile", "Makefile"):
+        try:
+            blobs.append(open(os.path.join(root, rel), encoding="utf-8",
+                              errors="ignore").read(200000))
+            # eas.json exists only to configure builds, so its own presence is
+            # the build signal — it carries no literal "eas build" command.
+            if rel == "eas.json":
+                is_build_config = True
+        except OSError:
+            pass
+    wf = os.path.join(root, ".github", "workflows")
+    if os.path.isdir(wf):
+        for fn in sorted(os.listdir(wf))[:40]:
+            try:
+                blobs.append(open(os.path.join(wf, fn), encoding="utf-8",
+                                  errors="ignore").read(200000))
+            except OSError:
+                pass
+    text = "\n".join(blobs)
+    if not text:
+        return          # no CI at all is not evidence of an old toolchain
+    if not is_build_config and not re.search(
+            r"xcodebuild|eas build|fastlane[^\n]*\b(build|gym)\b|archive", text):
+        return          # a lint or unit-test job pinning Xcode is not a release problem
+    m = re.search(r"xcode[-_ ]?(?:version[\"':= ]+)?(\d{2})(?:\.\d+)?", text, re.I)
+    if not m:
+        return
+    major = int(m.group(1))
+    if major >= BUILD_SDK_FLOOR_XCODE:
+        return
+    findings.append({
+        "id": "BUILD-SDK-FLOOR", "severity": "HIGH", "guideline": "upload requirement",
+        "description": "A release build pins Xcode " + m.group(1) + ". App Store Connect has "
+                       "refused uploads not built with the iOS 26 SDK since 28 Apr 2026, and "
+                       "the floor moves to the 27 SDKs in April 2027. This is the SDK you BUILD "
+                       "WITH — a different axis from the deployment target, and the upload is "
+                       "refused before any reviewer sees it.",
+        "file": "(ci config)", "line": 0, "evidence": m.group(0),
+    })
+
+
 def scan_linked_frameworks(root, findings):
     """A framework in the binary that the app never exercises is a 2.1 hold.
 
@@ -1221,6 +1282,78 @@ def scan_structural(root, findings):
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 
+    # 2.1 — the highest-volume RN cause of "the app failed to load any content".
+    # expo-router owns the splash lifecycle, so prevent-without-hide is correct
+    # there and the check must skip it entirely.
+    if _grep(root, r"preventAutoHideAsync") \
+            and not _grep(root, r"expo-router") \
+            and not _grep(root, r"SplashScreen\.hideAsync|hideAsync\s*\(|SplashScreen\.hide\s*\("):
+        findings.append({
+            "id": "SPLASH-NEVER-HIDDEN", "severity": "HIGH", "guideline": "2.1",
+            "description": "The splash screen is held open with preventAutoHideAsync and no "
+                           "hideAsync call was found. The app then presents as permanently "
+                           "frozen on the splash, which reviewers file as 2.1 'failed to load "
+                           "any content' — and teams chase it as a crash. Hide it in a finally "
+                           "block so a failed bootstrap still reveals the UI.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 2.1 — a reviewer cannot receive an SMS code, so OTP-only auth is an
+    # automatic Information Needed hold.
+    if _grep(root, r"signInWithPhoneNumber|verifyPhoneNumber|PhoneAuthProvider|"
+                   r"signInWithOtp|verifyOtp|sendSignInLinkToEmail") \
+            and not _grep(root, r"signInWithPassword|signInWithEmailAndPassword|"
+                                r"createUserWithEmailAndPassword|signInWithCredential|"
+                                r"AppleAuthentication\.signInAsync|GoogleSignin\.signIn") \
+            and not _grep_incl_locales(root, r"(?i)\b(demo[ _-]?mode|demo[ _-]?account|"
+                                             r"reviewer[ _-]?(mode|account|bypass)|"
+                                             r"test[ _-]?account)\b"):
+        findings.append({
+            "id": "LOGIN-OTP-ONLY", "severity": "HIGH", "guideline": "2.1",
+            "description": "The only sign-in path looks like a phone or email one-time code. "
+                           "No static demo credential can get a reviewer past an SMS, so this "
+                           "is an automatic 'Guideline 2.1 — Information Needed' hold. Give "
+                           "review a real account exempt from OTP and rate limits, or a "
+                           "built-in demo mode — which 2.1 allows only with Apple's PRIOR "
+                           "approval and which must show the full feature set.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 5.1.1(v) — enforcement moved from absent deletion to partial deletion.
+    # Apple permits finishing on the web, so a /delete URL is NOT the offence.
+    if _grep(root, r"(?i)(signUp|sign_up|createUser|createAccount|auth/register)") \
+            and _grep(root, r"(?i)(deleteAccount|delete_account|deleteUser|closeAccount)"
+                            r"[^\n]{0,160}(mailto:|tel:|zendesk|intercom|freshdesk|"
+                            r"openURL\([^)]*(support|contact|help))") \
+            and not _grep(root, r"(?i)(api\.delete|\.delete\s*\(\s*['\"]/?(account|users?)|"
+                                r"currentUser\.delete|deleteUser\s*\(|/account/delete|"
+                                r"/delete-account)"):
+        findings.append({
+            "id": "ACCOUNT-DELETION-SUPPORT-ONLY", "severity": "HIGH", "guideline": "5.1.1(v)",
+            "description": "Account deletion appears to route to email, phone or a support "
+                           "chat. Apple's guidance is explicit that apps outside highly "
+                           "regulated industries 'should not require people to make a phone "
+                           "call, send an email, use a chat support flow', and that offering "
+                           "only deactivation is insufficient. Finishing on a web page IS "
+                           "permitted — link directly to the deletion page, not to support. "
+                           "If 5.1.1(ix) regulated status applies, say so in review notes.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # Sign in with Apple relay moved to private.icloud.com on 24 Aug 2026.
+    if _grep(root, r"privaterelay\.appleid\.com") \
+            and not _grep(root, r"private\.icloud\.com"):
+        findings.append({
+            "id": "SIWA-RELAY-DOMAIN", "severity": "HIGH", "guideline": "Sign in with Apple",
+            "description": "Only the old Sign in with Apple relay domain is handled. Since "
+                           "24 Aug 2026 new relay addresses issue on private.icloud.com while "
+                           "existing privaterelay.appleid.com addresses keep working, so an "
+                           "allowlist or validator matching one domain silently breaks sign-in "
+                           "for every NEW user — which surfaces as a 2.1 broken-functionality "
+                           "rejection, not as an obvious auth bug. Accept both.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Privacy policy
     if not _grep(root, r"(?i)(privacy[- _]?policy|privacyPolicyUrl)"):
         findings.append({
@@ -1288,6 +1421,7 @@ def _grep(root, pattern, include_locales=False):
 
 # Rules that describe one condition, not N occurrences: report once with a count.
 COLLAPSE_TO_ONE = {"OTA-UPDATES", "WEBVIEW-SHELL", "TRACKING-SDK", "PAYMENT-SDK",
+                   "HIDDEN-FEATURE-REVIEW-GATE", "SIWA-RELAY-DOMAIN",
                    "CONSOLE-LOG", "MAPS-KEY-RESTRICTION"}
 
 
@@ -1356,6 +1490,7 @@ def main():
     scan_privacy_manifest_contents(root, findings)
     scan_contacts_select_all(root, findings)
     scan_healthkit_types(root, findings)
+    scan_build_sdk(root, findings)
     scan_linked_frameworks(root, findings)
     scan_structural(root, findings)
     findings = dedupe(findings)

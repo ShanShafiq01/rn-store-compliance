@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**108 checks total.**
+**114 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 60 checks
+## iOS — 66 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -18,6 +18,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external purchase LINK for digital goods. 3.1.1(a) removes the entitlement |
 | `HEALTH-DATA-TO-ADS` | BLOCKER | 5.1.2(vi) / 2.5.18 / 5.1.3(i) | A health value appears to flow into an analytics or advertising |
 | `HEALTH-NO-PRIVACY-POLICY` | BLOCKER | 5.1.1(i) | HealthKit or CareKit is used with no privacy policy reference |
+| `HIDDEN-FEATURE-REVIEW-GATE` | BLOCKER | 2.5.19 | Code that appears to detect App Review and change behaviour. 2.5.19 (new 16 Oct 2026, |
 | `ICON-NAME-MISSING` | BLOCKER | upload validation | CFBundleIconName is present but empty. The upload fails with |
 | `MEDIA-DOWNLOADER` | BLOCKER | 5.2.3 | Third-party media downloader. 5.2.3 bars the ability to save, convert or download media |
 | `MINING` | BLOCKER | 2.4.2 / 3.1.5(ii) | Possible on-device cryptocurrency mining |
@@ -27,11 +28,13 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `SENSOR-ONLY-VITALS` | BLOCKER | 1.4.1 | Possible claim to measure a vital sign using only device |
 | `UIWEBVIEW` | BLOCKER | 2.5.1 / upload validation | Deprecated UIWebView found in {len(hits)} vendored file(s). Apple rejects |
 | `ACCOUNT-DELETION` | HIGH | 5.1.1(v) | Account creation found with no in-app deletion path. Deletion must be initiated |
+| `ACCOUNT-DELETION-SUPPORT-ONLY` | HIGH | 5.1.1(v) | Account deletion appears to route to email, phone or a support |
 | `AD-REPORT-MISSING` | HIGH | 2.5.18 | Ads are displayed with no in-app ad-reporting control found. |
 | `AI-DATA-SHARING-CONSENT` | HIGH | 5.1.1(i) / 5.1.2(i) | User data appears to be sent to a third-party AI service with no |
 | `ARBITRARY-LOADS` | HIGH | 1.6 | App Transport Security disabled — cleartext traffic allowed |
 | `ATT-MISSING` | HIGH | 5.1.2 | Tracking / ads / analytics SDK present with no App Tracking Transparency request. |
 | `ATT-STRING-MISSING` | HIGH | 5.1.2 | ATT is requested but NSUserTrackingUsageDescription was not found — the prompt will |
+| `BUILD-SDK-FLOOR` | HIGH | upload requirement | A release build pins Xcode |
 | `CLIENT-ENTITLEMENT` | HIGH | 3.1.1 | Purchase entitlement possibly trusted from local storage — validate the receipt server-side |
 | `CONTACTS-SELECT-ALL` | HIGH | 5.1.2(v) | A select-all affordance in a file that reads Contacts. 5.1.2(v) |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
@@ -40,6 +43,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `HEALTHKIT-PERM-UNUSED` | HIGH | 2.1 / 5.1.1 | HealthKit types requested but no read or write found for them: |
 | `IAP-UNFINISHED-TRANSACTION` | HIGH | 2.3.2 / 2.1 | StoreKit purchases are made but no finishTransaction call was |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
+| `LOGIN-OTP-ONLY` | HIGH | 2.1 | The only sign-in path looks like a phone or email one-time code. |
 | `MEDICAL-NO-DISCLAIMER` | HIGH | 1.4.1 | Health app surfaces medical language with no disclaimer found. |
 | `PAYMENT-SDK` | HIGH | 3.1.1 | Third-party payment SDK present — must not serve digital goods on iOS |
 | `PRIVACY-MANIFEST` | HIGH | Privacy manifests | No PrivacyInfo.xcprivacy found in the ios/ directory. The app target needs one declaring |
@@ -48,7 +52,9 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `RESTORE-MISSING` | HIGH | 3.1.1 | IAP integration found with no restore-purchases path. Non-consumables and subscriptions |
 | `REVIEW-INCENTIVE` | HIGH | 5.6.3 | A rating incentivised with a reward. 5.6.3 Discovery Fraud bars manipulating reviews or |
 | `SIWA-REDUNDANT-PROFILE` | HIGH | 4 (Design) / HIG | Sign in with Apple is present alongside a profile-completion |
+| `SIWA-RELAY-DOMAIN` | HIGH | Sign in with Apple | Only the old Sign in with Apple relay domain is handled. Since |
 | `SOCIAL-REVOKE-MISSING` | HIGH | 5.1.1(v) | Social login present with no revocation path. 5.1.1(v) requires a |
+| `SPLASH-NEVER-HIDDEN` | HIGH | 2.1 | The splash screen is held open with preventAutoHideAsync and no |
 | `TRACKING-SDK` | HIGH | 5.1.2 | Tracking / analytics / ads SDK — needs ATT before it initializes, plus matching App Privacy answers |
 | `UGC-BLOCK-MISSING` | HIGH | 1.2 | User-generated content with reporting but no self-service block. |
 | `UGC-EULA-MISSING` | HIGH | 1.2 | User-generated content and account creation with no EULA or terms |

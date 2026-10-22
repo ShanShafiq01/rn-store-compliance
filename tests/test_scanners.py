@@ -2129,6 +2129,149 @@ export const signUp = d => api.post('/auth/register', d);
         self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"))
 
 
+class TestCurrentRejectionTrends(ScannerTestBase):
+    """What is actually biting RN apps in 2026, from a live-guidelines sweep."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_old_xcode_pin_in_release_build_is_flagged(self):
+        """Apple pins the BUILD SDK: uploads need the iOS 26 SDK since
+        28 Apr 2026. DEPLOYMENT-TARGET-OLD is a different axis entirely."""
+        self._deps()
+        write(self.proj, "eas.json", json.dumps({"build": {"production": {
+            "ios": {"image": "macos-sonoma-14.6-xcode-15.4"}}}}))
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "BUILD-SDK-FLOOR"), "HIGH")
+
+    def test_latest_image_is_silent(self):
+        self._deps()
+        write(self.proj, "eas.json",
+              json.dumps({"build": {"production": {"ios": {"image": "latest"}}}}))
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "BUILD-SDK-FLOOR"))
+
+    def test_no_ci_config_is_silent(self):
+        """Absence of a pin is not evidence of an old toolchain."""
+        self._deps()
+        write(self.proj, "src/App.tsx", "export const App = () => null;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "BUILD-SDK-FLOOR"))
+
+    def test_splash_prevented_but_never_hidden_is_flagged(self):
+        """The highest-volume RN cause of 'the app failed to load any content
+        at launch' — which reviewers file as 2.1."""
+        self._deps(**{"expo-splash-screen": "0.29.0"})
+        write(self.proj, "App.tsx",
+              "import * as SplashScreen from 'expo-splash-screen';\n"
+              "SplashScreen.preventAutoHideAsync();\n"
+              "export default function App() { return <Root />; }")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "SPLASH-NEVER-HIDDEN"), "HIGH")
+
+    def test_splash_hidden_is_silent(self):
+        self._deps(**{"expo-splash-screen": "0.29.0"})
+        write(self.proj, "App.tsx",
+              "import * as SplashScreen from 'expo-splash-screen';\n"
+              "SplashScreen.preventAutoHideAsync();\n"
+              "const ready = async () => { await SplashScreen.hideAsync(); };")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SPLASH-NEVER-HIDDEN"))
+
+    def test_expo_router_owns_the_splash_lifecycle(self):
+        """expo-router hides it internally, so prevent-without-hide is correct."""
+        self._deps(**{"expo-splash-screen": "0.29.0", "expo-router": "4.0.0"})
+        write(self.proj, "App.tsx",
+              "import * as SplashScreen from 'expo-splash-screen';\n"
+              "SplashScreen.preventAutoHideAsync();")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SPLASH-NEVER-HIDDEN"))
+
+    def test_otp_only_login_is_flagged(self):
+        """The dominant '2.1 Information Needed' shape: no static demo
+        credential can get a reviewer past an SMS code."""
+        self._deps()
+        write(self.proj, "src/auth.ts",
+              "export const login = phone => supabase.auth.signInWithOtp({ phone });")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "LOGIN-OTP-ONLY"), "HIGH")
+
+    def test_otp_with_demo_mode_in_locales_is_silent(self):
+        self._deps()
+        write(self.proj, "src/auth.ts",
+              "export const login = phone => supabase.auth.signInWithOtp({ phone });")
+        write(self.proj, "src/locales/en.json",
+              '{"auth":{"demo_mode":"Continue in demo mode"}}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "LOGIN-OTP-ONLY"))
+
+    def test_otp_as_second_factor_is_silent(self):
+        self._deps()
+        write(self.proj, "src/auth.ts",
+              "export const login = (e,p) => supabase.auth.signInWithPassword({ e, p });\n"
+              "export const step2 = ph => supabase.auth.verifyOtp({ ph });")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "LOGIN-OTP-ONLY"))
+
+    def test_deletion_routed_to_support_is_flagged(self):
+        """Enforcement moved from absent deletion to partial: Apple's support
+        page bars phone, email and chat support flows."""
+        self._deps()
+        write(self.proj, "src/Settings.tsx",
+              "export const deleteAccount = () => "
+              "Linking.openURL('mailto:support@x.com?subject=Delete my account');")
+        write(self.proj, "src/SignUp.tsx", "export const signUp = () => api.post('/auth/register');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "ACCOUNT-DELETION-SUPPORT-ONLY"), "HIGH")
+
+    def test_deletion_finishing_on_a_web_page_is_silent(self):
+        """Apple permits 'a link directly to the page on your website where
+        they can complete the process.'"""
+        self._deps()
+        write(self.proj, "src/Settings.tsx",
+              "export const deleteAccount = () => "
+              "Linking.openURL('https://x.com/account/delete');")
+        write(self.proj, "src/SignUp.tsx", "export const signUp = () => api.post('/auth/register');")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "ACCOUNT-DELETION-SUPPORT-ONLY"))
+
+    def test_old_siwa_relay_domain_without_the_new_one_is_flagged(self):
+        """24 Aug 2026: new relay addresses issue on private.icloud.com.
+        Matching only the old domain breaks sign-in for every new user."""
+        self._deps()
+        write(self.proj, "src/email.ts",
+              "export const isRelay = e => e.endsWith('@privaterelay.appleid.com');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "SIWA-RELAY-DOMAIN"), "HIGH")
+
+    def test_both_relay_domains_is_silent(self):
+        self._deps()
+        write(self.proj, "src/email.ts",
+              "export const isRelay = e => e.endsWith('@privaterelay.appleid.com') "
+              "|| e.endsWith('@private.icloud.com');")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "SIWA-RELAY-DOMAIN"))
+
+    def test_review_detection_flag_is_blocker(self):
+        """2.5.19, new 16 Oct 2026: hidden/dormant features carry developer
+        account termination."""
+        self._deps()
+        write(self.proj, "src/flags.ts",
+              "const APP_REVIEW_MODE = remoteConfig.getBoolean('is_apple_reviewing');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "HIDDEN-FEATURE-REVIEW-GATE"), "BLOCKER")
+
+    def test_product_review_code_is_not_a_review_gate(self):
+        """'review' is load-bearing in any product-review feature."""
+        self._deps()
+        write(self.proj, "src/Reviews.tsx",
+              "export const ReviewScreen = () => <List data={userReviews} />;\n"
+              "export const submitReview = r => api.post('/reviews', r);\n"
+              "export const reviewCount = rs => rs.length;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "HIDDEN-FEATURE-REVIEW-GATE"))
+
+    def test_dev_guard_is_not_a_review_gate(self):
+        self._deps()
+        write(self.proj, "src/dbg.ts", "if (__DEV__) { enableLogging(); }")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "HIDDEN-FEATURE-REVIEW-GATE"))
+
+
 class TestInterpreterCompatibility(ScannerTestBase):
     """Both scanners must import and run on every supported interpreter.
 
