@@ -2275,7 +2275,7 @@ class TestCurrentRejectionTrends(ScannerTestBase):
 
 
 class TestHealthCategory(ScannerTestBase):
-    """The agency's core category. Apple text verified live 2026-10-22."""
+    """Health, medical and fitness apps. Apple text verified live 2026-10-22."""
 
     HK = {"@kingstinct/react-native-healthkit": "13.0.0"}
 
