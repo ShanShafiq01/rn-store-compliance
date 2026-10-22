@@ -576,6 +576,30 @@ def scan_icon(root, findings):
                 })
 
 
+_sources_cache = {}
+
+
+def _read_sources(root):
+    """Concatenated JS/TS source, cached. Used where a check needs to count
+    distinct tokens across the tree rather than ask a yes/no question."""
+    if root in _sources_cache:
+        return _sources_cache[root]
+    parts = []
+    for path in iter_files(root):
+        if os.path.splitext(path)[1].lower() not in {".ts", ".tsx", ".js", ".jsx"}:
+            continue
+        if TEST_HINT.search(os.path.relpath(path, root)):
+            continue
+        try:
+            parts.append(open(path, encoding="utf-8", errors="ignore").read(200000))
+        except OSError:
+            continue
+        if len(parts) > 3000:
+            break
+    _sources_cache[root] = "\n".join(parts)
+    return _sources_cache[root]
+
+
 def scan_contacts_select_all(root, findings):
     """5.1.2(v) forbids a Select All option over the user's contacts."""
     rx_import = re.compile(r"from\s+['\"](expo-contacts|react-native-contacts|"
@@ -658,9 +682,19 @@ def scan_linked_frameworks(root, findings):
     framework for implementing Apple Pay, but we were unable to verify any
     integration of Apple Pay within the app."
     """
+    # PassKit rarely appears by name. It arrives through the in-app-payments
+    # entitlement or a pod subspec such as StripeApplePay, and THAT is what puts
+    # it in the binary. Usage must be a real API with word boundaries: the
+    # substring "ApplePay" also matches toApplePayload(), a health-bridge
+    # helper, which once suppressed a rejection Apple had issued twice.
     FRAMEWORKS = {
-        "PassKit": (r"(?i)(ApplePay|PKPaymentRequest|useApplePay|ApplePayButton|"
-                    r"isApplePaySupported|presentApplePay)", "Apple Pay"),
+        "PassKit": (
+            r"PassKit|StripeApplePay|BraintreeApplePay|SquareInAppPaymentsSDK|"
+            r"com\.apple\.developer\.in-app-payments",
+            r"\bPKPaymentRequest\b|\buseApplePay\b|\bApplePayButton\b|"
+            r"\bPlatformPayButton\b|\bconfirmPlatformPayPayment\b|"
+            r"\bisPlatformPaySupported\b|\bpresentApplePay\b|\bPlatformPay\.",
+            "Apple Pay"),
     }
     blobs = []
     for rel in ("ios/Podfile.lock", "ios/Podfile"):
@@ -672,7 +706,7 @@ def scan_linked_frameworks(root, findings):
     for dirpath, dirnames, filenames in os.walk(os.path.join(root, "ios")):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for fn in filenames:
-            if fn == "project.pbxproj":
+            if fn.endswith(".entitlements") or fn == "project.pbxproj":
                 try:
                     blobs.append(open(os.path.join(dirpath, fn), encoding="utf-8",
                                       errors="ignore").read(400000))
@@ -681,8 +715,8 @@ def scan_linked_frameworks(root, findings):
     linked = "\n".join(blobs)
     if not linked:
         return
-    for framework, (usage_rx, label) in FRAMEWORKS.items():
-        if framework not in linked:
+    for framework, (linked_rx, usage_rx, label) in FRAMEWORKS.items():
+        if not re.search(linked_rx, linked):
             continue
         if _grep(root, usage_rx):
             continue
@@ -1118,6 +1152,72 @@ def scan_structural(root, findings):
                            "explicitly that putting it only in the Terms or Privacy Policy is "
                            "not sufficient — the disclosure and the opt-in have to be in the "
                            "app, before the first request.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 2.5.1 — HealthKit in the binary with no primary health feature. A real
+    # rejection: "references to HealthKit components, but the app does not
+    # appear to include any primary features that require health or fitness
+    # data." Two or more distinct read/write sites is the bar for "primary".
+    hk_declared = _grep(root, r"NSHealth(Share|Update)UsageDescription|"
+                              r"com\.apple\.developer\.healthkit|"
+                              r"react-native-healthkit|react-native-health\b")
+    if hk_declared:
+        hk_types = set(re.findall(r"HK(?:Quantity|Category|Characteristic|Correlation)"
+                                  r"TypeIdentifier(\w+)", _read_sources(root)))
+        hk_calls = _grep(root, r"(queryQuantitySamples|queryCategorySamples|"
+                               r"requestAuthorization|getRequestStatusForAuthorization|"
+                               r"saveQuantitySample|subscribeToChanges|getMostRecentQuantitySample)")
+        if len(hk_types) < 2 and not hk_calls:
+            findings.append({
+                "id": "HEALTHKIT-NO-PRIMARY-FEATURE", "severity": "HIGH", "guideline": "2.5.1",
+                "description": "HealthKit is declared — entitlement, usage string or package — "
+                               "but almost no HealthKit code was found. 2.5.1 rejects apps whose "
+                               "binary references HealthKit without a primary feature that needs "
+                               "health data, and the fix Apple asks for is removal of every "
+                               "reference including the Info.plist keys. If health really is "
+                               "core, a reviewer on an EMPTY account must still be able to see "
+                               "it working — give them seeded data and a recording.",
+                "file": "(repo-wide)", "line": 0, "evidence": "",
+            })
+        # 5.1.1(i) — HealthKit without a privacy policy is called out by name.
+        if not _grep_incl_locales(root, r"(?i)(privacy[- _]?policy|privacyPolicyUrl)"):
+            findings.append({
+                "id": "HEALTH-NO-PRIVACY-POLICY", "severity": "BLOCKER", "guideline": "5.1.1(i)",
+                "description": "HealthKit or CareKit is used with no privacy policy reference "
+                               "found. 5.1.1(i) names this case explicitly, and the Privacy "
+                               "Policy URL field in App Store Connect must be populated as well "
+                               "as the policy being reachable in the app.",
+                "file": "(repo-wide)", "line": 0, "evidence": "",
+            })
+
+    # 1.2 — Apple asks for a recording of the EULA shown BEFORE registering.
+    if has_ugc and _grep(root, r"(?i)(signUp|sign_up|createUser|createAccount|auth/register)") \
+            and not _grep_incl_locales(root, r"(?i)(\beula\b|terms of (use|service)|"
+                                             r"termsOfUse|zero[- ]tolerance)"):
+        findings.append({
+            "id": "UGC-EULA-MISSING", "severity": "HIGH", "guideline": "1.2",
+            "description": "User-generated content and account creation with no EULA or terms "
+                           "reference found. For UGC apps Apple expects terms presented BEFORE "
+                           "registering or logging in, with a zero-tolerance clause for "
+                           "objectionable content — and asks for a screen recording proving it, "
+                           "alongside recordings of the flag and block controls.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    # 5.1.1(x) — basic contact information must be optional.
+    if _grep(root, r"(?i)(signUp|sign_up|createUser|createAccount|auth/register)") \
+            and _grep(root, r"(?i)(placeholder|label)\s*=\s*[\"'{][^\n]{0,40}"
+                            r"(phone|date of birth|dob|birthday)[^\n]{0,60}required"
+                            r"|required[^\n]{0,60}(phone number|date of birth)"):
+        findings.append({
+            "id": "REQUIRED-CONTACT-FIELD", "severity": "MEDIUM", "guideline": "5.1.1(x)",
+            "description": "Sign-up appears to require a phone number or date of birth. "
+                           "5.1.1(x) says basic contact information must be optional — a feature "
+                           "may not be conditional on it. A date of birth is also age data: if "
+                           "you collect it to gate content you are in age-assurance territory, "
+                           "which has its own declarations. Collect it optionally, or justify it "
+                           "as core functionality in review notes.",
             "file": "(repo-wide)", "line": 0, "evidence": "",
         })
 

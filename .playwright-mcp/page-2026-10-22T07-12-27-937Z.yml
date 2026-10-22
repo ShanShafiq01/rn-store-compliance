@@ -1,0 +1,138 @@
+- generic [ref=f44e2]:
+  - generic [ref=f44e3]:
+    - link "DuckDuckGo" [ref=f44e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f44e5]:
+      - generic [ref=f44e6]:
+        - textbox [ref=f44e7]: site:reddit.com google play rejection "Invalid Data safety" OR "Data safety" mismatch SDK
+        - button "Submit" [ref=f44e8] [cursor=pointer]
+      - combobox [ref=f44e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f44e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f44e15]:
+    - generic [ref=f44e17]:
+      - heading [level=2] [ref=f44e18]:
+        - 'link "Issue found: Invalid Data safety form / I did as I was told ... - Reddit" [ref=f44e19] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+      - generic [ref=f44e21]:
+        - link [ref=f44e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+        - link "www.reddit.com/r/androiddev/comments/zns20s/issue_found_invalid_data_safety_form_i_did_as_i/" [ref=f44e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+      - 'link "SPLIT_BUNDLE 3145825: Policy Declaration - Data Safety Section: Device Or Other IDs Data Type - Device Or Other IDs (some common examples may include Advertising ID, Android ID, IMEI, BSSID, MAC address), Possible SDKs: com.uxcam:uxcam About the Data safety section in Google Play User Data policy Your app must be in compliance with this policy." [ref=f44e25] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+    - generic [ref=f44e27]:
+      - heading [level=2] [ref=f44e28]:
+        - 'link "Policy team rejects app update: \"Invalid Data safety form\"" [ref=f44e29] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F14eokhh%2Fpolicy_team_rejects_app_update_invalid_data%2F&rut=cdad528f0569a80c015c50041c3a17345b53057a6d522b5062ae0bf5968ddbe3
+      - generic [ref=f44e31]:
+        - link [ref=f44e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F14eokhh%2Fpolicy_team_rejects_app_update_invalid_data%2F&rut=cdad528f0569a80c015c50041c3a17345b53057a6d522b5062ae0bf5968ddbe3
+        - link "www.reddit.com/r/androiddev/comments/14eokhh/policy_team_rejects_app_update_invalid_data/" [ref=f44e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F14eokhh%2Fpolicy_team_rejects_app_update_invalid_data%2F&rut=cdad528f0569a80c015c50041c3a17345b53057a6d522b5062ae0bf5968ddbe3
+      - 'link "A few weeks ago, I got an update rejection notice, that my app (a live wallpaper app, here) allegedly sends private information: Issue found: Invalid Data safety form" [ref=f44e35] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F14eokhh%2Fpolicy_team_rejects_app_update_invalid_data%2F&rut=cdad528f0569a80c015c50041c3a17345b53057a6d522b5062ae0bf5968ddbe3
+    - generic [ref=f44e37]:
+      - heading [level=2] [ref=f44e38]:
+        - 'link "App rejected: Issue found: Invalid Data safety form - Reddit" [ref=f44e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+      - generic [ref=f44e41]:
+        - link [ref=f44e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+        - link "www.reddit.com/r/androiddev/comments/zl31i2/app_rejected_issue_found_invalid_data_safety_form/" [ref=f44e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+      - link "Hi, our app got rejected, we dont collect any form of data, we filled that in data safety form. What could possibly be wrong? One idea is that we…" [ref=f44e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+    - generic [ref=f44e47]:
+      - heading [level=2] [ref=f44e48]:
+        - 'link "Data safety section in Google Play User Data policy: Invalid ... - Reddit" [ref=f44e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+      - generic [ref=f44e51]:
+        - link [ref=f44e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+        - link "www.reddit.com/r/androiddev/comments/158z33x/data_safety_section_in_google_play_user_data/" [ref=f44e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+      - 'link "Im getting this\"Data safety section in Google Play User Data policy: Invalid Data safety form We reviewed your app''s Data safety form in Play Console and found discrepancies between it and how the app collects and shares user data." [ref=f44e55] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+    - generic [ref=f44e57]:
+      - heading [level=2] [ref=f44e58]:
+        - 'link "Data safety section may be removed : r/androiddev - Reddit" [ref=f44e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4vg9v%2Fdata_safety_section_may_be_removed%2F&rut=39e3f7a0a996752636c314bf1c51fbee69a430513f058478c3698a69dbf4f0d5
+      - generic [ref=f44e61]:
+        - link [ref=f44e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4vg9v%2Fdata_safety_section_may_be_removed%2F&rut=39e3f7a0a996752636c314bf1c51fbee69a430513f058478c3698a69dbf4f0d5
+        - link "www.reddit.com/r/androiddev/comments/1d4vg9v/data_safety_section_may_be_removed/" [ref=f44e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4vg9v%2Fdata_safety_section_may_be_removed%2F&rut=39e3f7a0a996752636c314bf1c51fbee69a430513f058478c3698a69dbf4f0d5
+      - 'link "it said that i had: \"Issue found: Invalid Data safety form\" for a newly published app. I fixed it up and submitted. got a rejection. fixed it again and submitted the data safety section again and then i didn''t get a follow up email, but now I see \"Data safety section may be removed\"" [ref=f44e65] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4vg9v%2Fdata_safety_section_may_be_removed%2F&rut=39e3f7a0a996752636c314bf1c51fbee69a430513f058478c3698a69dbf4f0d5
+    - button "Next" [ref=f44e68] [cursor=pointer]
+    - link "Feedback" [ref=f44e70] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

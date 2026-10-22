@@ -1,0 +1,44 @@
+- generic [active] [ref=f35e1]:
+  - banner [ref=f35e2]:
+    - button "Skip to content" [ref=f35e3] [cursor=pointer]
+    - button "Accessibility Feedback" [ref=f35e6] [cursor=pointer]
+    - generic [ref=f35e9]:
+      - link [ref=f35e10] [cursor=pointer]:
+        - /url: /?FORM=Z9FD1
+        - heading "Back to Bing search" [level=1] [ref=f35e11]
+      - search [ref=f35e12]:
+        - button "Search" [ref=f35e15] [cursor=pointer]
+        - searchbox "Enter your search here – Search suggestions will show as you type" [ref=f35e16]: site:reddit.com/r/androiddev rejected 2026
+        - button "Search using an image" [ref=f35e19] [cursor=pointer]
+    - complementary "Account Rewards and Preferences" [ref=f35e21]:
+      - button "Microsoft Rewards" [ref=f35e22] [cursor=pointer]
+      - link "Sign in" [ref=f35e23] [cursor=pointer]:
+        - /url: javascript:void(0)
+    - navigation "Search Filter" [ref=f35e25]:
+      - list [ref=f35e26]:
+        - listitem [ref=f35e27]:
+          - link "All" [ref=f35e28] [cursor=pointer]:
+            - /url: /?scope=web&FORM=HDRSC1
+        - listitem [ref=f35e29]:
+          - link "AI Mode" [ref=f35e30] [cursor=pointer]:
+            - /url: /copilotsearch?q=site%3areddit.com%2fr%2fandroiddev+rejected+2026&FORM=CSSCOP
+        - listitem [ref=f35e33]:
+          - link "Images" [ref=f35e34] [cursor=pointer]:
+            - /url: https://www.bing.com/ck/a?!&&p=9f7454afa0e371d7c1c8896facba132ea50f581875af575f3c006289e2654736JmltdHM9MTc5MjYyNzIwMA&ptn=3&ver=2&hsh=4&fclid=00daf5dc-2e2b-6889-3fc9-e2262fb7697f&u=a1L2ltYWdlcy9zZWFyY2g_cT1zaXRlJTNhcmVkZGl0LmNvbSUyZnIlMmZhbmRyb2lkZGV2K3JlamVjdGVkKzIwMjYmRk9STT1IRFJTQzI&ntb=1
+        - listitem [ref=f35e35]:
+          - link "Videos" [ref=f35e36] [cursor=pointer]:
+            - /url: https://www.bing.com/ck/a?!&&p=5d1c3e8eef8bb8ca910287f71eeca0a2ad9b300471a084905be5aa3bc750fbe1JmltdHM9MTc5MjYyNzIwMA&ptn=3&ver=2&hsh=4&fclid=00daf5dc-2e2b-6889-3fc9-e2262fb7697f&u=a1L3ZpZGVvcy9zZWFyY2g_cT1zaXRlJTNhcmVkZGl0LmNvbSUyZnIlMmZhbmRyb2lkZGV2K3JlamVjdGVkKzIwMjYmRk9STT1IRFJTQzM&ntb=1
+        - listitem [ref=f35e37]:
+          - link "Maps" [ref=f35e38] [cursor=pointer]:
+            - /url: https://www.bing.com/ck/a?!&&p=2148a5a8e18080c189388435f9d75efe6e6d570ca4560dd1148435f8e56e4fddJmltdHM9MTc5MjYyNzIwMA&ptn=3&ver=2&hsh=4&fclid=00daf5dc-2e2b-6889-3fc9-e2262fb7697f&u=a1L21hcHM_cT1zaXRlJTNhcmVkZGl0LmNvbSUyZnIlMmZhbmRyb2lkZGV2K3JlamVjdGVkKzIwMjYmRk9STT1IRFJTQzQ&ntb=1
+        - listitem [ref=f35e39]:
+          - button [ref=f35e40] [cursor=pointer]
+  - contentinfo [ref=f35e44]:
+    - generic [ref=f35e45]:
+      - list:
+        - listitem [ref=f35e46]:
+          - link "Privacy" [ref=f35e47] [cursor=pointer]:
+            - /url: https://www.bing.com/ck/a?!&&p=458833825feb19113904cd31300f10a8faf85a9cbda82fb3f68a5eb44199b032JmltdHM9MTc5MjYyNzIwMA&ptn=3&ver=2&hsh=4&fclid=00daf5dc-2e2b-6889-3fc9-e2262fb7697f&u=a1aHR0cDovL2dvLm1pY3Jvc29mdC5jb20vZndsaW5rLz9MaW5rSWQ9NTIxODM5&ntb=1
+        - listitem [ref=f35e48]:
+          - link "Terms" [ref=f35e49] [cursor=pointer]:
+            - /url: https://www.bing.com/ck/a?!&&p=080c119fd82ce0eec105149f24d4bfaf1eafd7a8b9af44398e6be3a69a4df844JmltdHM9MTc5MjYyNzIwMA&ptn=3&ver=2&hsh=4&fclid=00daf5dc-2e2b-6889-3fc9-e2262fb7697f&u=a1aHR0cDovL2dvLm1pY3Jvc29mdC5jb20vZndsaW5rLz9MaW5rSUQ9MjQ2MzM4&ntb=1

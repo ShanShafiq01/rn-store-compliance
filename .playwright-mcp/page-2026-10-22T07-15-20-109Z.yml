@@ -1,0 +1,321 @@
+- generic [ref=f9e2]:
+  - generic [ref=f9e4]:
+    - generic [ref=f9e5]:
+      - link "Homepage" [ref=f9e6] [cursor=pointer]:
+        - /url: https://medium.com/?source=---top_nav_layout_nav-------------------------------------------
+      - combobox "search" [ref=f9e14]
+    - button "Get the Medium app" [ref=f9e16] [cursor=pointer]:
+      - generic [ref=f9e20]: Get app
+    - link "Write" [ref=f9e23] [cursor=pointer]:
+      - /url: https://medium.com/m/signin?operation=register&redirect=https%3A%2F%2Fmedium.com%2Fnew-story&source=---top_nav_layout_nav-----------------------new_post_topnav--------------------
+    - generic [ref=f9e29]:
+      - paragraph [ref=f9e30]:
+        - button "Sign up" [ref=f9e32]
+      - paragraph [ref=f9e34]:
+        - link "Sign in" [ref=f9e36] [cursor=pointer]:
+          - /url: https://medium.com/m/signin?operation=login&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&source=post_page---top_nav_layout_nav-----------------------global_nav--------------------
+    - button "user options menu" [ref=f9e41] [cursor=pointer]:
+      - img "Unknown user" [ref=f9e43]
+  - generic [ref=f9e47]:
+    - navigation "Table of contents":
+      - button "Table of contents" [ref=f9e48] [cursor=pointer]
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - link "Sasanda Saumya Jayasekara":
+                  - /url: /?source=post_page---post_author_sidebar--64bbdeec7d63-----------------467933c9a9ec------------------------
+                  - generic:
+                    - img "Sasanda Saumya Jayasekara"
+                - heading "Sasanda Saumya Jayasekara" [level=2]
+                - paragraph: Full-stack developer building scalable web and mobile apps. Java & React Native, BLE Bluetooth specialist with a passion for clean architecture systems.
+                - paragraph
+    - article [ref=f9e62]:
+      - generic [ref=f9e66]:
+        - generic [ref=f9e70]:
+          - generic [ref=f9e71]:
+            - link "Android Verify Expo App" [ref=f9e75] [cursor=pointer]:
+              - /url: https://medium.com/tag/android-verify-expo-app?source=post_page---header_tags--64bbdeec7d63-----------------------------------------
+            - button "Follow Android Verify Expo App" [ref=f9e77] [cursor=pointer]
+          - generic [ref=f9e80]:
+            - link "Developer Verify Expo" [ref=f9e84] [cursor=pointer]:
+              - /url: https://medium.com/tag/developer-verify-expo?source=post_page---header_tags--64bbdeec7d63-----------------------------------------
+            - button "Follow Developer Verify Expo" [ref=f9e86] [cursor=pointer]
+          - generic [ref=f9e89]:
+            - link "Developer Verification" [ref=f9e93] [cursor=pointer]:
+              - /url: https://medium.com/tag/developer-verification?source=post_page---header_tags--64bbdeec7d63-----------------------------------------
+            - button "Follow Developer Verification" [ref=f9e95] [cursor=pointer]
+          - generic [ref=f9e98]:
+            - link "Android" [ref=f9e102] [cursor=pointer]:
+              - /url: https://medium.com/tag/android?source=post_page---header_tags--64bbdeec7d63-----------------------------------------
+            - button "Follow Android" [ref=f9e104] [cursor=pointer]
+          - generic [ref=f9e107]:
+            - link "Export" [ref=f9e111] [cursor=pointer]:
+              - /url: https://medium.com/tag/export?source=post_page---header_tags--64bbdeec7d63-----------------------------------------
+            - button "Follow Export" [ref=f9e113] [cursor=pointer]
+        - generic [ref=f9e118]:
+          - generic [ref=f9e119]:
+            - heading "Android Developer Verification with Google Play Console using React Native Expo (Step-by-Step Guide)" [level=1] [ref=f9e120]
+            - generic [ref=f9e123]:
+              - generic [ref=f9e124]:
+                - generic [ref=f9e125]:
+                  - link [ref=f9e129] [cursor=pointer]:
+                    - /url: /?source=post_page---byline--64bbdeec7d63-----------------------------------------
+                    - img "Sasanda Saumya Jayasekara" [ref=f9e132]
+                  - link "Sasanda Saumya Jayasekara" [ref=f9e141] [cursor=pointer]:
+                    - /url: /?source=post_page---byline--64bbdeec7d63-----------------------------------------
+                - generic [ref=f9e144]:
+                  - generic [ref=f9e145]: 3 min read
+                  - generic [aria-hidden] [ref=f9e147]: ·
+                  - generic [ref=f9e148]: May 15, 2026
+              - generic [ref=f9e149]:
+                - generic [ref=f9e151]:
+                  - generic [ref=f9e153]:
+                    - link [ref=f9e156] [cursor=pointer]:
+                      - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fvote%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&user=Sasanda+Saumya+Jayasekara&userId=467933c9a9ec&source=---header_actions--64bbdeec7d63---------------------clap_footer--------------------
+                      - generic [ref=f9e159]:
+                        - img "clap"
+                    - paragraph [ref=f9e161]: "--"
+                  - button "responses" [ref=f9e166] [cursor=pointer]:
+                    - paragraph [ref=f9e169]: "1"
+                  - link "Repost" [ref=f9e175] [cursor=pointer]:
+                    - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Frepost%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&user=Sasanda+Saumya+Jayasekara&userId=467933c9a9ec&source=---header_actions--64bbdeec7d63---------------------repost_header--------------------
+                - generic [ref=f9e181]:
+                  - link [ref=f9e187] [cursor=pointer]:
+                    - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fbookmark%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&source=---header_actions--64bbdeec7d63---------------------bookmark_footer--------------------
+                    - img "Add to list bookmark button" [ref=f9e189]
+                  - link [ref=f9e198] [cursor=pointer]:
+                    - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2Fplans%3Fdimension%3Dpost_audio_button%26postId%3D64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&source=---header_actions--64bbdeec7d63---------------------post_audio_button--------------------
+                    - button "Listen" [ref=f9e202]
+                  - button "Share Post" [ref=f9e209] [cursor=pointer]
+          - paragraph [ref=f9e212]:
+            - text: If you are publishing an Android app using
+            - strong [ref=f9e213]: React Native Expo
+            - text: ", you may encounter the new"
+            - strong [ref=f9e214]: Android Developer Verification process
+            - text: from Google. This process ensures that you prove ownership of your app package before distributing it.
+          - paragraph [ref=f9e215]:
+            - text: In this guide, I’ll walk you through the
+            - strong [ref=f9e216]: exact steps I used to verify my app (com.example.myapp) using Expo + EAS Build
+            - text: ", including how to automatically inject the required"
+            - code [ref=f9e217]: adi-registration.properties
+            - text: file.
+          - figure [ref=f9e218]
+          - heading "What is Android Developer Verification?" [level=2] [ref=f9e221]
+          - paragraph [ref=f9e222]: "Google requires developers to verify ownership of their app before allowing release distribution. This includes:"
+          - list [ref=f9e223]:
+            - listitem [ref=f9e224]:
+              - text: Registering your
+              - strong [ref=f9e225]: package name
+            - listitem [ref=f9e226]:
+              - text: Providing a
+              - strong [ref=f9e227]: SHA-256 certificate fingerprint
+            - listitem [ref=f9e228]:
+              - text: Uploading a
+              - strong [ref=f9e229]: signed APK for verification
+          - paragraph [ref=f9e230]: Once verified, your app is linked to your developer identity.
+          - 'heading "Step 1: Register Your Package Name" [level=2] [ref=f9e231]'
+          - paragraph [ref=f9e232]: Go to the Google Play Developer verification screen.
+          - paragraph [ref=f9e233]: Enter your package name
+          - paragraph [ref=f9e234]: "Example:"
+          - generic [ref=f9e235]: com.example.myapp
+          - paragraph [ref=f9e237]: "Also fill:"
+          - list [ref=f9e238]:
+            - listitem [ref=f9e239]:
+              - strong [ref=f9e240]: Friendly Name
+              - text: → Any display name for identification
+          - 'heading "Step 2: Add SHA-256 Certificate Fingerprint" [level=2] [ref=f9e241]'
+          - paragraph [ref=f9e242]:
+            - text: Next, Google asks for your
+            - strong [ref=f9e243]: SHA-256 certificate fingerprint
+            - text: .
+          - paragraph [ref=f9e244]: "You can get it from Expo EAS credentials:"
+          - generic [ref=f9e245]: eas credentials
+          - paragraph [ref=f9e247]: "Or during build:"
+          - generic [ref=f9e248]: eas build --platform android --profile preview
+          - paragraph [ref=f9e250]: "Look for:"
+          - list [ref=f9e251]:
+            - listitem [ref=f9e252]: SHA-1
+            - listitem [ref=f9e253]: SHA-256
+          - paragraph [ref=f9e254]:
+            - text: Copy the
+            - strong [ref=f9e255]: SHA-256 value
+            - text: and paste it into the Play Console.
+          - 'heading "Step 3: Verification Screen (APK Signing Request)" [level=2] [ref=f9e256]'
+          - paragraph [ref=f9e257]: "After submitting SHA-256, Google will show this screen:"
+          - blockquote [ref=f9e258]:
+            - paragraph [ref=f9e259]:
+              - emphasis [ref=f9e260]: Sign and upload an APK to prove ownership of
+              - text: com.example.myapp
+          - paragraph [ref=f9e261]:
+            - text: A
+            - strong [ref=f9e262]: unique verification token
+          - list [ref=f9e263]:
+            - listitem [ref=f9e264]: "Instructions to create:"
+          - generic [ref=f9e265]: assets/adi-registration.properties
+          - paragraph [ref=f9e267]: "Example token:"
+          - generic [ref=f9e268]: CRWWSGEIA89AAAEEAAAEEAAAAAA
+          - paragraph [ref=f9e270]: Important Requirement
+          - paragraph [ref=f9e271]: Google does NOT want your real production APK.
+          - paragraph [ref=f9e272]:
+            - text: They only want a
+            - strong [ref=f9e273]: test APK signed with the same key.
+          - 'heading "Step 4: Auto-Inject File in Expo (Recommended Method)" [level=2] [ref=f9e274]'
+          - paragraph [ref=f9e275]:
+            - text: Instead of manually creating files in Android folder, we use an
+            - strong [ref=f9e276]: Expo Config Plugin
+            - text: .
+          - paragraph [ref=f9e277]: 4.1 Create Plugin File
+          - paragraph [ref=f9e278]: "Create this file in your project:"
+          - generic [ref=f9e279]: plugins/withAdiRegistration.js
+          - paragraph [ref=f9e281]: "Code:"
+          - generic [ref=f9e282]: "const { withDangerousMod } = require('@expo/config-plugins');const fs = require('fs');const path = require('path');module.exports = function withAdiRegistration(config) { return withDangerousMod(config, [ 'android', async (config) => { const assetsDir = path.join( config.modRequest.platformProjectRoot, 'app', 'src', 'main', 'assets' ); // Create assets directory if it doesn't exist fs.mkdirSync(assetsDir, { recursive: true }); // Create verification file const filePath = path.join( assetsDir, 'adi-registration.properties' ); fs.writeFileSync( filePath, 'CRWWSGEIA89AAAEEAAAEEAAAAAA' ); return config; }, ]);};"
+          - 'heading "Step 5: Register Plugin in Expo Config" [level=2] [ref=f9e284]'
+          - paragraph [ref=f9e285]:
+            - text: Open your
+            - code [ref=f9e286]: app.json
+            - text: or
+            - code [ref=f9e287]: app.config.js
+            - text: ":"
+          - generic [ref=f9e288]: "{ \"expo\": { \"android\": { \"package\": \"com.example.myapp\" }, \"plugins\": [ \"./plugins/withAdiRegistration\" ] }}"
+          - 'heading "Step 6: Build Signed APK Using EAS" [level=2] [ref=f9e290]'
+          - paragraph [ref=f9e291]: "Step 6: Build Signed APK Using EAS"
+          - generic [ref=f9e292]: eas build --platform android --profile preview
+          - paragraph [ref=f9e294]: "OR for production:"
+          - generic [ref=f9e295]: eas build --platform android --profile production
+          - 'heading "Step 7: Upload APK to Google Verification" [level=2] [ref=f9e297]'
+          - paragraph [ref=f9e298]: "Once build completes:"
+          - list [ref=f9e299]:
+            - listitem [ref=f9e300]: Download APK from EAS
+            - listitem [ref=f9e301]: Go back to Google Play Console
+            - listitem [ref=f9e302]: Upload the APK
+            - listitem [ref=f9e303]: "Google will verify:"
+          - list [ref=f9e304]:
+            - listitem [ref=f9e305]: Package name
+            - listitem [ref=f9e306]: SHA-256 signature
+            - listitem [ref=f9e307]: Registration file
+          - figure [ref=f9e308]
+          - heading [level=2] [ref=f9e311]:
+            - strong [ref=f9e312]: File not found error
+          - paragraph [ref=f9e313]: "Make sure:"
+          - generic [ref=f9e314]: assets/adi-registration.properties
+          - paragraph [ref=f9e316]: "is inside:"
+          - generic [ref=f9e317]: android/app/src/main/assets/
+          - heading "Wrong SHA-256" [level=2] [ref=f9e319]
+          - generic [ref=f9e320]: eas credentials
+          - paragraph [ref=f9e322]:
+            - text: The Android Developer Verification process may look a bit confusing at first, especially when you are working with
+            - strong [ref=f9e323]: React Native Expo and EAS Build
+            - text: ", but once you understand the flow, it becomes very straightforward."
+          - paragraph [ref=f9e324]:
+            - text: By properly setting up your
+            - strong [ref=f9e325]: package name, SHA-256 fingerprint, and verification APK
+            - text: ", you can successfully prove ownership of your Android app and continue publishing without issues."
+          - paragraph [ref=f9e326]: I hope this guide helped you save time and avoid confusion during the verification process.
+          - heading "Support My Work" [level=2] [ref=f9e327]
+          - paragraph [ref=f9e328]: "If this guide helped you or saved your time, you can support me here:"
+          - blockquote [ref=f9e329]:
+            - paragraph [ref=f9e330]:
+              - link "☕ Support" [ref=f9e331] [cursor=pointer]:
+                - /url: https://ko-fi.com/sasanda
+              - text: "|"
+              - link "💻Github" [ref=f9e332] [cursor=pointer]:
+                - /url: https://github.com/SasadaSaumya
+          - heading "Need Help?" [level=2] [ref=f9e333]
+          - paragraph [ref=f9e334]: "If you have any questions or face any issues, feel free to:"
+          - list [ref=f9e335]:
+            - listitem [ref=f9e336]: Leave a comment below
+            - listitem [ref=f9e337]: Contact me directly
+            - listitem [ref=f9e338]: Open an issue on GitHub
+          - paragraph [ref=f9e339]: I’m happy to help 👍
+    - generic [ref=f9e342]:
+      - generic [ref=f9e344]:
+        - link "Android Verify Expo App" [ref=f9e348] [cursor=pointer]:
+          - /url: https://medium.com/tag/android-verify-expo-app?source=post_page---footer_tags--64bbdeec7d63-----------------------------------------
+        - button "Follow Android Verify Expo App" [ref=f9e350] [cursor=pointer]
+      - generic [ref=f9e354]:
+        - link "Developer Verify Expo" [ref=f9e358] [cursor=pointer]:
+          - /url: https://medium.com/tag/developer-verify-expo?source=post_page---footer_tags--64bbdeec7d63-----------------------------------------
+        - button "Follow Developer Verify Expo" [ref=f9e360] [cursor=pointer]
+      - generic [ref=f9e364]:
+        - link "Developer Verification" [ref=f9e368] [cursor=pointer]:
+          - /url: https://medium.com/tag/developer-verification?source=post_page---footer_tags--64bbdeec7d63-----------------------------------------
+        - button "Follow Developer Verification" [ref=f9e370] [cursor=pointer]
+      - generic [ref=f9e374]:
+        - link "Android" [ref=f9e378] [cursor=pointer]:
+          - /url: https://medium.com/tag/android?source=post_page---footer_tags--64bbdeec7d63-----------------------------------------
+        - button "Follow Android" [ref=f9e380] [cursor=pointer]
+      - generic [ref=f9e384]:
+        - link "Export" [ref=f9e388] [cursor=pointer]:
+          - /url: https://medium.com/tag/export?source=post_page---footer_tags--64bbdeec7d63-----------------------------------------
+        - button "Follow Export" [ref=f9e390] [cursor=pointer]
+    - contentinfo [ref=f9e393]:
+      - generic [ref=f9e397]:
+        - generic [ref=f9e398]:
+          - generic [ref=f9e401]:
+            - link [ref=f9e404] [cursor=pointer]:
+              - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fvote%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&user=Sasanda+Saumya+Jayasekara&userId=467933c9a9ec&source=---footer_actions--64bbdeec7d63---------------------clap_footer--------------------
+              - generic [ref=f9e407]:
+                - img "clap"
+            - paragraph [ref=f9e409]: "--"
+          - button "responses" [ref=f9e414] [cursor=pointer]:
+            - paragraph [ref=f9e417]: "1"
+          - link "Repost" [ref=f9e423] [cursor=pointer]:
+            - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Frepost%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&user=Sasanda+Saumya+Jayasekara&userId=467933c9a9ec&source=---footer_actions--64bbdeec7d63---------------------repost_footer--------------------
+        - generic [ref=f9e429]:
+          - link [ref=f9e436] [cursor=pointer]:
+            - /url: https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fbookmark%2Fp%2F64bbdeec7d63&operation=register&redirect=https%3A%2F%2Fsasandasaumya.medium.com%2Fandroid-developer-verification-with-google-play-console-using-react-native-expo-step-by-step-64bbdeec7d63&source=---footer_actions--64bbdeec7d63---------------------bookmark_footer--------------------
+            - img "Add to list bookmark button" [ref=f9e438]
+          - button "Share Post" [ref=f9e446] [cursor=pointer]
+    - generic [ref=f9e453]:
+      - link [ref=f9e456] [cursor=pointer]:
+        - /url: /?source=post_page---post_author_info--64bbdeec7d63-----------------------------------------
+        - img "Sasanda Saumya Jayasekara" [ref=f9e458]
+      - generic [ref=f9e461]:
+        - link [ref=f9e462] [cursor=pointer]:
+          - /url: /?source=post_page---post_author_info--64bbdeec7d63-----------------------------------------
+          - heading "Written by Sasanda Saumya Jayasekara" [level=2] [ref=f9e463]
+        - generic [ref=f9e464]:
+          - link "34 followers" [ref=f9e467] [cursor=pointer]:
+            - /url: /followers?source=post_page---post_author_info--64bbdeec7d63-----------------------------------------
+          - generic [ref=f9e468]:
+            - generic [aria-hidden] [ref=f9e469]: ·
+            - link "102 following" [ref=f9e470] [cursor=pointer]:
+              - /url: /following?source=post_page---post_author_info--64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e472]: Full-stack developer building scalable web and mobile apps. Java & React Native, BLE Bluetooth specialist with a passion for clean architecture systems.
+    - generic [ref=f9e534]:
+      - link [ref=f9e536] [cursor=pointer]:
+        - /url: https://help.medium.com/hc/en-us?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e537]: Help
+      - link [ref=f9e539] [cursor=pointer]:
+        - /url: https://status.medium.com/?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e540]: Status
+      - link [ref=f9e542] [cursor=pointer]:
+        - /url: https://medium.com/about?autoplay=1&source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e543]: About
+      - link [ref=f9e545] [cursor=pointer]:
+        - /url: https://medium.com/jobs-at-medium/work-at-medium-959d1a85284e?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e546]: Careers
+      - link [ref=f9e548] [cursor=pointer]:
+        - /url: mailto:pressinquiries@medium.com
+        - paragraph [ref=f9e549]: Press
+      - link [ref=f9e551] [cursor=pointer]:
+        - /url: https://blog.medium.com/?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e552]: Blog
+      - link [ref=f9e554] [cursor=pointer]:
+        - /url: https://medium.com/store
+        - paragraph [ref=f9e555]: Store
+      - link [ref=f9e557] [cursor=pointer]:
+        - /url: https://policy.medium.com/medium-privacy-policy-f03bf92035c9?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e558]: Privacy
+      - link [ref=f9e560] [cursor=pointer]:
+        - /url: https://policy.medium.com/medium-rules-30e5502c4eb4?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e561]: Rules
+      - link [ref=f9e563] [cursor=pointer]:
+        - /url: https://policy.medium.com/medium-terms-of-service-9db0094a1e0f?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e564]: Terms
+      - link [ref=f9e566] [cursor=pointer]:
+        - /url: https://speechify.com/medium?source=post_page-----64bbdeec7d63-----------------------------------------
+        - paragraph [ref=f9e567]: Text to speech

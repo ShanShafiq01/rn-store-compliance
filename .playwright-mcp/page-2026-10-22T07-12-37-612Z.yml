@@ -1,0 +1,203 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "DuckDuckGo" [ref=e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - textbox [ref=e7]: reddit androiddev 16KB page size play console rejected upload react native
+        - button "Submit" [ref=e8] [cursor=pointer]
+      - combobox [ref=e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=e15]:
+    - generic [ref=e17]:
+      - heading [level=2] [ref=e18]:
+        - link "Fixed Android 16KB page size requirement without upgrading AGP / React ..." [ref=e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79938930%2Ffixed%2Dandroid%2D16kb%2Dpage%2Dsize%2Drequirement%2Dwithout%2Dupgrading%2Dagp%2Dreact%2Dnative&rut=edafc6b84330168b4ca90194c5c5e3cda7be34ee3bb94990cb127a411fdf3848
+      - generic [ref=e21]:
+        - link [ref=e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79938930%2Ffixed%2Dandroid%2D16kb%2Dpage%2Dsize%2Drequirement%2Dwithout%2Dupgrading%2Dagp%2Dreact%2Dnative&rut=edafc6b84330168b4ca90194c5c5e3cda7be34ee3bb94990cb127a411fdf3848
+        - link "stackoverflow.com/questions/79938930/fixed-android-16kb-page-size-requirement-without-upgrading-agp-react-native" [ref=e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79938930%2Ffixed%2Dandroid%2D16kb%2Dpage%2Dsize%2Drequirement%2Dwithout%2Dupgrading%2Dagp%2Dreact%2Dnative&rut=edafc6b84330168b4ca90194c5c5e3cda7be34ee3bb94990cb127a411fdf3848
+        - text: 2026-05-10T00:00:00.0000000
+      - link "Didn't really want to destabilize stable apps just to satisfy one Play Console requirement, so I ended up experimenting with patching the generated artifacts instead." [ref=e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79938930%2Ffixed%2Dandroid%2D16kb%2Dpage%2Dsize%2Drequirement%2Dwithout%2Dupgrading%2Dagp%2Dreact%2Dnative&rut=edafc6b84330168b4ca90194c5c5e3cda7be34ee3bb94990cb127a411fdf3848
+    - generic [ref=e27]:
+      - heading [level=2] [ref=e28]:
+        - link "React Native Android 16KB Page Size Support — Complete ... - Medium" [ref=e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fmedium.com%2F%40shiva999421%2Fandroids%2D16kb%2Dpage%2Dsize%2Drevolution%2Da%2Dcomplete%2Ddeveloper%2Ds%2Dguide%2Dfor%2Dreact%2Dnative%2Dapps%2D2c0cd43abdd5&rut=6e14551deb234a269f2a64836fd6c22cc161b27a21bb17be41b19a4cb302b4eb
+      - generic [ref=e31]:
+        - link [ref=e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fmedium.com%2F%40shiva999421%2Fandroids%2D16kb%2Dpage%2Dsize%2Drevolution%2Da%2Dcomplete%2Ddeveloper%2Ds%2Dguide%2Dfor%2Dreact%2Dnative%2Dapps%2D2c0cd43abdd5&rut=6e14551deb234a269f2a64836fd6c22cc161b27a21bb17be41b19a4cb302b4eb
+        - link "medium.com/@shiva999421/androids-16kb-page-size-revolution-a-complete-developer-s-guide-for-react-native-apps-2c0cd43abdd5" [ref=e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fmedium.com%2F%40shiva999421%2Fandroids%2D16kb%2Dpage%2Dsize%2Drevolution%2Da%2Dcomplete%2Ddeveloper%2Ds%2Dguide%2Dfor%2Dreact%2Dnative%2Dapps%2D2c0cd43abdd5&rut=6e14551deb234a269f2a64836fd6c22cc161b27a21bb17be41b19a4cb302b4eb
+        - text: 2025-11-13T00:00:00.0000000
+      - 'link "Meta Description: Learn how to migrate your React Native app from 4KB to 16KB page size for Android 15. Complete guide covering virtual memory, page faults, APK analysis, and Google Play Store ..." [ref=e35] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fmedium.com%2F%40shiva999421%2Fandroids%2D16kb%2Dpage%2Dsize%2Drevolution%2Da%2Dcomplete%2Ddeveloper%2Ds%2Dguide%2Dfor%2Dreact%2Dnative%2Dapps%2D2c0cd43abdd5&rut=6e14551deb234a269f2a64836fd6c22cc161b27a21bb17be41b19a4cb302b4eb
+    - generic [ref=e37]:
+      - heading [level=2] [ref=e38]:
+        - link "Fix React Native 16 KB Page Size Rejection Guide" [ref=e39] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.creolestudios.com%2Freact%2Dnative%2D16kb%2Dpage%2Dsize%2Drejection%2Dfix%2F&rut=c42e935751b31d8d090127933dc38b9972af6025ad39ec56772a12d20ca07baf
+      - generic [ref=e41]:
+        - link [ref=e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.creolestudios.com%2Freact%2Dnative%2D16kb%2Dpage%2Dsize%2Drejection%2Dfix%2F&rut=c42e935751b31d8d090127933dc38b9972af6025ad39ec56772a12d20ca07baf
+        - link "www.creolestudios.com/react-native-16kb-page-size-rejection-fix/" [ref=e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.creolestudios.com%2Freact%2Dnative%2D16kb%2Dpage%2Dsize%2Drejection%2Dfix%2F&rut=c42e935751b31d8d090127933dc38b9972af6025ad39ec56772a12d20ca07baf
+        - text: 2026-05-05T00:00:00.0000000
+      - link "Solve the \"16 KB page size\" rejection in Google Play for React Native apps. Learn causes, fixes, build settings, and testing to ensure compliance." [ref=e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.creolestudios.com%2Freact%2Dnative%2D16kb%2Dpage%2Dsize%2Drejection%2Dfix%2F&rut=c42e935751b31d8d090127933dc38b9972af6025ad39ec56772a12d20ca07baf
+    - generic [ref=e47]:
+      - heading [level=2] [ref=e48]:
+        - 'link "Google Play 16KB Page Size: Fix Failing React Native Builds" [ref=e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fhamzashabbir.dev%2Farticle%2Fgoogle%2Dplay%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2Dfix&rut=a425c35aa84433e4ab36858005b56af78b7dfa534eeced5e34739fa28cddb876
+      - generic [ref=e51]:
+        - link [ref=e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fhamzashabbir.dev%2Farticle%2Fgoogle%2Dplay%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2Dfix&rut=a425c35aa84433e4ab36858005b56af78b7dfa534eeced5e34739fa28cddb876
+        - link "hamzashabbir.dev/article/google-play-16kb-page-size-react-native-fix" [ref=e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fhamzashabbir.dev%2Farticle%2Fgoogle%2Dplay%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2Dfix&rut=a425c35aa84433e4ab36858005b56af78b7dfa534eeced5e34739fa28cddb876
+        - text: 2026-06-09T00:00:00.0000000
+      - 'link "Google Play now blocks all React Native updates without 16KB page-size support. Here''s the fix: RN 0.77+, AGP 8.5.1+, NDK r28, plus updated native deps." [ref=e55] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fhamzashabbir.dev%2Farticle%2Fgoogle%2Dplay%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2Dfix&rut=a425c35aa84433e4ab36858005b56af78b7dfa534eeced5e34739fa28cddb876
+    - generic [ref=e57]:
+      - heading [level=2] [ref=e58]:
+        - 'link "React Native + Android''s 16 KB Page Size: What It Is, Why It Matters ..." [ref=e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Fmaheshwarimrinal%2Freact%2Dnative%2Dandroids%2D16%2Dkb%2Dpage%2Dsize%2Dwhat%2Dit%2Dis%2Dwhy%2Dit%2Dmatters%2Dand%2Dexactly%2Dhow%2Dto%2Dget%2Dyour%2D34da&rut=1ae46f7632afe01d672275d25e87cd2b0b9a1a600c00baa9d1d23d2d6c211759
+      - generic [ref=e61]:
+        - link [ref=e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Fmaheshwarimrinal%2Freact%2Dnative%2Dandroids%2D16%2Dkb%2Dpage%2Dsize%2Dwhat%2Dit%2Dis%2Dwhy%2Dit%2Dmatters%2Dand%2Dexactly%2Dhow%2Dto%2Dget%2Dyour%2D34da&rut=1ae46f7632afe01d672275d25e87cd2b0b9a1a600c00baa9d1d23d2d6c211759
+        - link "dev.to/maheshwarimrinal/react-native-androids-16-kb-page-size-what-it-is-why-it-matters-and-exactly-how-to-get-your-34da" [ref=e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Fmaheshwarimrinal%2Freact%2Dnative%2Dandroids%2D16%2Dkb%2Dpage%2Dsize%2Dwhat%2Dit%2Dis%2Dwhy%2Dit%2Dmatters%2Dand%2Dexactly%2Dhow%2Dto%2Dget%2Dyour%2D34da&rut=1ae46f7632afe01d672275d25e87cd2b0b9a1a600c00baa9d1d23d2d6c211759
+        - text: 2025-09-17T00:00:00.0000000
+      - 'link "Everything you need to know about React Native and Android''s shift to 16KB memory pages — performance boosts, migration steps, and Play Store rules. If you ship React Native apps to Android, there''s a platform shift you can''t ignore: Android 15 introduces support for 16 KB memory page size." [ref=e65] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Fmaheshwarimrinal%2Freact%2Dnative%2Dandroids%2D16%2Dkb%2Dpage%2Dsize%2Dwhat%2Dit%2Dis%2Dwhy%2Dit%2Dmatters%2Dand%2Dexactly%2Dhow%2Dto%2Dget%2Dyour%2D34da&rut=1ae46f7632afe01d672275d25e87cd2b0b9a1a600c00baa9d1d23d2d6c211759
+    - generic [ref=e67]:
+      - heading [level=2] [ref=e68]:
+        - link "Fix the Android 16 KB rejection — full Play Console guide | 16kb Checker" [ref=e69] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2F16kbchecker.com%2Fguides%2F16kb&rut=1d0ad016f9dc71bb0be469434bd60b417050f16be53f82cea5951cf85b3f0c9b
+      - generic [ref=e71]:
+        - link [ref=e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2F16kbchecker.com%2Fguides%2F16kb&rut=1d0ad016f9dc71bb0be469434bd60b417050f16be53f82cea5951cf85b3f0c9b
+        - link "16kbchecker.com/guides/16kb" [ref=e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2F16kbchecker.com%2Fguides%2F16kb&rut=1d0ad016f9dc71bb0be469434bd60b417050f16be53f82cea5951cf85b3f0c9b
+        - text: 2026-05-13T00:00:00.0000000
+      - 'link "Full guide to Google Play''s 16 KB rule for native libraries: what p_align means, how to fix \"Not compatible with 16 KB page size devices,\" NDK r28+ rebuild steps, and framework-specific notes for Flutter, React Native, and Unity." [ref=e75] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2F16kbchecker.com%2Fguides%2F16kb&rut=1d0ad016f9dc71bb0be469434bd60b417050f16be53f82cea5951cf85b3f0c9b
+    - generic [ref=e77]:
+      - heading [level=2] [ref=e78]:
+        - link "Google Play Console 16 KB memory page size requirement - Which React ..." [ref=e79] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79771008%2Fgoogle%2Dplay%2Dconsole%2D16%2Dkb%2Dmemory%2Dpage%2Dsize%2Drequirement%2Dwhich%2Dreact%2Dnative%2Dcli&rut=2789f881e7848b598952aa4d68e74f8a923cf0da55424398c2e286fc6b5b98b7
+      - generic [ref=e81]:
+        - link [ref=e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79771008%2Fgoogle%2Dplay%2Dconsole%2D16%2Dkb%2Dmemory%2Dpage%2Dsize%2Drequirement%2Dwhich%2Dreact%2Dnative%2Dcli&rut=2789f881e7848b598952aa4d68e74f8a923cf0da55424398c2e286fc6b5b98b7
+        - link "stackoverflow.com/questions/79771008/google-play-console-16-kb-memory-page-size-requirement-which-react-native-cli" [ref=e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79771008%2Fgoogle%2Dplay%2Dconsole%2D16%2Dkb%2Dmemory%2Dpage%2Dsize%2Drequirement%2Dwhich%2Dreact%2Dnative%2Dcli&rut=2789f881e7848b598952aa4d68e74f8a923cf0da55424398c2e286fc6b5b98b7
+        - text: 2025-09-21T00:00:00.0000000
+      - link "Thank you in advance! 🙏 I tried updating my React Native project with newer Gradle and Android NDK versions to see if it would resolve the Play Console warning. I also checked if upgrading React Native CLI versions automatically enables 16 KB page size support. What I expected:" [ref=e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F79771008%2Fgoogle%2Dplay%2Dconsole%2D16%2Dkb%2Dmemory%2Dpage%2Dsize%2Drequirement%2Dwhich%2Dreact%2Dnative%2Dcli&rut=2789f881e7848b598952aa4d68e74f8a923cf0da55424398c2e286fc6b5b98b7
+    - generic [ref=e87]:
+      - heading [level=2] [ref=e88]:
+        - link "React Native Android 16 KB Page Size Fix - Avoid Play Store Rejection" [ref=e89] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.7edge.com%2Ft%2Freact%2Dnative%2Dandroid%2D16%2Dkb%2Dpage%2Dsize%2Dfix%2Davoid%2Dplay%2Dstore%2Drejection%2F340&rut=af8a18507621a767717f42c31d729f126c9c24901342f64785b027b13a28eaa8
+      - generic [ref=e91]:
+        - link [ref=e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.7edge.com%2Ft%2Freact%2Dnative%2Dandroid%2D16%2Dkb%2Dpage%2Dsize%2Dfix%2Davoid%2Dplay%2Dstore%2Drejection%2F340&rut=af8a18507621a767717f42c31d729f126c9c24901342f64785b027b13a28eaa8
+        - link "community.7edge.com/t/react-native-android-16-kb-page-size-fix-avoid-play-store-rejection/340" [ref=e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.7edge.com%2Ft%2Freact%2Dnative%2Dandroid%2D16%2Dkb%2Dpage%2Dsize%2Dfix%2Davoid%2Dplay%2Dstore%2Drejection%2F340&rut=af8a18507621a767717f42c31d729f126c9c24901342f64785b027b13a28eaa8
+        - text: 2026-03-25T00:00:00.0000000
+      - link "If your React Native Android app uses native libraries, it may be rejected by Google Play due to the new 16 KB page size requirement. This issue usually appears as unaligned .so files in your APK or AAB. In this guide, you'll learn how to detect, identify, and fix 16 KB alignment issues step by step, including how to update dependencies, verify compatibility, and patch libraries when needed ..." [ref=e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.7edge.com%2Ft%2Freact%2Dnative%2Dandroid%2D16%2Dkb%2Dpage%2Dsize%2Dfix%2Davoid%2Dplay%2Dstore%2Drejection%2F340&rut=af8a18507621a767717f42c31d729f126c9c24901342f64785b027b13a28eaa8
+    - generic [ref=e97]:
+      - heading [level=2] [ref=e98]:
+        - link "[Fixed] Android 16KB Page Size Error in React Native" [ref=e99] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.technetexperts.com%2Ffix%2Dandroid%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2F&rut=c410809a367950fcf4daff2353b77a70e494cd5d652b50dc0e2ff8ed054692b3
+      - generic [ref=e101]:
+        - link [ref=e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.technetexperts.com%2Ffix%2Dandroid%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2F&rut=c410809a367950fcf4daff2353b77a70e494cd5d652b50dc0e2ff8ed054692b3
+        - link "www.technetexperts.com/fix-android-16kb-page-size-react-native/" [ref=e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.technetexperts.com%2Ffix%2Dandroid%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2F&rut=c410809a367950fcf4daff2353b77a70e494cd5d652b50dc0e2ff8ed054692b3
+        - text: 2026-05-26T00:00:00.0000000
+      - link "Solve the Google Play Console Android 16KB memory page size requirement in legacy React Native apps without upgrading AGP or breaking production code." [ref=e105] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.technetexperts.com%2Ffix%2Dandroid%2D16kb%2Dpage%2Dsize%2Dreact%2Dnative%2F&rut=c410809a367950fcf4daff2353b77a70e494cd5d652b50dc0e2ff8ed054692b3
+    - generic [ref=e107]:
+      - heading [level=2] [ref=e108]:
+        - link "Fix 16KB Page Alignment Errors in React Native for Android" [ref=e109] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fbleepingswift.com%2Fblog%2F16kb%2Dpage%2Dalignment%2Dandroid%2Dreact%2Dnative&rut=00406babafdf121b9951c380fd45e8a660faba7e9819d46307340e53f18a1ed7
+      - generic [ref=e111]:
+        - link [ref=e113] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fbleepingswift.com%2Fblog%2F16kb%2Dpage%2Dalignment%2Dandroid%2Dreact%2Dnative&rut=00406babafdf121b9951c380fd45e8a660faba7e9819d46307340e53f18a1ed7
+        - link "bleepingswift.com/blog/16kb-page-alignment-android-react-native" [ref=e114] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fbleepingswift.com%2Fblog%2F16kb%2Dpage%2Dalignment%2Dandroid%2Dreact%2Dnative&rut=00406babafdf121b9951c380fd45e8a660faba7e9819d46307340e53f18a1ed7
+        - text: 2026-01-13T00:00:00.0000000
+      - link "Google Play now requires 16KB page size support for Android apps. Here's how to fix alignment errors in your React Native project before your next release gets rejected." [ref=e115] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fbleepingswift.com%2Fblog%2F16kb%2Dpage%2Dalignment%2Dandroid%2Dreact%2Dnative&rut=00406babafdf121b9951c380fd45e8a660faba7e9819d46307340e53f18a1ed7
+    - button "Next" [ref=e118] [cursor=pointer]
+    - link "Feedback" [ref=e120] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

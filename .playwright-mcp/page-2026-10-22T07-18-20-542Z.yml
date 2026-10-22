@@ -1,0 +1,105 @@
+- generic [ref=f25e2]:
+  - generic [ref=f25e3]:
+    - link "DuckDuckGo" [ref=f25e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f25e5]:
+      - generic [ref=f25e6]:
+        - textbox [ref=f25e7]: site:reddit.com/r/androiddev account terminated "high risk behavior" appeal
+        - button "Submit" [ref=f25e8] [cursor=pointer]
+      - combobox [ref=f25e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f25e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f25e15]:
+    - generic [ref=f25e17]:
+      - heading [level=2] [ref=f25e18]:
+        - link "Google developer account terminated after getting approval for ..." [ref=f25e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cle2uj%2Fgoogle_developer_account_terminated_after_getting%2F&rut=f26fece6066f5c5d1b35998d772d1cc752e7df9bce77e7c09c407c9a56f9630d
+      - generic [ref=f25e21]:
+        - link [ref=f25e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cle2uj%2Fgoogle_developer_account_terminated_after_getting%2F&rut=f26fece6066f5c5d1b35998d772d1cc752e7df9bce77e7c09c407c9a56f9630d
+        - link "www.reddit.com/r/androiddev/comments/1cle2uj/google_developer_account_terminated_after_getting/" [ref=f25e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cle2uj%2Fgoogle_developer_account_terminated_after_getting%2F&rut=f26fece6066f5c5d1b35998d772d1cc752e7df9bce77e7c09c407c9a56f9630d
+      - link "This says \"high risk behavior\", so we need to identify what that could be. Also, have you used your account for anything else besides this?" [ref=f25e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cle2uj%2Fgoogle_developer_account_terminated_after_getting%2F&rut=f26fece6066f5c5d1b35998d772d1cc752e7df9bce77e7c09c407c9a56f9630d
+    - generic [ref=f25e27]:
+      - heading [level=2] [ref=f25e28]:
+        - link "google play console Account terminated High Risk Behavior" [ref=f25e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cgp6i5%2Fgoogle_play_console_account_terminated_high_risk%2F&rut=067dcd0f0485f7315e3c3eea11cad01a5758cd3a0cd975599366f07220337a8c
+      - generic [ref=f25e31]:
+        - link [ref=f25e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cgp6i5%2Fgoogle_play_console_account_terminated_high_risk%2F&rut=067dcd0f0485f7315e3c3eea11cad01a5758cd3a0cd975599366f07220337a8c
+        - link "www.reddit.com/r/androiddev/comments/1cgp6i5/google_play_console_account_terminated_high_risk/" [ref=f25e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cgp6i5%2Fgoogle_play_console_account_terminated_high_risk%2F&rut=067dcd0f0485f7315e3c3eea11cad01a5758cd3a0cd975599366f07220337a8c
+      - link "While we were preparing to publish our recently completed games, our company's Play Console account in the UK was terminated due to \"High Risk Behavior\". Afterwards, our other account was terminated due to \"Repeated Violations\". In summary, as a result of 2 years of effort, we currently do not have any play console accounts to publish our games." [ref=f25e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cgp6i5%2Fgoogle_play_console_account_terminated_high_risk%2F&rut=067dcd0f0485f7315e3c3eea11cad01a5758cd3a0cd975599366f07220337a8c
+    - button "Next" [ref=f25e38] [cursor=pointer]
+    - link "Feedback" [ref=f25e40] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

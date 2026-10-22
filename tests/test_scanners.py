@@ -119,6 +119,11 @@ export async function initTracking() { return requestTrackingPermissionsAsync();
 export function createPost(b) { return api.post('/posts', b); }
 export function reportContent(id, reason) { return api.post('/reports', { id, reason }); }
 export function blockUser(id) { return api.post('/blocks', { id }); }
+// Apple expects UGC apps to present terms BEFORE registration, with a
+// zero-tolerance clause. A clean fixture has to model that, or the EULA check
+// has nothing compliant to stay quiet on.
+export const TERMS_OF_USE = 'By continuing you agree to our Terms of Use (EULA). '
+  + 'We have zero tolerance for objectionable content or abusive users.';
 """)
     write(base, "ios/App/Info.plist", """<plist><dict>
 <key>NSCameraUsageDescription</key>
@@ -1970,6 +1975,158 @@ class TestPluginManifests(ScannerTestBase):
         changelog = open(os.path.join(ROOT, "CHANGELOG.md"), encoding="utf-8").read()
         self.assertIn("[%s]" % plugin["version"], changelog,
                       "CHANGELOG has no entry for the version being shipped")
+
+
+class TestRejectionHistory(ScannerTestBase):
+    """Every case here is quoted from a real rejection letter for one of two
+    health apps reviewed between Jul 2025 and Oct 2026."""
+
+    def setUp(self):
+        self.proj = tempfile.mkdtemp(dir=self.tmp)
+
+    def _deps(self, **kw):
+        d = {"react-native": "0.76.0"}; d.update(kw)
+        write(self.proj, "package.json", json.dumps({"dependencies": d}))
+
+    def test_healthkit_without_a_primary_health_feature_is_flagged(self):
+        """2.5.1: 'the app's binary includes references to HealthKit components,
+        but the app does not appear to include any primary features that require
+        health or fitness data.'"""
+        self._deps(**{"@kingstinct/react-native-healthkit": "13.0.0"})
+        write(self.proj, "ios/App/Info.plist",
+              "<plist><dict><key>NSHealthShareUsageDescription</key>"
+              "<string>We read your steps.</string></dict></plist>")
+        write(self.proj, "src/Home.tsx", "export const Home = () => <Text>Welcome</Text>;")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "HEALTHKIT-NO-PRIMARY-FEATURE"), "HIGH")
+
+    def test_healthkit_with_real_queries_is_silent(self):
+        self._deps(**{"@kingstinct/react-native-healthkit": "13.0.0"})
+        write(self.proj, "ios/App/Info.plist",
+              "<plist><dict><key>NSHealthShareUsageDescription</key>"
+              "<string>We read your steps.</string></dict></plist>")
+        write(self.proj, "src/health.ts",
+              "export const steps = () => queryQuantitySamples("
+              "'HKQuantityTypeIdentifierStepCount');\n"
+              "export const hr = () => queryQuantitySamples("
+              "'HKQuantityTypeIdentifierHeartRate');")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj),
+                              "HEALTHKIT-NO-PRIMARY-FEATURE"))
+
+    def test_healthkit_without_privacy_policy_is_blocker(self):
+        """5.1.1(i): 'The app uses the HealthKit or CareKit frameworks but does
+        not include the required privacy policy.'"""
+        self._deps(**{"@kingstinct/react-native-healthkit": "13.0.0"})
+        write(self.proj, "src/health.ts",
+              "export const s = () => queryQuantitySamples("
+              "'HKQuantityTypeIdentifierStepCount');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "HEALTH-NO-PRIVACY-POLICY"), "BLOCKER")
+
+    def test_ugc_without_eula_is_flagged(self):
+        """1.2 requires 'The EULA or terms of use agreement presented to users
+        before registering or logging in' — Apple asks for a screen recording
+        of it."""
+        self._deps()
+        write(self.proj, "src/Feed.tsx",
+              "export const createPost = b => api.post('/posts', b);\n"
+              "export const reportContent = i => api.post('/reports', i);\n"
+              "export const blockUser = i => api.post('/blocks', i);")
+        write(self.proj, "src/SignUp.tsx",
+              "export const signUp = e => api.post('/auth/register', e);")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "UGC-EULA-MISSING"), "HIGH")
+
+    def test_ugc_with_eula_at_signup_is_silent(self):
+        self._deps()
+        write(self.proj, "src/Feed.tsx",
+              "export const createPost = b => api.post('/posts', b);\n"
+              "export const reportContent = i => api.post('/reports', i);\n"
+              "export const blockUser = i => api.post('/blocks', i);")
+        write(self.proj, "src/SignUp.tsx",
+              "export const signUp = e => api.post('/auth/register', e);")
+        write(self.proj, "src/locales/en.json",
+              '{"signup":{"eula":"By creating an account you agree to the Terms of Use '
+              '(EULA). We have zero tolerance for objectionable content."}}')
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "UGC-EULA-MISSING"))
+
+    def test_required_dob_or_phone_at_signup_is_flagged(self):
+        """5.1.1(x): basic contact information must be optional — features may
+        not be conditional on name, email, phone or date of birth."""
+        self._deps()
+        write(self.proj, "src/SignUp.tsx", """
+export function SignUp() {
+  return (<>
+    <TextInput placeholder="Phone number" required />
+    <DateInput label="Date of birth" required />
+  </>);
+}
+export const signUp = d => api.post('/auth/register', d);
+""")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj),
+                             "REQUIRED-CONTACT-FIELD"), "MEDIUM")
+
+    def test_optional_contact_fields_are_silent(self):
+        self._deps()
+        write(self.proj, "src/SignUp.tsx", """
+export function SignUp() {
+  return (<>
+    <TextInput placeholder="Phone number (optional)" />
+    <DateInput label="Date of birth" optional />
+  </>);
+}
+export const signUp = d => api.post('/auth/register', d);
+""")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "REQUIRED-CONTACT-FIELD"))
+
+    def test_android_gets_the_block_and_subscription_checks_too(self):
+        """Parity: both checks existed only on iOS, so a dual-store audit
+        reported them on one platform."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "src/Feed.tsx",
+              "export const createPost = b => api.post('/posts', b);\n"
+              "export const reportContent = i => api.post('/reports', i);")
+        write(self.proj, "src/Paywall.tsx",
+              "export const c = 'Manage your subscription billing';")
+        r = run_scan(ANDROID_SCAN, self.proj)
+        self.assertEqual(sev(r, "UGC-BLOCK-MISSING"), "HIGH")
+        self.assertEqual(sev(r, "SUBSCRIPTION-COPY-MISMATCH"), "MEDIUM")
+
+
+    def test_merchant_entitlement_without_apple_pay_use_is_flagged(self):
+        """Apple issued this one TWICE: 'the app binary includes the PassKit
+        framework for implementing Apple Pay, but we were unable to verify any
+        integration of Apple Pay within the app.' PassKit arrives via the
+        in-app-payments entitlement or a pod like StripeApplePay, not as a
+        literal 'PassKit' string."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "ios/App/App.entitlements",
+              "<plist><dict><key>com.apple.developer.in-app-payments</key>"
+              "<array><string>merchant.com.example</string></array></dict></plist>")
+        write(self.proj, "src/pay.ts", "export const checkout = () => api.post('/charge');")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"), "HIGH")
+
+    def test_to_apple_payload_is_not_apple_pay_integration(self):
+        """The real app's only 'ApplePay' match was toApplePayload() in a
+        health-bridge mapping test. Substring matching suppressed a rejection
+        Apple had already issued twice."""
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "ios/App/App.entitlements",
+              "<plist><dict><key>com.apple.developer.in-app-payments</key>"
+              "<array><string>merchant.com.example</string></array></dict></plist>")
+        write(self.proj, "src/health/mapping.ts",
+              "export const toApplePayload = samples => samples.map(toHK);")
+        self.assertEqual(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"), "HIGH")
+
+    def test_real_apple_pay_integration_is_silent(self):
+        self._deps(**{"@stripe/stripe-react-native": "0.38.0"})
+        write(self.proj, "ios/App/App.entitlements",
+              "<plist><dict><key>com.apple.developer.in-app-payments</key>"
+              "<array><string>merchant.com.example</string></array></dict></plist>")
+        write(self.proj, "src/Pay.tsx",
+              "import { PlatformPayButton, confirmPlatformPayPayment } "
+              "from '@stripe/stripe-react-native';\n"
+              "export const Pay = () => <PlatformPayButton onPress={confirmPlatformPayPayment} />;")
+        self.assertIsNone(sev(run_scan(IOS_SCAN, self.proj), "FRAMEWORK-UNUSED"))
 
 
 class TestInterpreterCompatibility(ScannerTestBase):

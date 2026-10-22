@@ -1,0 +1,138 @@
+- generic [ref=f14e2]:
+  - generic [ref=f14e3]:
+    - link "DuckDuckGo" [ref=f14e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f14e5]:
+      - generic [ref=f14e6]:
+        - textbox [ref=f14e7]: site:reddit.com/r/androiddev "suspended" OR "rejected" 2026
+        - button "Submit" [ref=f14e8] [cursor=pointer]
+      - combobox [ref=f14e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f14e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f14e15]:
+    - generic [ref=f14e17]:
+      - heading [level=2] [ref=f14e18]:
+        - link "Did Google Play recently started to suspend after multiple ... - Reddit" [ref=f14e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck1wyp%2Fdid_google_play_recently_started_to_suspend_after%2F&rut=a686e176b039d9b19abbf3cc11a3fc2970d3bc1e4f647b5e011cd0badc9540a3
+      - generic [ref=f14e21]:
+        - link [ref=f14e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck1wyp%2Fdid_google_play_recently_started_to_suspend_after%2F&rut=a686e176b039d9b19abbf3cc11a3fc2970d3bc1e4f647b5e011cd0badc9540a3
+        - link "www.reddit.com/r/androiddev/comments/1ck1wyp/did_google_play_recently_started_to_suspend_after/" [ref=f14e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck1wyp%2Fdid_google_play_recently_started_to_suspend_after%2F&rut=a686e176b039d9b19abbf3cc11a3fc2970d3bc1e4f647b5e011cd0badc9540a3
+      - link "We've had some post recently (around 3) of people mentioning they got their app rejected, republished multiple times without solving the issue (or with other issues) and got their app suspended." [ref=f14e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck1wyp%2Fdid_google_play_recently_started_to_suspend_after%2F&rut=a686e176b039d9b19abbf3cc11a3fc2970d3bc1e4f647b5e011cd0badc9540a3
+    - generic [ref=f14e27]:
+      - heading [level=2] [ref=f14e28]:
+        - link "My app was rejected twice and then suspended. Here you can see ... - Reddit" [ref=f14e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck536m%2Fmy_app_was_rejected_twice_and_then_suspended_here%2F&rut=18268013470c066cc2a63972906107d8617325a3ca97c3a38b5b606826752939
+      - generic [ref=f14e31]:
+        - link [ref=f14e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck536m%2Fmy_app_was_rejected_twice_and_then_suspended_here%2F&rut=18268013470c066cc2a63972906107d8617325a3ca97c3a38b5b606826752939
+        - link "www.reddit.com/r/androiddev/comments/1ck536m/my_app_was_rejected_twice_and_then_suspended_here/" [ref=f14e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck536m%2Fmy_app_was_rejected_twice_and_then_suspended_here%2F&rut=18268013470c066cc2a63972906107d8617325a3ca97c3a38b5b606826752939
+      - 'link "My app was rejected twice and then suspended. Here you can see the 2 rejections, the suspension, and the response from my appeal. What are your thoughts? : r/androiddev Go to androiddev r/androiddev r/androiddev" [ref=f14e35] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1ck536m%2Fmy_app_was_rejected_twice_and_then_suspended_here%2F&rut=18268013470c066cc2a63972906107d8617325a3ca97c3a38b5b606826752939
+    - generic [ref=f14e37]:
+      - heading [level=2] [ref=f14e38]:
+        - 'link "Update: Google was apparently withholding the real reason for ... - Reddit" [ref=f14e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cob6al%2Fupdate_google_was_apparently_withholding_the_real%2F&rut=46871f3b9c0051bdefe80c836b5ef4d0e51dcaff14fdec1df2bd9169e603dca9
+      - generic [ref=f14e41]:
+        - link [ref=f14e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cob6al%2Fupdate_google_was_apparently_withholding_the_real%2F&rut=46871f3b9c0051bdefe80c836b5ef4d0e51dcaff14fdec1df2bd9169e603dca9
+        - link "www.reddit.com/r/androiddev/comments/1cob6al/update_google_was_apparently_withholding_the_real/" [ref=f14e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cob6al%2Fupdate_google_was_apparently_withholding_the_real%2F&rut=46871f3b9c0051bdefe80c836b5ef4d0e51dcaff14fdec1df2bd9169e603dca9
+      - link "Last week I posted the story about my app getting rejected for a bug, then for advertising the fact that it was translated in English and Spanish, then suspended for \"\" I have been working hard on finding the reason for this suspension before taking the advice of the Google Policy Team and resubmitting my app with the stated issues resolved." [ref=f14e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1cob6al%2Fupdate_google_was_apparently_withholding_the_real%2F&rut=46871f3b9c0051bdefe80c836b5ef4d0e51dcaff14fdec1df2bd9169e603dca9
+    - generic [ref=f14e47]:
+      - heading [level=2] [ref=f14e48]:
+        - link "How we have been forced out of android development forever ... - Reddit" [ref=f14e49] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F10soojg%2Fhow_we_have_been_forced_out_of_android%2F&rut=20cfa0b846a43686d542b2c1a351b2820e218cdc95c2d42f6f6f4afca99f34e1
+      - generic [ref=f14e51]:
+        - link [ref=f14e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F10soojg%2Fhow_we_have_been_forced_out_of_android%2F&rut=20cfa0b846a43686d542b2c1a351b2820e218cdc95c2d42f6f6f4afca99f34e1
+        - link "www.reddit.com/r/androiddev/comments/10soojg/how_we_have_been_forced_out_of_android/" [ref=f14e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F10soojg%2Fhow_we_have_been_forced_out_of_android%2F&rut=20cfa0b846a43686d542b2c1a351b2820e218cdc95c2d42f6f6f4afca99f34e1
+      - link "About a week ago, we received an email that our account had been suspended due to an association with a suspended play developer account, which was completely untrue. Our account has never been associated with any suspended play developer account. Then we appealed to the Google Play team to rectify the mistake, but most likely a bot rejected it. Here's our story. Our journey as Android ..." [ref=f14e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F10soojg%2Fhow_we_have_been_forced_out_of_android%2F&rut=20cfa0b846a43686d542b2c1a351b2820e218cdc95c2d42f6f6f4afca99f34e1
+    - generic [ref=f14e57]:
+      - heading [level=2] [ref=f14e58]:
+        - link "App suspended, can I just create a new developer account?" [ref=f14e59] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fx8fd4t%2Fapp_suspended_can_i_just_create_a_new_developer%2F&rut=6a6202618a11c64d6f3c9fe755e8dc42d4bf6a45354f72edf40850d0584d00a0
+      - generic [ref=f14e61]:
+        - link [ref=f14e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fx8fd4t%2Fapp_suspended_can_i_just_create_a_new_developer%2F&rut=6a6202618a11c64d6f3c9fe755e8dc42d4bf6a45354f72edf40850d0584d00a0
+        - link "www.reddit.com/r/androiddev/comments/x8fd4t/app_suspended_can_i_just_create_a_new_developer/" [ref=f14e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fx8fd4t%2Fapp_suspended_can_i_just_create_a_new_developer%2F&rut=6a6202618a11c64d6f3c9fe755e8dc42d4bf6a45354f72edf40850d0584d00a0
+      - link "The first app was left in the rejected status (App Rejected - Removed by Google). After a few months, I received notice that my app that was live was Suspended by Google and removed. I was told it was in violation of the repetitive content policy, presumably in conflict with the first app that was never sent to production because it was rejected." [ref=f14e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fx8fd4t%2Fapp_suspended_can_i_just_create_a_new_developer%2F&rut=6a6202618a11c64d6f3c9fe755e8dc42d4bf6a45354f72edf40850d0584d00a0
+    - button "Next" [ref=f14e68] [cursor=pointer]
+    - link "Feedback" [ref=f14e70] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

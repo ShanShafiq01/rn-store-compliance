@@ -1,0 +1,94 @@
+- generic [ref=f2e2]:
+  - generic [ref=f2e3]:
+    - link "DuckDuckGo" [ref=f2e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f2e5]:
+      - generic [ref=f2e6]:
+        - textbox [ref=f2e7]: site:reddit.com/r/androiddev "package name registration" OR "register package name" 2026
+        - button "Submit" [ref=f2e8] [cursor=pointer]
+      - combobox [ref=f2e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f2e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f2e15]:
+    - generic [ref=f2e20]:
+      - heading [level=1] [ref=f2e21]:
+        - text: No results found for
+        - strong [ref=f2e22]: site:reddit.com/r/androiddev "package name registration" OR "register package name" 2026
+      - paragraph [ref=f2e23]:
+        - strong [ref=f2e24]: Suggestions
+        - text: ":"
+      - list [ref=f2e25]:
+        - listitem [ref=f2e26]: Check spelling
+        - listitem [ref=f2e27]: Try related keywords
+        - listitem [ref=f2e28]: Remove unnecessary punctuation
+      - paragraph
+    - link "Feedback" [ref=f2e30] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

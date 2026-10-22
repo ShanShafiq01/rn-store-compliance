@@ -1,0 +1,143 @@
+- generic [ref=f43e2]:
+  - generic [ref=f43e3]:
+    - link "DuckDuckGo" [ref=f43e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f43e5]:
+      - generic [ref=f43e6]:
+        - textbox [ref=f43e7]: reddit androiddev "November 1, 2026" target API extension Play Console form
+        - button "Submit" [ref=f43e8] [cursor=pointer]
+      - combobox [ref=f43e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f43e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f43e15]:
+    - generic [ref=f43e17]:
+      - heading [level=2] [ref=f43e18]:
+        - link "Google Play's API 36 deadline passed — here's the extension and the ..." [ref=f43e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Ftimbuilds%2Fgoogle%2Dplays%2Dapi%2D36%2Ddeadline%2Dpassed%2Dheres%2Dthe%2Dextension%2Dand%2Dthe%2Dupgrade%2Dchecklist%2D1n4a&rut=c9a291c6751b749d337b8202b0851af454b7f06c65393ede1a7e410833171f35
+      - generic [ref=f43e21]:
+        - link [ref=f43e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Ftimbuilds%2Fgoogle%2Dplays%2Dapi%2D36%2Ddeadline%2Dpassed%2Dheres%2Dthe%2Dextension%2Dand%2Dthe%2Dupgrade%2Dchecklist%2D1n4a&rut=c9a291c6751b749d337b8202b0851af454b7f06c65393ede1a7e410833171f35
+        - link "dev.to/timbuilds/google-plays-api-36-deadline-passed-heres-the-extension-and-the-upgrade-checklist-1n4a" [ref=f43e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Ftimbuilds%2Fgoogle%2Dplays%2Dapi%2D36%2Ddeadline%2Dpassed%2Dheres%2Dthe%2Dextension%2Dand%2Dthe%2Dupgrade%2Dchecklist%2D1n4a&rut=c9a291c6751b749d337b8202b0851af454b7f06c65393ede1a7e410833171f35
+        - text: 2026-10-03T00:00:00.0000000
+      - 'link "The bad news: it''s a one-time extension to November 1, 2026, requested through a form in Play Console. It''s not automatic, and November 1 is a hard date. If you''re blocked, file the extension today — then do the work, because the extension is not a plan. The rule, precisely Phones, tablets, foldables: new apps and all updates must target API 36+." [ref=f43e25] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fdev.to%2Ftimbuilds%2Fgoogle%2Dplays%2Dapi%2D36%2Ddeadline%2Dpassed%2Dheres%2Dthe%2Dextension%2Dand%2Dthe%2Dupgrade%2Dchecklist%2D1n4a&rut=c9a291c6751b749d337b8202b0851af454b7f06c65393ede1a7e410833171f35
+    - generic [ref=f43e27]:
+      - heading [level=2] [ref=f43e28]:
+        - link "Target API level requirements for Google Play apps" [ref=f43e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F11926878%3Fhl%3Den&rut=3c9fc08c4033beeaa8019d474ea19fdf89f2d89f9088e0f5ea380a65980c4138
+      - generic [ref=f43e31]:
+        - link [ref=f43e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F11926878%3Fhl%3Den&rut=3c9fc08c4033beeaa8019d474ea19fdf89f2d89f9088e0f5ea380a65980c4138
+        - link "support.google.com/googleplay/android-developer/answer/11926878?hl=en" [ref=f43e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F11926878%3Fhl%3Den&rut=3c9fc08c4033beeaa8019d474ea19fdf89f2d89f9088e0f5ea380a65980c4138
+        - text: 2026-08-31T00:00:00.0000000
+      - link "You will be able to request an extension to November 1, 2026 if you need more time to update your app. You'll be able to access your app's extension forms in Play Console later this year." [ref=f43e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F11926878%3Fhl%3Den&rut=3c9fc08c4033beeaa8019d474ea19fdf89f2d89f9088e0f5ea380a65980c4138
+    - generic [ref=f43e37]:
+      - heading [level=2] [ref=f43e38]:
+        - 'link "Google Play Target API 36 in 2026: What Happens If You Miss August 31" [ref=f43e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.codecross.com%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2D36%2Ddeadline%2D2026&rut=6d8a715d1bb36f7b0455cdeac26021a898b4b3cbae185988065dad807884fb0e
+      - generic [ref=f43e41]:
+        - link [ref=f43e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.codecross.com%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2D36%2Ddeadline%2D2026&rut=6d8a715d1bb36f7b0455cdeac26021a898b4b3cbae185988065dad807884fb0e
+        - link "www.codecross.com/articles/google-play-target-api-36-deadline-2026" [ref=f43e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.codecross.com%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2D36%2Ddeadline%2D2026&rut=6d8a715d1bb36f7b0455cdeac26021a898b4b3cbae185988065dad807884fb0e
+        - text: 2026-08-28T00:00:00.0000000
+      - link "Budget QA on a release track. Extensions You can request an extension to November 1, 2026, in Play Console (Policy status). The form sits on the warning or issue details page. Treat that extension as backup, not the plan. See target API level requirements. Flutter / React Native / native You still owe a toolchain that can compile against the ..." [ref=f43e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.codecross.com%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2D36%2Ddeadline%2D2026&rut=6d8a715d1bb36f7b0455cdeac26021a898b4b3cbae185988065dad807884fb0e
+    - generic [ref=f43e47]:
+      - heading [level=2] [ref=f43e48]:
+        - link "Google Play Target API Level 2026 | The App Architect" [ref=f43e49] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Ftheapparchitect.com%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=5752369c1b2cc09317fac3b0b79669d3019f638657168d99a1e1f04718af42a8
+      - generic [ref=f43e51]:
+        - link [ref=f43e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Ftheapparchitect.com%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=5752369c1b2cc09317fac3b0b79669d3019f638657168d99a1e1f04718af42a8
+        - link "theapparchitect.com/google-play-target-api-level/" [ref=f43e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Ftheapparchitect.com%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=5752369c1b2cc09317fac3b0b79669d3019f638657168d99a1e1f04718af42a8
+        - text: 2026-10-08T00:00:00.0000000
+      - 'link "It is the targetSdkVersion in the app''s build settings. Request the extension if you need time. Google grants it until November 1, 2026, through a form linked in the app''s notifications in Play Console. Plan the update: raise the target, update the libraries and build tools that depend on it, test on real devices and release." [ref=f43e55] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Ftheapparchitect.com%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=5752369c1b2cc09317fac3b0b79669d3019f638657168d99a1e1f04718af42a8
+    - generic [ref=f43e57]:
+      - heading [level=2] [ref=f43e58]:
+        - 'link "Google Play Target API Level: 2026 Deadline | RapidLabs" [ref=f43e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Frapidlabs.dev%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=f1bb46b9e3293ca6093255982d0b367d404b2d9210efd3a82808d07d6f9440d1
+      - generic [ref=f43e61]:
+        - link [ref=f43e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Frapidlabs.dev%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=f1bb46b9e3293ca6093255982d0b367d404b2d9210efd3a82808d07d6f9440d1
+        - link "rapidlabs.dev/articles/google-play-target-api-level/" [ref=f43e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Frapidlabs.dev%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=f1bb46b9e3293ca6093255982d0b367d404b2d9210efd3a82808d07d6f9440d1
+        - text: 2026-08-05T00:00:00.0000000
+      - link "Existing apps can request an extension through the Policy status page in Play Console, where a form appears for apps flagged as non-compliant. Google states that the extension deadline is November 1, 2026, so the longest an approved extension buys you is roughly two months past the August date." [ref=f43e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Frapidlabs.dev%2Farticles%2Fgoogle%2Dplay%2Dtarget%2Dapi%2Dlevel%2F&rut=f1bb46b9e3293ca6093255982d0b367d404b2d9210efd3a82808d07d6f9440d1
+    - button "Next" [ref=f43e68] [cursor=pointer]
+    - link "Feedback" [ref=f43e70] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

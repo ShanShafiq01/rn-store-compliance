@@ -1,0 +1,193 @@
+- generic [ref=f40e2]:
+  - generic [ref=f40e3]:
+    - link "DuckDuckGo" [ref=f40e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f40e5]:
+      - generic [ref=f40e6]:
+        - textbox [ref=f40e7]: site:reddit.com target API 35 app no longer discoverable new users installs dropped
+        - button "Submit" [ref=f40e8] [cursor=pointer]
+      - combobox [ref=f40e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f40e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f40e15]:
+    - generic [ref=f40e17]:
+      - heading [level=2] [ref=f40e18]:
+        - link "Expanding Play's Target Level API Requirements to Strengthen User ..." [ref=f40e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftxuh32%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=c14771ca5e319e2069e03ae04d0720435e51d56ccfd23afd5f8ebc095e1e2379
+      - generic [ref=f40e21]:
+        - link [ref=f40e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftxuh32%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=c14771ca5e319e2069e03ae04d0720435e51d56ccfd23afd5f8ebc095e1e2379
+        - link "www.reddit.com/r/androiddev/comments/txuh32/expanding_plays_target_level_api_requirements_to/" [ref=f40e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftxuh32%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=c14771ca5e319e2069e03ae04d0720435e51d56ccfd23afd5f8ebc095e1e2379
+      - link "And all of this just to increase the API level. Developers with a lot of apps will have trouble doing this for every app one by one.For the users this is also bad. Let's say I'm buying a new phone with latest version of Android. I can download only apps updated in the last two years. What? This makes the play store very limited." [ref=f40e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftxuh32%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=c14771ca5e319e2069e03ae04d0720435e51d56ccfd23afd5f8ebc095e1e2379
+    - generic [ref=f40e27]:
+      - heading [level=2] [ref=f40e28]:
+        - link "What do you think about the increasing target API requirements?" [ref=f40e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F11zcxnh%2Fwhat_do_you_think_about_the_increasing_target_api%2F&rut=214d875486940fbf42259d0668669a7eca18b3d07bc9205f3487b82b855dccc6
+      - generic [ref=f40e31]:
+        - link [ref=f40e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F11zcxnh%2Fwhat_do_you_think_about_the_increasing_target_api%2F&rut=214d875486940fbf42259d0668669a7eca18b3d07bc9205f3487b82b855dccc6
+        - link "www.reddit.com/r/androiddev/comments/11zcxnh/what_do_you_think_about_the_increasing_target_api/" [ref=f40e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F11zcxnh%2Fwhat_do_you_think_about_the_increasing_target_api%2F&rut=214d875486940fbf42259d0668669a7eca18b3d07bc9205f3487b82b855dccc6
+      - link "New apps and app updates must target API level 33 to be submitted to Google Play (Wear OS must target API 30). Existing apps must target API level 31 or above to remain discoverable by all users on Google Play." [ref=f40e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F11zcxnh%2Fwhat_do_you_think_about_the_increasing_target_api%2F&rut=214d875486940fbf42259d0668669a7eca18b3d07bc9205f3487b82b855dccc6
+    - generic [ref=f40e37]:
+      - heading [level=2] [ref=f40e38]:
+        - link "Can we clarify the new API requirements? I've heard ... - Reddit" [ref=f40e39] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15xagfh%2Fcan_we_clarify_the_new_api_requirements_ive_heard%2F&rut=152e6b14758e7e836f7a959a56beca96bb700f5dcc83784177da12007ba7e16d
+      - generic [ref=f40e41]:
+        - link [ref=f40e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15xagfh%2Fcan_we_clarify_the_new_api_requirements_ive_heard%2F&rut=152e6b14758e7e836f7a959a56beca96bb700f5dcc83784177da12007ba7e16d
+        - link "www.reddit.com/r/androiddev/comments/15xagfh/can_we_clarify_the_new_api_requirements_ive_heard/" [ref=f40e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15xagfh%2Fcan_we_clarify_the_new_api_requirements_ive_heard%2F&rut=152e6b14758e7e836f7a959a56beca96bb700f5dcc83784177da12007ba7e16d
+      - link "If you app has target level below 31, it will not be visible on Google Play to NEW users with phones on API level higher than your app, unless, that user installed your app before." [ref=f40e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15xagfh%2Fcan_we_clarify_the_new_api_requirements_ive_heard%2F&rut=152e6b14758e7e836f7a959a56beca96bb700f5dcc83784177da12007ba7e16d
+    - generic [ref=f40e47]:
+      - heading [level=2] [ref=f40e48]:
+        - 'link "Google api target level requirement : r/androiddev - Reddit" [ref=f40e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15wqwe1%2Fgoogle_api_target_level_requirement%2F&rut=8e087336072fbf2d4544b42900318e736eb5e88a37d525a4b1f2f7632d7b6b9d
+      - generic [ref=f40e51]:
+        - link [ref=f40e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15wqwe1%2Fgoogle_api_target_level_requirement%2F&rut=8e087336072fbf2d4544b42900318e736eb5e88a37d525a4b1f2f7632d7b6b9d
+        - link "www.reddit.com/r/androiddev/comments/15wqwe1/google_api_target_level_requirement/" [ref=f40e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15wqwe1%2Fgoogle_api_target_level_requirement%2F&rut=8e087336072fbf2d4544b42900318e736eb5e88a37d525a4b1f2f7632d7b6b9d
+      - link "Based on my understanding from the above context, older apps that already targeting api level 31 will still be available for devices that running Android os higher than the targeted level. So my question is can u still can update the old app while targeting api level 31 after Aug 31?" [ref=f40e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15wqwe1%2Fgoogle_api_target_level_requirement%2F&rut=8e087336072fbf2d4544b42900318e736eb5e88a37d525a4b1f2f7632d7b6b9d
+    - generic [ref=f40e57]:
+      - heading [level=2] [ref=f40e58]:
+        - 'link "About Target API level new requirements : r/androiddev - Reddit" [ref=f40e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fz9jgur%2Fabout_target_api_level_new_requirements%2F&rut=92a4dfb7461f4524df48a2eb5a243f46df27d934dabeb9b6874220c64ffa4559
+      - generic [ref=f40e61]:
+        - link [ref=f40e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fz9jgur%2Fabout_target_api_level_new_requirements%2F&rut=92a4dfb7461f4524df48a2eb5a243f46df27d934dabeb9b6874220c64ffa4559
+        - link "www.reddit.com/r/androiddev/comments/z9jgur/about_target_api_level_new_requirements/" [ref=f40e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fz9jgur%2Fabout_target_api_level_new_requirements%2F&rut=92a4dfb7461f4524df48a2eb5a243f46df27d934dabeb9b6874220c64ffa4559
+      - link "AFAIK you could upload updates to existing apps until November this year without targetting SDK 33, but not anymore. I may be wrong, the app I'm working on was updated with 33 about two weeks ago." [ref=f40e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fz9jgur%2Fabout_target_api_level_new_requirements%2F&rut=92a4dfb7461f4524df48a2eb5a243f46df27d934dabeb9b6874220c64ffa4559
+    - generic [ref=f40e67]:
+      - heading [level=2] [ref=f40e68]:
+        - 'link "Why did my app installs go to zero? : r/androiddev - Reddit" [ref=f40e69] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fofxvky%2Fwhy_did_my_app_installs_go_to_zero%2F&rut=ca644473d20b449624e380d4131abb337a488e975f84facbb3abe1adac211f9f
+      - generic [ref=f40e71]:
+        - link [ref=f40e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fofxvky%2Fwhy_did_my_app_installs_go_to_zero%2F&rut=ca644473d20b449624e380d4131abb337a488e975f84facbb3abe1adac211f9f
+        - link "www.reddit.com/r/androiddev/comments/ofxvky/why_did_my_app_installs_go_to_zero/" [ref=f40e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fofxvky%2Fwhy_did_my_app_installs_go_to_zero%2F&rut=ca644473d20b449624e380d4131abb337a488e975f84facbb3abe1adac211f9f
+      - link "I noticed at the beginning of the month, my installs plummeted to 0 or 1 from a rolling 30 day average of 23. I can't figure out why it dropped so much. My app is 3 months old so the new app category boost probably wore off long ago and I haven't made any recent updates that could turn off users." [ref=f40e75] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fofxvky%2Fwhy_did_my_app_installs_go_to_zero%2F&rut=ca644473d20b449624e380d4131abb337a488e975f84facbb3abe1adac211f9f
+    - generic [ref=f40e77]:
+      - heading [level=2] [ref=f40e78]:
+        - link "No Google Play store target API requirement ratchet for 2024?" [ref=f40e79] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4rqqw%2Fno_google_play_store_target_api_requirement%2F&rut=cd4b24bc4d6c2c66243672a4273bda562687ce2cfdb801adf0789febd5bf65ed
+      - generic [ref=f40e81]:
+        - link [ref=f40e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4rqqw%2Fno_google_play_store_target_api_requirement%2F&rut=cd4b24bc4d6c2c66243672a4273bda562687ce2cfdb801adf0789febd5bf65ed
+        - link "www.reddit.com/r/androiddev/comments/1d4rqqw/no_google_play_store_target_api_requirement/" [ref=f40e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4rqqw%2Fno_google_play_store_target_api_requirement%2F&rut=cd4b24bc4d6c2c66243672a4273bda562687ce2cfdb801adf0789febd5bf65ed
+      - link "They clearly said the API will be to have a version at most 1 year old as target SDK to update the app and 2 years old to keep it live. Why would it be any different / you expect further communication?" [ref=f40e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1d4rqqw%2Fno_google_play_store_target_api_requirement%2F&rut=cd4b24bc4d6c2c66243672a4273bda562687ce2cfdb801adf0789febd5bf65ed
+    - generic [ref=f40e87]:
+      - heading [level=2] [ref=f40e88]:
+        - link "Expanding Play's Target Level API Requirements to Strengthen User ..." [ref=f40e89] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FAndroid%2Fcomments%2Ftxrb8c%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=989501ba6feda45c4a18b38aee163aa1656c3a97b9d2b7ae95390a3ccf6cc419
+      - generic [ref=f40e91]:
+        - link [ref=f40e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FAndroid%2Fcomments%2Ftxrb8c%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=989501ba6feda45c4a18b38aee163aa1656c3a97b9d2b7ae95390a3ccf6cc419
+        - link "www.reddit.com/r/Android/comments/txrb8c/expanding_plays_target_level_api_requirements_to/" [ref=f40e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FAndroid%2Fcomments%2Ftxrb8c%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=989501ba6feda45c4a18b38aee163aa1656c3a97b9d2b7ae95390a3ccf6cc419
+      - link "The shifting target API level requirement only affects developers who are trying to keep their apps updated or submit new apps. It doesn't affect developers who don't plan to update their apps. There are a ton of apps targeting older API levels that Google probably sees as contributing to a lower quality experience, so Google wants to make sure those unupdated apps stay out of search results ..." [ref=f40e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FAndroid%2Fcomments%2Ftxrb8c%2Fexpanding_plays_target_level_api_requirements_to%2F&rut=989501ba6feda45c4a18b38aee163aa1656c3a97b9d2b7ae95390a3ccf6cc419
+    - generic [ref=f40e97]:
+      - heading [level=2] [ref=f40e98]:
+        - 'link "Target API 34 timelines : r/androiddev - Reddit" [ref=f40e99] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1dccvlf%2Ftarget_api_34_timelines%2F&rut=6a2d66de1d1d44b0c9d99387bcbf44eda233a5666184e58767aab274104c53e0
+      - generic [ref=f40e101]:
+        - link [ref=f40e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1dccvlf%2Ftarget_api_34_timelines%2F&rut=6a2d66de1d1d44b0c9d99387bcbf44eda233a5666184e58767aab274104c53e0
+        - link "www.reddit.com/r/androiddev/comments/1dccvlf/target_api_34_timelines/" [ref=f40e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1dccvlf%2Ftarget_api_34_timelines%2F&rut=6a2d66de1d1d44b0c9d99387bcbf44eda233a5666184e58767aab274104c53e0
+      - link "Every new Android Releases they (the android team at Google) introduces new features but also security features. Some are breaking changes so apps that target an older SDK get a pass to still behave in the previous, less secure way. Historically this has been used by bad actors to circumvent the security measures." [ref=f40e105] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1dccvlf%2Ftarget_api_34_timelines%2F&rut=6a2d66de1d1d44b0c9d99387bcbf44eda233a5666184e58767aab274104c53e0
+    - generic [ref=f40e107]:
+      - heading [level=2] [ref=f40e108]:
+        - link "How do you deal with google play making api 33 a required target? - Reddit" [ref=f40e109] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1buc3b9%2Fhow_do_you_deal_with_google_play_making_api_33_a%2F&rut=2488042542da4760313e32acf784df5c12fa3821464f7f238f589e4d5fd42f3c
+      - generic [ref=f40e111]:
+        - link [ref=f40e113] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1buc3b9%2Fhow_do_you_deal_with_google_play_making_api_33_a%2F&rut=2488042542da4760313e32acf784df5c12fa3821464f7f238f589e4d5fd42f3c
+        - link "www.reddit.com/r/androiddev/comments/1buc3b9/how_do_you_deal_with_google_play_making_api_33_a/" [ref=f40e114] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1buc3b9%2Fhow_do_you_deal_with_google_play_making_api_33_a%2F&rut=2488042542da4760313e32acf784df5c12fa3821464f7f238f589e4d5fd42f3c
+      - link "I haven't developed android apps since a few years ago and my knowledge on publishing apps is probably a bit dusty. I just realised that new apps now need to target api 33 and higher, to be publishable on google play." [ref=f40e115] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1buc3b9%2Fhow_do_you_deal_with_google_play_making_api_33_a%2F&rut=2488042542da4760313e32acf784df5c12fa3821464f7f238f589e4d5fd42f3c
+    - button "Next" [ref=f40e118] [cursor=pointer]
+    - link "Feedback" [ref=f40e120] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

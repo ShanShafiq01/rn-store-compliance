@@ -1,14 +1,14 @@
 # Check reference
 
 Every finding the two scanners can emit. **Generated from the scanner source by `scripts/gen_checks.py`** — don't edit by hand; CI fails if this file drifts from the code.
-**102 checks total.**
+**108 checks total.**
 
 
 Severity meanings are in each skill's `SKILL.md`. In short: BLOCKER stops the release, HIGH is a commonly cited rejection or an enforcement risk, MEDIUM is reviewer discretion, LOW is polish.
 
 Every check is a **lead, not a verdict**. Confirm each hit by reading the code around it — and note that a clean scan is not compliance, since the structural problems (moderation quality, whether a disclosure form matches the code, whether receipt validation really happens server-side) are not detectable by static analysis.
 
-## iOS — 56 checks
+## iOS — 60 checks
 
 `skills/rn-ios-review/scripts/scan.py`
 
@@ -17,6 +17,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `DYNAMIC-CODE` | BLOCKER | 2.5.2 | Dynamic code execution — downloading or evaluating code is prohibited |
 | `EXTERNAL-PAYMENT` | BLOCKER | 3.1.1 | Possible external purchase LINK for digital goods. 3.1.1(a) removes the entitlement |
 | `HEALTH-DATA-TO-ADS` | BLOCKER | 5.1.2(vi) / 2.5.18 / 5.1.3(i) | A health value appears to flow into an analytics or advertising |
+| `HEALTH-NO-PRIVACY-POLICY` | BLOCKER | 5.1.1(i) | HealthKit or CareKit is used with no privacy policy reference |
 | `ICON-NAME-MISSING` | BLOCKER | upload validation | CFBundleIconName is present but empty. The upload fails with |
 | `MEDIA-DOWNLOADER` | BLOCKER | 5.2.3 | Third-party media downloader. 5.2.3 bars the ability to save, convert or download media |
 | `MINING` | BLOCKER | 2.4.2 / 3.1.5(ii) | Possible on-device cryptocurrency mining |
@@ -35,6 +36,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `CONTACTS-SELECT-ALL` | HIGH | 5.1.2(v) | A select-all affordance in a file that reads Contacts. 5.1.2(v) |
 | `CRASH-PII` | HIGH | 5.1.1 / 5.1.2 | Personal data possibly sent to a crash or analytics processor — scrub before send and disclose in App Privacy |
 | `FRAMEWORK-UNUSED` | HIGH | 2.1 | The {framework} framework is linked but no {label} integration |
+| `HEALTHKIT-NO-PRIMARY-FEATURE` | HIGH | 2.5.1 | HealthKit is declared — entitlement, usage string or package — |
 | `HEALTHKIT-PERM-UNUSED` | HIGH | 2.1 / 5.1.1 | HealthKit types requested but no read or write found for them: |
 | `IAP-UNFINISHED-TRANSACTION` | HIGH | 2.3.2 / 2.1 | StoreKit purchases are made but no finishTransaction call was |
 | `INSECURE-STORAGE` | HIGH | 1.6 | Token or personal data in AsyncStorage (unencrypted on disk) — use SecureStore / Keychain |
@@ -49,6 +51,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `SOCIAL-REVOKE-MISSING` | HIGH | 5.1.1(v) | Social login present with no revocation path. 5.1.1(v) requires a |
 | `TRACKING-SDK` | HIGH | 5.1.2 | Tracking / analytics / ads SDK — needs ATT before it initializes, plus matching App Privacy answers |
 | `UGC-BLOCK-MISSING` | HIGH | 1.2 | User-generated content with reporting but no self-service block. |
+| `UGC-EULA-MISSING` | HIGH | 1.2 | User-generated content and account creation with no EULA or terms |
 | `UGC-MODERATION` | HIGH | 1.2 | User-generated content features found with no report/block/moderation path. Apple requires |
 | `BACKGROUND-MODES` | MEDIUM | 2.5.4 | Background modes declared — every entry must be genuinely used for its |
 | `ENTITLEMENTS-REVIEW` | MEDIUM | 2.5.1 / 5.1.3 / 5.4 | Entitlements present that reviewers scrutinise: |
@@ -58,6 +61,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `OTA-UPDATES` | MEDIUM | 2.3.1 / 2.5.2 | OTA update channel — permitted for fixes and content, not for shipping unreviewed features |
 | `POD-PRIVACY-MANIFESTS` | MEDIUM | Privacy manifests | {len(third_party)} third-party pods in Podfile.lock. Any SDK on Apple's |
 | `PRIVACY-MANIFEST-UNVERIFIED` | MEDIUM | Privacy manifests | No ios/ directory, so this looks like a managed Expo project and the privacy manifest |
+| `REQUIRED-CONTACT-FIELD` | MEDIUM | 5.1.1(x) | Sign-up appears to require a phone number or date of birth. |
 | `REVIEW-PROMPT` | MEDIUM | 5.6.1 | Possible custom rating prompt — only the system StoreReview API is allowed |
 | `SUBSCRIPTION-COPY-MISMATCH` | MEDIUM | 3.1.1 / 3.1.3(e) | In-app copy says 'subscription' but no IAP library is present. |
 | `SWEEPSTAKES-NO-RULES` | MEDIUM | 5.3.1 / 5.3.2 | Promotion vocabulary with no official rules found. 5.3.2 requires |
@@ -71,7 +75,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `IN-APP-THIRD-PARTY-PAYMENT` | varies | 3.1.1 | A third-party payment sheet is presented inside the app. If what is |
 | `PURPOSE-STRING` | varies | 5.1.1(ii) | Purpose string problem — |
 
-## Android — 46 checks
+## Android — 48 checks
 
 `skills/rn-android-review/scripts/scan.py`
 
@@ -105,6 +109,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PURCHASE-ACK` | HIGH | Payments | Billing integration found with no purchase acknowledgement or token verification. |
 | `SIGNING-SECRET-COMMITTED` | HIGH | Device & Network Abuse | A signing credential appears to be hardcoded in {label}. Anyone with the |
 | `SYSTEM-UI-IMITATION` | HIGH | Mobile Unwanted Software | Notification copy imitating a system warning. Play bars apps that mimic system |
+| `UGC-BLOCK-MISSING` | HIGH | User-generated content | User-generated content with no self-service block found. Reporting |
 | `UGC-MODERATION` | HIGH | User Generated Content | UGC features found with no report/block/moderation path. Play requires a user agreement, |
 | `ALLOW-BACKUP` | MEDIUM | User Data | android:allowBackup is enabled — app data can reach the user's cloud backup; disable or scope it if the app holds sensitive data |
 | `BILLING-VERIFY` | MEDIUM | Play Billing Library deprecation | Billing wrapper present — confirm the pinned Play Billing Library major version meets |
@@ -117,6 +122,7 @@ Every check is a **lead, not a verdict**. Confirm each hit by reading the code a
 | `PAGE-SIZE-16KB` | MEDIUM | 16 KB page size support | {len(sos)} native library file(s) in the build output. Each must be built for 16 KB page |
 | `SDK-UNAUDITABLE-SOURCE` | MEDIUM | Use of SDKs In Apps | Dependencies resolved from a git ref or tarball rather than a |
 | `STORE-LISTING-TITLE` | MEDIUM | Store Listing and Promotion | The app title breaks Play's metadata rules: |
+| `SUBSCRIPTION-COPY-MISMATCH` | MEDIUM | Payments | Purchase copy says 'subscription' but no billing library is |
 | `TARGET-SDK-UNKNOWN` | MEDIUM | Target API level requirement | Could not determine targetSdkVersion — check the value resolved by the RN gradle plugin |
 | `TRACKING-SDK` | MEDIUM | Data safety | Tracking / analytics / ads SDK — must appear in the Data safety form, and AD_ID must be declared if used |
 | `WEBVIEW-SHELL` | MEDIUM | Spam & Minimum Functionality | WebView usage — if it is the primary surface, the app may be judged a repackaged website |

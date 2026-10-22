@@ -1,0 +1,193 @@
+- generic [ref=f41e2]:
+  - generic [ref=f41e3]:
+    - link "DuckDuckGo" [ref=f41e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f41e5]:
+      - generic [ref=f41e6]:
+        - textbox [ref=f41e7]: site:reddit.com google play rejected "data safety" react native expo SDK undeclared
+        - button "Submit" [ref=f41e8] [cursor=pointer]
+      - combobox [ref=f41e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f41e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f41e15]:
+    - generic [ref=f41e17]:
+      - heading [level=2] [ref=f41e18]:
+        - 'link "Issue found: Invalid Data safety form / I did as I was told ... - Reddit" [ref=f41e19] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+      - generic [ref=f41e21]:
+        - link [ref=f41e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+        - link "www.reddit.com/r/androiddev/comments/zns20s/issue_found_invalid_data_safety_form_i_did_as_i/" [ref=f41e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+      - link "We reviewed your app's Data safety form in Play Console and found discrepancies between it and how the app collects and shares user data. All apps are required to complete an accurate Data safety form that discloses their data collection and sharing practices - this is required even if your app does not collect any user data." [ref=f41e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzns20s%2Fissue_found_invalid_data_safety_form_i_did_as_i%2F&rut=18daea377695a661b4a03568db208a73a5cc2a1b1f14bfb8035c02d3d91a95b5
+    - generic [ref=f41e27]:
+      - heading [level=2] [ref=f41e28]:
+        - link "How to fill out \"Data safety\" section for a React Native App" [ref=f41e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F128y8mx%2Fhow_to_fill_out_data_safety_section_for_a_react%2F&rut=c47236abb03e22c7e720001b485e35ef9841e761d4fb15fe00b7d7fb13595fde
+      - generic [ref=f41e31]:
+        - link [ref=f41e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F128y8mx%2Fhow_to_fill_out_data_safety_section_for_a_react%2F&rut=c47236abb03e22c7e720001b485e35ef9841e761d4fb15fe00b7d7fb13595fde
+        - link "www.reddit.com/r/androiddev/comments/128y8mx/how_to_fill_out_data_safety_section_for_a_react/" [ref=f41e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F128y8mx%2Fhow_to_fill_out_data_safety_section_for_a_react%2F&rut=c47236abb03e22c7e720001b485e35ef9841e761d4fb15fe00b7d7fb13595fde
+      - link "My app is just a simple game that does not specifically collect or use user data for the functionality of the app, but it is built using React Native, Expo, and uses AdMob." [ref=f41e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F128y8mx%2Fhow_to_fill_out_data_safety_section_for_a_react%2F&rut=c47236abb03e22c7e720001b485e35ef9841e761d4fb15fe00b7d7fb13595fde
+    - generic [ref=f41e37]:
+      - heading [level=2] [ref=f41e38]:
+        - 'link "App rejected: Issue found: Invalid Data safety form - Reddit" [ref=f41e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+      - generic [ref=f41e41]:
+        - link [ref=f41e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+        - link "www.reddit.com/r/androiddev/comments/zl31i2/app_rejected_issue_found_invalid_data_safety_form/" [ref=f41e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+      - link "Hi, our app got rejected, we dont collect any form of data, we filled that in data safety form." [ref=f41e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fzl31i2%2Fapp_rejected_issue_found_invalid_data_safety_form%2F&rut=5b46a3b3274e038a09299b546a483314587d4472ef09532440346660543666ae
+    - generic [ref=f41e47]:
+      - heading [level=2] [ref=f41e48]:
+        - 'link "Data safety section in Google Play User Data policy: Invalid ... - Reddit" [ref=f41e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+      - generic [ref=f41e51]:
+        - link [ref=f41e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+        - link "www.reddit.com/r/androiddev/comments/158z33x/data_safety_section_in_google_play_user_data/" [ref=f41e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+      - 'link "Im getting this\"Data safety section in Google Play User Data policy: Invalid Data safety form We reviewed your app''s Data safety form in Play Console and found discrepancies between it and how the app collects and shares user data." [ref=f41e55] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F158z33x%2Fdata_safety_section_in_google_play_user_data%2F&rut=2929982171d7351042a88b9f77c675ef3a2059b6a6f899f176c62fba9b3df243
+    - generic [ref=f41e57]:
+      - heading [level=2] [ref=f41e58]:
+        - 'link "Data safety form : r/reactnative - Reddit" [ref=f41e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F16qah6a%2Fdata_safety_form%2F&rut=aa437caae72697d076b81fffd79755dabaadd34004b20e8aae4e07df577a3d32
+      - generic [ref=f41e61]:
+        - link [ref=f41e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F16qah6a%2Fdata_safety_form%2F&rut=aa437caae72697d076b81fffd79755dabaadd34004b20e8aae4e07df577a3d32
+        - link "www.reddit.com/r/reactnative/comments/16qah6a/data_safety_form/" [ref=f41e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F16qah6a%2Fdata_safety_form%2F&rut=aa437caae72697d076b81fffd79755dabaadd34004b20e8aae4e07df577a3d32
+      - link "Hi everyone, I am facing a bit of a situation and need your advice. I added amplitide analytics sdk in my app and it was rejected and rightly so as i hadn't filled the data safety info. Now i want to fill the form but i have a question. In the app i am using google signin which is completely optional and does not hinder any functionality." [ref=f41e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F16qah6a%2Fdata_safety_form%2F&rut=aa437caae72697d076b81fffd79755dabaadd34004b20e8aae4e07df577a3d32
+    - generic [ref=f41e67]:
+      - heading [level=2] [ref=f41e68]:
+        - 'link "Data Safety section missing? : r/androiddev - Reddit" [ref=f41e69] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F187rpy7%2Fdata_safety_section_missing%2F&rut=82883e0612aa58db3f4871b7e5ab1aae5b5cec246ba0706bde03b23745f5df20
+      - generic [ref=f41e71]:
+        - link [ref=f41e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F187rpy7%2Fdata_safety_section_missing%2F&rut=82883e0612aa58db3f4871b7e5ab1aae5b5cec246ba0706bde03b23745f5df20
+        - link "www.reddit.com/r/androiddev/comments/187rpy7/data_safety_section_missing/" [ref=f41e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F187rpy7%2Fdata_safety_section_missing%2F&rut=82883e0612aa58db3f4871b7e5ab1aae5b5cec246ba0706bde03b23745f5df20
+      - link "All developers are prompted and required to answer a new set of questions in the Data safety form focused around deletion practices. If your app is within the scope of the policy requirements, you must disclose if your app provides account deletion and provide the web link within your Data safety form in Play Console." [ref=f41e75] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F187rpy7%2Fdata_safety_section_missing%2F&rut=82883e0612aa58db3f4871b7e5ab1aae5b5cec246ba0706bde03b23745f5df20
+    - generic [ref=f41e77]:
+      - heading [level=2] [ref=f41e78]:
+        - link "Google play rejected app on \"- Policy Declaration - Data Safety Section ..." [ref=f41e79] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1auzgdl%2Fgoogle_play_rejected_app_on_policy_declaration%2F&rut=0dd1f3bcab9b77985e77a20f1af5e4f11802db34621343430726e483aec5c274
+      - generic [ref=f41e81]:
+        - link [ref=f41e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1auzgdl%2Fgoogle_play_rejected_app_on_policy_declaration%2F&rut=0dd1f3bcab9b77985e77a20f1af5e4f11802db34621343430726e483aec5c274
+        - link "www.reddit.com/r/androiddev/comments/1auzgdl/google_play_rejected_app_on_policy_declaration/" [ref=f41e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1auzgdl%2Fgoogle_play_rejected_app_on_policy_declaration%2F&rut=0dd1f3bcab9b77985e77a20f1af5e4f11802db34621343430726e483aec5c274
+      - link "Google play rejected app on \"- Policy Declaration - Data Safety Section\" more specifically on user account/deletion link. I have included the user account deletion link but still getting rejected." [ref=f41e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1auzgdl%2Fgoogle_play_rejected_app_on_policy_declaration%2F&rut=0dd1f3bcab9b77985e77a20f1af5e4f11802db34621343430726e483aec5c274
+    - generic [ref=f41e87]:
+      - heading [level=2] [ref=f41e88]:
+        - 'link "Google Play Data Safety Section : r/androiddev - Reddit" [ref=f41e89] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Frceer8%2Fgoogle_play_data_safety_section%2F&rut=34d8a9771f22563904ee075af2d00c71432766729da967b606dcf2467da37ce8
+      - generic [ref=f41e91]:
+        - link [ref=f41e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Frceer8%2Fgoogle_play_data_safety_section%2F&rut=34d8a9771f22563904ee075af2d00c71432766729da967b606dcf2467da37ce8
+        - link "www.reddit.com/r/androiddev/comments/rceer8/google_play_data_safety_section/" [ref=f41e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Frceer8%2Fgoogle_play_data_safety_section%2F&rut=34d8a9771f22563904ee075af2d00c71432766729da967b606dcf2467da37ce8
+      - link "I'm an Android app developer. Recently, I was working on an app that had <Google AdMob SDK> integrated into it. While publishing the app on Google Play Store, I came across the Data Safety Section on the console. It asks for developers to declare the data types the app, or any 3rd-party SDK collects from the user. For my app I was easily able to create a list of data points I was collecting ..." [ref=f41e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Frceer8%2Fgoogle_play_data_safety_section%2F&rut=34d8a9771f22563904ee075af2d00c71432766729da967b606dcf2467da37ce8
+    - generic [ref=f41e97]:
+      - heading [level=2] [ref=f41e98]:
+        - 'link "Data Safety Section in Google Play console : r/googleplay - Reddit" [ref=f41e99] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgoogleplay%2Fcomments%2Frigg1w%2Fdata_safety_section_in_google_play_console%2F&rut=484de571978e5e23f155cf71f358de3be9b0e1b335201b1d2d0e4a7006e44df1
+      - generic [ref=f41e101]:
+        - link [ref=f41e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgoogleplay%2Fcomments%2Frigg1w%2Fdata_safety_section_in_google_play_console%2F&rut=484de571978e5e23f155cf71f358de3be9b0e1b335201b1d2d0e4a7006e44df1
+        - link "www.reddit.com/r/googleplay/comments/rigg1w/data_safety_section_in_google_play_console/" [ref=f41e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgoogleplay%2Fcomments%2Frigg1w%2Fdata_safety_section_in_google_play_console%2F&rut=484de571978e5e23f155cf71f358de3be9b0e1b335201b1d2d0e4a7006e44df1
+      - link "Recently, I was working on an app that had Google AdMob SDK integrated into it. While publishing the app on Google Play Store, I came across the Data Safety Section on the console. It asks for developers to declare the data types the app, or any 3rd-party SDK collects from the user." [ref=f41e105] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgoogleplay%2Fcomments%2Frigg1w%2Fdata_safety_section_in_google_play_console%2F&rut=484de571978e5e23f155cf71f358de3be9b0e1b335201b1d2d0e4a7006e44df1
+    - generic [ref=f41e107]:
+      - heading [level=2] [ref=f41e108]:
+        - link "Google Play Store \"Data Safety\" Documentation Interpretation" [ref=f41e109] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Flegaladviceofftopic%2Fcomments%2F1dc8lji%2Fgoogle_play_store_data_safety_documentation%2F&rut=73f7c21fbc2d6a4724f9bd57746920aa50169a29ba63c30f43e70c8d97c7f09e
+      - generic [ref=f41e111]:
+        - link [ref=f41e113] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Flegaladviceofftopic%2Fcomments%2F1dc8lji%2Fgoogle_play_store_data_safety_documentation%2F&rut=73f7c21fbc2d6a4724f9bd57746920aa50169a29ba63c30f43e70c8d97c7f09e
+        - link "www.reddit.com/r/legaladviceofftopic/comments/1dc8lji/google_play_store_data_safety_documentation/" [ref=f41e114] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Flegaladviceofftopic%2Fcomments%2F1dc8lji%2Fgoogle_play_store_data_safety_documentation%2F&rut=73f7c21fbc2d6a4724f9bd57746920aa50169a29ba63c30f43e70c8d97c7f09e
+      - 'link "Does the associated \"learn more about data safety\" Google documentation explanation of: \"Developers do not need to disclose data accessed by an app as \"collected\" in the Data safety section if:\" (Screenshot #2)" [ref=f41e115] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Flegaladviceofftopic%2Fcomments%2F1dc8lji%2Fgoogle_play_store_data_safety_documentation%2F&rut=73f7c21fbc2d6a4724f9bd57746920aa50169a29ba63c30f43e70c8d97c7f09e
+    - button "Next" [ref=f41e118] [cursor=pointer]
+    - link "Feedback" [ref=f41e120] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

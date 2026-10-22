@@ -1,0 +1,139 @@
+- generic [ref=f19e2]:
+  - generic [ref=f19e3]:
+    - link "DuckDuckGo" [ref=f19e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f19e5]:
+      - generic [ref=f19e6]:
+        - textbox [ref=f19e7]: reddit "Photo and Video Permissions" rejected react native expo image picker play console
+        - button "Submit" [ref=f19e8] [cursor=pointer]
+      - combobox [ref=f19e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f19e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f19e15]:
+    - generic [ref=f19e17]:
+      - heading [level=2] [ref=f19e18]:
+        - link "[expo-image-picker] Photo and Video Permissions policy" [ref=f19e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F25361&rut=4f68729ad3c1cc45cc75ab8f4247944444ae1ad6dd4540f9ca5b5106c07f9799
+      - generic [ref=f19e21]:
+        - link [ref=f19e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F25361&rut=4f68729ad3c1cc45cc75ab8f4247944444ae1ad6dd4540f9ca5b5106c07f9799
+        - link "github.com/expo/expo/issues/25361" [ref=f19e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F25361&rut=4f68729ad3c1cc45cc75ab8f4247944444ae1ad6dd4540f9ca5b5106c07f9799
+      - link "For a more privacy preserving experience for users, we're introducing the Photo and Video Permissions policy to reduce the number of apps permitted to request broad photo/video permissions (READ_MEDIA_IMAGES and READ_MEDIA_VIDEO). Apps may only access photos and videos for purposes directly related to app functionality. Apps that have a one-time or infrequent need to access these files are ..." [ref=f19e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F25361&rut=4f68729ad3c1cc45cc75ab8f4247944444ae1ad6dd4540f9ca5b5106c07f9799
+    - generic [ref=f19e27]:
+      - heading [level=2] [ref=f19e28]:
+        - link "expo-image-picker automatically injects restricted READ_MEDIA ... - GitHub" [ref=f19e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F42819&rut=a97412800c7d07a9c828243dae7054614e0353ab04bbec7e17aacd33738eb86c
+      - generic [ref=f19e31]:
+        - link [ref=f19e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F42819&rut=a97412800c7d07a9c828243dae7054614e0353ab04bbec7e17aacd33738eb86c
+        - link "github.com/expo/expo/issues/42819" [ref=f19e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F42819&rut=a97412800c7d07a9c828243dae7054614e0353ab04bbec7e17aacd33738eb86c
+        - text: 2026-02-03T00:00:00.0000000
+      - link "Play Photo and Video Permissions policy, which requires the use of system pickers without declaring persistent media permissions. As a result, apps using expo-image-picker can be rejected by Google Play solely due to the presence of these permissions, unless developers manually override the Android manifest or remove the package entirely." [ref=f19e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fgithub.com%2Fexpo%2Fexpo%2Fissues%2F42819&rut=a97412800c7d07a9c828243dae7054614e0353ab04bbec7e17aacd33738eb86c
+    - generic [ref=f19e37]:
+      - heading [level=2] [ref=f19e38]:
+        - link "Google Play rejected our app due to photo/video permissions ... - LinkedIn" [ref=f19e39] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.linkedin.com%2Fposts%2Feshginfarzali_reactnative%2Dexpo%2Dandroid13%2Dactivity%2D7354409701826043904%2DPO3O&rut=7e16ad57aa414104514e39ccb56472a3a0a2638d78005e7f6a16017841d330e4
+      - generic [ref=f19e41]:
+        - link [ref=f19e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.linkedin.com%2Fposts%2Feshginfarzali_reactnative%2Dexpo%2Dandroid13%2Dactivity%2D7354409701826043904%2DPO3O&rut=7e16ad57aa414104514e39ccb56472a3a0a2638d78005e7f6a16017841d330e4
+        - link "www.linkedin.com/posts/eshginfarzali_reactnative-expo-android13-activity-7354409701826043904-PO3O" [ref=f19e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.linkedin.com%2Fposts%2Feshginfarzali_reactnative%2Dexpo%2Dandroid13%2Dactivity%2D7354409701826043904%2DPO3O&rut=7e16ad57aa414104514e39ccb56472a3a0a2638d78005e7f6a16017841d330e4
+      - link "🚫📷 Google Play Permission Policy & Expo Image Picker Issue Recently, our app update was rejected by Google Play due to a violation of the Photo and Video Permissions policy. The issue ..." [ref=f19e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.linkedin.com%2Fposts%2Feshginfarzali_reactnative%2Dexpo%2Dandroid13%2Dactivity%2D7354409701826043904%2DPO3O&rut=7e16ad57aa414104514e39ccb56472a3a0a2638d78005e7f6a16017841d330e4
+    - generic [ref=f19e47]:
+      - heading [level=2] [ref=f19e48]:
+        - 'link "React-Native: Image picker complain with new Google MEDIA policy" [ref=f19e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F78541426%2Freact%2Dnative%2Dimage%2Dpicker%2Dcomplain%2Dwith%2Dnew%2Dgoogle%2Dmedia%2Dpolicy&rut=b4e198f81318d48d02539f599b255ec5caf99c867dd72c9b9cb24037a24ffae7
+      - generic [ref=f19e51]:
+        - link [ref=f19e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F78541426%2Freact%2Dnative%2Dimage%2Dpicker%2Dcomplain%2Dwith%2Dnew%2Dgoogle%2Dmedia%2Dpolicy&rut=b4e198f81318d48d02539f599b255ec5caf99c867dd72c9b9cb24037a24ffae7
+        - link "stackoverflow.com/questions/78541426/react-native-image-picker-complain-with-new-google-media-policy" [ref=f19e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F78541426%2Freact%2Dnative%2Dimage%2Dpicker%2Dcomplain%2Dwith%2Dnew%2Dgoogle%2Dmedia%2Dpolicy&rut=b4e198f81318d48d02539f599b255ec5caf99c867dd72c9b9cb24037a24ffae7
+      - 'link "I''m using typical library (react-native-image-picker) for working with media in react-native. With new google policy this library doesn''t match. Official Google explanation: For a more privacy preserving experience for users, we''re introducing the Photo and Video Permissions policy to reduce the number of apps permitted to request broad photo/video permissions (READ_MEDIA_IMAGES and READ ..." [ref=f19e55] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F78541426%2Freact%2Dnative%2Dimage%2Dpicker%2Dcomplain%2Dwith%2Dnew%2Dgoogle%2Dmedia%2Dpolicy&rut=b4e198f81318d48d02539f599b255ec5caf99c867dd72c9b9cb24037a24ffae7
+    - generic [ref=f19e57]:
+      - heading [level=2] [ref=f19e58]:
+        - 'link "Google Play photo and video permissions policy: picker or declaration" [ref=f19e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fptkd.com%2Fjournal%2Fgoogle%2Dplay%2Dphoto%2Dvideo%2Dpermissions%2Dpolicy&rut=aeae6effa918c1ed3630eaa7e9768a2d078f1ab19f3de502b5bf17897e4ffdab
+      - generic [ref=f19e61]:
+        - link [ref=f19e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fptkd.com%2Fjournal%2Fgoogle%2Dplay%2Dphoto%2Dvideo%2Dpermissions%2Dpolicy&rut=aeae6effa918c1ed3630eaa7e9768a2d078f1ab19f3de502b5bf17897e4ffdab
+        - link "ptkd.com/journal/google-play-photo-video-permissions-policy" [ref=f19e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fptkd.com%2Fjournal%2Fgoogle%2Dplay%2Dphoto%2Dvideo%2Dpermissions%2Dpolicy&rut=aeae6effa918c1ed3630eaa7e9768a2d078f1ab19f3de502b5bf17897e4ffdab
+      - link "Google Play allows apps targeting Android 13 or later to request READ_MEDIA_IMAGES and READ_MEDIA_VIDEO only when a system picker cannot serve core functionality, and compliance has been mandatory since 28 May 2025. Most apps should remove the permissions and use the Android photo picker, which needs no permission." [ref=f19e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fptkd.com%2Fjournal%2Fgoogle%2Dplay%2Dphoto%2Dvideo%2Dpermissions%2Dpolicy&rut=aeae6effa918c1ed3630eaa7e9768a2d078f1ab19f3de502b5bf17897e4ffdab
+    - button "Next" [ref=f19e68] [cursor=pointer]
+    - link "Feedback" [ref=f19e70] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

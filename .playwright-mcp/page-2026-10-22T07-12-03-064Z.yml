@@ -1,0 +1,193 @@
+- generic [ref=f39e2]:
+  - generic [ref=f39e3]:
+    - link "DuckDuckGo" [ref=f39e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f39e5]:
+      - generic [ref=f39e6]:
+        - textbox [ref=f39e7]: site:reddit.com/r/androiddev package name registration developer verification
+        - button "Submit" [ref=f39e8] [cursor=pointer]
+      - combobox [ref=f39e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f39e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f39e15]:
+    - generic [ref=f39e17]:
+      - heading [level=2] [ref=f39e18]:
+        - link "Advice about developer name/identity to use in Google/Apple ... - Reddit" [ref=f39e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftpmc8l%2Fadvice_about_developer_nameidentity_to_use_in%2F&rut=b920e42269b2d060da6c4b3fc69fa6b0ed74ff05bb808d464c58d95c16fa457d
+      - generic [ref=f39e21]:
+        - link [ref=f39e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftpmc8l%2Fadvice_about_developer_nameidentity_to_use_in%2F&rut=b920e42269b2d060da6c4b3fc69fa6b0ed74ff05bb808d464c58d95c16fa457d
+        - link "www.reddit.com/r/androiddev/comments/tpmc8l/advice_about_developer_nameidentity_to_use_in/" [ref=f39e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftpmc8l%2Fadvice_about_developer_nameidentity_to_use_in%2F&rut=b920e42269b2d060da6c4b3fc69fa6b0ed74ff05bb808d464c58d95c16fa457d
+      - link "It's a Flutter app so I also plan to release it in Apple's App Store shortly after. When I created my developer account in the Play Store I just used my real first name + last name. I also happen to own my FirstNameLastName.com domain (I haven't set up any website yet), so I decided to use that as well for the app's package name." [ref=f39e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ftpmc8l%2Fadvice_about_developer_nameidentity_to_use_in%2F&rut=b920e42269b2d060da6c4b3fc69fa6b0ed74ff05bb808d464c58d95c16fa457d
+    - generic [ref=f39e27]:
+      - heading [level=2] [ref=f39e28]:
+        - 'link "How to change Package name : r/androiddev - Reddit" [ref=f39e29] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ft7t9qa%2Fhow_to_change_package_name%2F&rut=cb146460b41a2c8206a44c8272849d62f2c401d31203fa66b5de5fadbe9ea067
+      - generic [ref=f39e31]:
+        - link [ref=f39e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ft7t9qa%2Fhow_to_change_package_name%2F&rut=cb146460b41a2c8206a44c8272849d62f2c401d31203fa66b5de5fadbe9ea067
+        - link "www.reddit.com/r/androiddev/comments/t7t9qa/how_to_change_package_name/" [ref=f39e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ft7t9qa%2Fhow_to_change_package_name%2F&rut=cb146460b41a2c8206a44c8272849d62f2c401d31203fa66b5de5fadbe9ea067
+      - link "The package name is not necessarily the same as application ID. Android, play store etc. identify apps based on application ID. Once an app is published on the Play Store, you cannot change its application ID. You can of course remove any references to google in the package name, but the application ID must stay the same." [ref=f39e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Ft7t9qa%2Fhow_to_change_package_name%2F&rut=cb146460b41a2c8206a44c8272849d62f2c401d31203fa66b5de5fadbe9ea067
+    - generic [ref=f39e37]:
+      - heading [level=2] [ref=f39e38]:
+        - 'link "What should I use for my package name? : r/androiddev - Reddit" [ref=f39e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fifcxsn%2Fwhat_should_i_use_for_my_package_name%2F&rut=b116def87fbf4fd8b54547a82d9bfaa419e761254231cd59cacbaf6ae4951fbb
+      - generic [ref=f39e41]:
+        - link [ref=f39e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fifcxsn%2Fwhat_should_i_use_for_my_package_name%2F&rut=b116def87fbf4fd8b54547a82d9bfaa419e761254231cd59cacbaf6ae4951fbb
+        - link "www.reddit.com/r/androiddev/comments/ifcxsn/what_should_i_use_for_my_package_name/" [ref=f39e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fifcxsn%2Fwhat_should_i_use_for_my_package_name%2F&rut=b116def87fbf4fd8b54547a82d9bfaa419e761254231cd59cacbaf6ae4951fbb
+      - link "So I'm trying to, mentally, start a new project and I always get confused on what my package name should be. I had a couple classes on Android development and we used edu.schoolname.idnumber.nameofapp for the package name but I graduated and now I should use a different one." [ref=f39e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fifcxsn%2Fwhat_should_i_use_for_my_package_name%2F&rut=b116def87fbf4fd8b54547a82d9bfaa419e761254231cd59cacbaf6ae4951fbb
+    - generic [ref=f39e47]:
+      - heading [level=2] [ref=f39e48]:
+        - 'link "Do I have to have a domain name? : r/androiddev - Reddit" [ref=f39e49] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fatwzwu%2Fdo_i_have_to_have_a_domain_name%2F&rut=9e1da5d53c5b47e7e0816a8b6a8e28d4c96041ea408776014eb796d5f72d5270
+      - generic [ref=f39e51]:
+        - link [ref=f39e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fatwzwu%2Fdo_i_have_to_have_a_domain_name%2F&rut=9e1da5d53c5b47e7e0816a8b6a8e28d4c96041ea408776014eb796d5f72d5270
+        - link "www.reddit.com/r/androiddev/comments/atwzwu/do_i_have_to_have_a_domain_name/" [ref=f39e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fatwzwu%2Fdo_i_have_to_have_a_domain_name%2F&rut=9e1da5d53c5b47e7e0816a8b6a8e28d4c96041ea408776014eb796d5f72d5270
+      - link "Do I have to have a domain name to publish my app? If not then what should I name my packages? Is there a way to rename my package on an existing project?" [ref=f39e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fatwzwu%2Fdo_i_have_to_have_a_domain_name%2F&rut=9e1da5d53c5b47e7e0816a8b6a8e28d4c96041ea408776014eb796d5f72d5270
+    - generic [ref=f39e57]:
+      - heading [level=2] [ref=f39e58]:
+        - 'link "Help Needed: Google Play Console Identity Verification Rejections" [ref=f39e59] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1drc9oi%2Fhelp_needed_google_play_console_identity%2F&rut=79505e1b3bebf71694da774633b86e5360cd5342cb3a89ba6985358719825616
+      - generic [ref=f39e61]:
+        - link [ref=f39e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1drc9oi%2Fhelp_needed_google_play_console_identity%2F&rut=79505e1b3bebf71694da774633b86e5360cd5342cb3a89ba6985358719825616
+        - link "www.reddit.com/r/androiddev/comments/1drc9oi/help_needed_google_play_console_identity/" [ref=f39e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1drc9oi%2Fhelp_needed_google_play_console_identity%2F&rut=79505e1b3bebf71694da774633b86e5360cd5342cb3a89ba6985358719825616
+      - link "Hi everyone, I'm having an ongoing issue with the identity verification process on Google Play Console, and I need your help. I am trying to create a developer profile, but every time I submit documents for proof of address, they are rejected. I have submitted a government-issued certificate of residence and utility bills, but all of them have been rejected. Google support keeps telling me ..." [ref=f39e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1drc9oi%2Fhelp_needed_google_play_console_identity%2F&rut=79505e1b3bebf71694da774633b86e5360cd5342cb3a89ba6985358719825616
+    - generic [ref=f39e67]:
+      - heading [level=2] [ref=f39e68]:
+        - link "New developer verification requirements from August 31, 2023 - Reddit" [ref=f39e69] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+      - generic [ref=f39e71]:
+        - link [ref=f39e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+        - link "www.reddit.com/r/androiddev/comments/15vj69q/new_developer_verification_requirements_from/" [ref=f39e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+      - 'link "New developer verification requirements from August 31, 2023 - phone number? So, Google says: To create a new Play Console developer account for an organization after August 31, 2023, you''ll now need to include:" [ref=f39e75] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+    - generic [ref=f39e77]:
+      - heading [level=2] [ref=f39e78]:
+        - link "How does google verify developer ID, if an account is created ... - Reddit" [ref=f39e79] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fo5tyoo%2Fhow_does_google_verify_developer_id_if_an_account%2F&rut=fe5128938a1ffe4f8e0022add3ebcd4ebaf09b2087e17e0d3b050ef2b9890da7
+      - generic [ref=f39e81]:
+        - link [ref=f39e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fo5tyoo%2Fhow_does_google_verify_developer_id_if_an_account%2F&rut=fe5128938a1ffe4f8e0022add3ebcd4ebaf09b2087e17e0d3b050ef2b9890da7
+        - link "www.reddit.com/r/androiddev/comments/o5tyoo/how_does_google_verify_developer_id_if_an_account/" [ref=f39e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fo5tyoo%2Fhow_does_google_verify_developer_id_if_an_account%2F&rut=fe5128938a1ffe4f8e0022add3ebcd4ebaf09b2087e17e0d3b050ef2b9890da7
+      - link "When I tried to sign up for google developer console, this message alarmed me. 👇 \"To create an account you'll need to pay a one-off $25 registration fee. You may be asked to verify your identity using a valid ID to complete your account registration. If we can't verify your identity, the registration fee won't be refunded.\"" [ref=f39e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fo5tyoo%2Fhow_does_google_verify_developer_id_if_an_account%2F&rut=fe5128938a1ffe4f8e0022add3ebcd4ebaf09b2087e17e0d3b050ef2b9890da7
+    - generic [ref=f39e87]:
+      - heading [level=2] [ref=f39e88]:
+        - link "Google Play developer account for single member LLC - Reddit" [ref=f39e89] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17vxzs1%2Fgoogle_play_developer_account_for_single_member%2F&rut=1fdcedce8e85f6225001cd1e7221b327e91bf603ac13c46d148a8324a37ed1e8
+      - generic [ref=f39e91]:
+        - link [ref=f39e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17vxzs1%2Fgoogle_play_developer_account_for_single_member%2F&rut=1fdcedce8e85f6225001cd1e7221b327e91bf603ac13c46d148a8324a37ed1e8
+        - link "www.reddit.com/r/androiddev/comments/17vxzs1/google_play_developer_account_for_single_member/" [ref=f39e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17vxzs1%2Fgoogle_play_developer_account_for_single_member%2F&rut=1fdcedce8e85f6225001cd1e7221b327e91bf603ac13c46d148a8324a37ed1e8
+      - link "I want to register for a Google Play developer account. My goal is to publish a game I've developed under an LLC name. I'm the only member of the LLC. What's the advice of this sub - register as a personal account or an organization?" [ref=f39e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17vxzs1%2Fgoogle_play_developer_account_for_single_member%2F&rut=1fdcedce8e85f6225001cd1e7221b327e91bf603ac13c46d148a8324a37ed1e8
+    - generic [ref=f39e97]:
+      - heading [level=2] [ref=f39e98]:
+        - link "How to get your ID verified for a Developer Account? - Reddit" [ref=f39e99] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fy2wbtv%2Fhow_to_get_your_id_verified_for_a_developer%2F&rut=eb2c3a77766fd67eab01f68c61c06e9dbd0e3051c67be41c99797c4e87ccd702
+      - generic [ref=f39e101]:
+        - link [ref=f39e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fy2wbtv%2Fhow_to_get_your_id_verified_for_a_developer%2F&rut=eb2c3a77766fd67eab01f68c61c06e9dbd0e3051c67be41c99797c4e87ccd702
+        - link "www.reddit.com/r/androiddev/comments/y2wbtv/how_to_get_your_id_verified_for_a_developer/" [ref=f39e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fy2wbtv%2Fhow_to_get_your_id_verified_for_a_developer%2F&rut=eb2c3a77766fd67eab01f68c61c06e9dbd0e3051c67be41c99797c4e87ccd702
+      - link "How to get your ID verified for a Developer Account? I followed all directions and uploaded my valid ID to the Play Console, but now after 2 days it says the ID verification failed and I need to contact support." [ref=f39e105] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fy2wbtv%2Fhow_to_get_your_id_verified_for_a_developer%2F&rut=eb2c3a77766fd67eab01f68c61c06e9dbd0e3051c67be41c99797c4e87ccd702
+    - generic [ref=f39e107]:
+      - heading [level=2] [ref=f39e108]:
+        - 'link "Verifying ID with Google Play : r/androiddev - Reddit" [ref=f39e109] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fpjc161%2Fverifying_id_with_google_play%2F&rut=e557c99e28e9ad15baf68769987e49774e835b09a9add5e8a63100494d1349bf
+      - generic [ref=f39e111]:
+        - link [ref=f39e113] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fpjc161%2Fverifying_id_with_google_play%2F&rut=e557c99e28e9ad15baf68769987e49774e835b09a9add5e8a63100494d1349bf
+        - link "www.reddit.com/r/androiddev/comments/pjc161/verifying_id_with_google_play/" [ref=f39e114] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fpjc161%2Fverifying_id_with_google_play%2F&rut=e557c99e28e9ad15baf68769987e49774e835b09a9add5e8a63100494d1349bf
+      - link "Of course, as you can imagine, I received the following response. Thanks for contacting the Google Play Developer Support team. Upon checking on your Developer Account, I noticed that your ID Verification status is failed as of the moment. Unfortunately, we cannot process for account deletion and refund unless your ID Verification status is fixed." [ref=f39e115] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fpjc161%2Fverifying_id_with_google_play%2F&rut=e557c99e28e9ad15baf68769987e49774e835b09a9add5e8a63100494d1349bf
+    - button "Next" [ref=f39e118] [cursor=pointer]
+    - link "Feedback" [ref=f39e120] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

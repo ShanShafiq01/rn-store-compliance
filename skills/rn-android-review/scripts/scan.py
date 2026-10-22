@@ -48,6 +48,12 @@ CODE_EXT = {
 PUBLIC_CONFIG = re.compile(r"google-services\.json$", re.I)
 
 # Source sets that are never part of a Play upload.
+BILLING_CONTEXT = (r"price|pricing|billing|billed|free trial|paywall|/month|per month|"
+                   r"cancel any ?time|manage your|auto-?renew")
+SUBSCRIPTION_COPY_RX = (r"(?i)(?:\bsubscriptions?\b[^\n]{0,80}(?:" + BILLING_CONTEXT + r")"
+                        r"|(?:" + BILLING_CONTEXT + r")[^\n]{0,80}\bsubscriptions?\b)")
+re.compile(SUBSCRIPTION_COPY_RX)   # fail at import, not mid-scan
+
 DEBUG_VARIANT = re.compile(r"/src/(debug|androidTest|test)/")
 
 TEST_HINT = re.compile(
@@ -916,6 +922,37 @@ def scan_abi_and_signing(root, findings):
 
 
 def scan_structural(root, findings):
+    # Parity with the iOS scanner: both of these existed only there, so a
+    # dual-store audit reported them on one platform and stayed silent on the
+    # other. Play's UGC and payment expectations are the same shape.
+    has_ugc = _grep(root, r"(?i)(createPost|newComment|postComment|sendMessage|"
+                          r"uploadPhoto|publishPost|<Feed)")
+    if has_ugc and not _grep(root, r"(?i)(blockUser|block_user|blockedUsers|muteUser|"
+                                   r"/blocks?\b|blockAccount)"):
+        findings.append({
+            "id": "UGC-BLOCK-MISSING", "severity": "HIGH", "policy": "User-generated content",
+            "description": "User-generated content with no self-service block found. Reporting "
+                           "and admin moderation are not a substitute: the user must be able to "
+                           "block another user directly, with that person's content leaving "
+                           "their feed immediately, and the block must reach your moderation "
+                           "queue. Apple cites the same requirement under 1.2, so build it once.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
+    if _grep(root, SUBSCRIPTION_COPY_RX) and not _grep(
+            root, r"react-native-iap|react-native-purchases|expo-in-app-purchases|"
+                  r"react-native-qonversion|react-native-adapty|expo-iap|glassfy|"
+                  r"com\.android\.billingclient"):
+        findings.append({
+            "id": "SUBSCRIPTION-COPY-MISMATCH", "severity": "MEDIUM",
+            "policy": "Payments",
+            "description": "Purchase copy says 'subscription' but no billing library is "
+                           "present. Play requires its billing system for in-app digital "
+                           "purchases outside the alternative-billing programs; if nothing "
+                           "auto-renews, do not use the word in the app or the listing.",
+            "file": "(repo-wide)", "line": 0, "evidence": "",
+        })
+
     # Play's AI-Generated Content policy: reporting must be reachable in-app.
     # Match the package, never the bare word: "replicate" is ordinary English
     # (it matched medical prose about bacteria replicating), exactly the class of

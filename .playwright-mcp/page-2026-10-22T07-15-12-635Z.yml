@@ -1,0 +1,182 @@
+- generic [ref=f8e2]:
+  - generic [ref=f8e3]:
+    - link "DuckDuckGo" [ref=f8e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f8e5]:
+      - generic [ref=f8e6]:
+        - textbox [ref=f8e7]: site:reddit.com "AD_ID" permission data safety advertising id rejected play console 2026
+        - button "Submit" [ref=f8e8] [cursor=pointer]
+      - combobox [ref=f8e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f8e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f8e15]:
+    - generic [ref=f8e17]:
+      - heading [level=2] [ref=f8e18]:
+        - link "Manifest file doesn't include AD_ID permission Play Console" [ref=f8e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F122wa4y%2Fmanifest_file_doesnt_include_ad_id_permission%2F&rut=e06344b9909af52f154c2d547f59e027b9b62fa7bf8650c74ff2bd83012fc535
+      - generic [ref=f8e21]:
+        - link [ref=f8e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F122wa4y%2Fmanifest_file_doesnt_include_ad_id_permission%2F&rut=e06344b9909af52f154c2d547f59e027b9b62fa7bf8650c74ff2bd83012fc535
+        - link "www.reddit.com/r/androiddev/comments/122wa4y/manifest_file_doesnt_include_ad_id_permission/" [ref=f8e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F122wa4y%2Fmanifest_file_doesnt_include_ad_id_permission%2F&rut=e06344b9909af52f154c2d547f59e027b9b62fa7bf8650c74ff2bd83012fc535
+      - link "Apps that target Android 13 (API 33) without the AD_ID permission will have their advertising identifier zeroed out. This may impact advertising and analytics use cases" [ref=f8e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F122wa4y%2Fmanifest_file_doesnt_include_ad_id_permission%2F&rut=e06344b9909af52f154c2d547f59e027b9b62fa7bf8650c74ff2bd83012fc535
+    - generic [ref=f8e27]:
+      - heading [level=2] [ref=f8e28]:
+        - link "Your advertising ID declaration in Play Console says that your ... - Reddit" [ref=f8e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1awc7c0%2Fyour_advertising_id_declaration_in_play_console%2F&rut=af21613071751634faf53095935c0baf49c1c2cfa75650893c87b157500356a0
+      - generic [ref=f8e31]:
+        - link [ref=f8e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1awc7c0%2Fyour_advertising_id_declaration_in_play_console%2F&rut=af21613071751634faf53095935c0baf49c1c2cfa75650893c87b157500356a0
+        - link "www.reddit.com/r/flutterhelp/comments/1awc7c0/your_advertising_id_declaration_in_play_console/" [ref=f8e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1awc7c0%2Fyour_advertising_id_declaration_in_play_console%2F&rut=af21613071751634faf53095935c0baf49c1c2cfa75650893c87b157500356a0
+      - link "This may break your advertising and analytics use cases, and cause loss of revenue. Learn more You can remove these errors by updating your advertising ID declaration info_outline Apps that target Android 13 (API 33) without the AD_ID permission will have their advertising identifier zeroed out. This may impact advertising and analytics use ..." [ref=f8e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1awc7c0%2Fyour_advertising_id_declaration_in_play_console%2F&rut=af21613071751634faf53095935c0baf49c1c2cfa75650893c87b157500356a0
+    - generic [ref=f8e37]:
+      - heading [level=2] [ref=f8e38]:
+        - link "Google says I use the AD_ID permission. I don't. - Reddit" [ref=f8e39] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fw8no0v%2Fgoogle_says_i_use_the_ad_id_permission_i_dont%2F&rut=f9f1674dfe9410bc5db7c5536d10ce48360ec4228404cd6bc144b8c2524558ed
+      - generic [ref=f8e41]:
+        - link [ref=f8e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fw8no0v%2Fgoogle_says_i_use_the_ad_id_permission_i_dont%2F&rut=f9f1674dfe9410bc5db7c5536d10ce48360ec4228404cd6bc144b8c2524558ed
+        - link "www.reddit.com/r/androiddev/comments/w8no0v/google_says_i_use_the_ad_id_permission_i_dont/" [ref=f8e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fw8no0v%2Fgoogle_says_i_use_the_ad_id_permission_i_dont%2F&rut=f9f1674dfe9410bc5db7c5536d10ce48360ec4228404cd6bc144b8c2524558ed
+      - link "This release includes the com.google.android.gms.permission.AD_ID permission but your declaration on Play Console says your app doesn't use advertising ID. You must update your advertising ID declaration. My app (which targets Android 13) doesn't include ads, and the AD_ID permission doesn't appear in any of my manifests." [ref=f8e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fw8no0v%2Fgoogle_says_i_use_the_ad_id_permission_i_dont%2F&rut=f9f1674dfe9410bc5db7c5536d10ce48360ec4228404cd6bc144b8c2524558ed
+    - generic [ref=f8e47]:
+      - heading [level=2] [ref=f8e48]:
+        - link "Where should I add Advertising ID permission using expo?" [ref=f8e49] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fexpo%2Fcomments%2F17bj059%2Fwhere_should_i_add_advertising_id_permission%2F&rut=84e2a54167dcad9f262681d29c63d545cdffd70e6538188c53b5257716c6643a
+      - generic [ref=f8e51]:
+        - link [ref=f8e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fexpo%2Fcomments%2F17bj059%2Fwhere_should_i_add_advertising_id_permission%2F&rut=84e2a54167dcad9f262681d29c63d545cdffd70e6538188c53b5257716c6643a
+        - link "www.reddit.com/r/expo/comments/17bj059/where_should_i_add_advertising_id_permission/" [ref=f8e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fexpo%2Fcomments%2F17bj059%2Fwhere_should_i_add_advertising_id_permission%2F&rut=84e2a54167dcad9f262681d29c63d545cdffd70e6538188c53b5257716c6643a
+      - link "Your advertising ID declaration in Play Console says that your app uses advertising ID. A manifest file in one of your active artifacts doesn't include the com.google.android.gms.permission.AD_ID permission." [ref=f8e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fexpo%2Fcomments%2F17bj059%2Fwhere_should_i_add_advertising_id_permission%2F&rut=84e2a54167dcad9f262681d29c63d545cdffd70e6538188c53b5257716c6643a
+    - generic [ref=f8e57]:
+      - heading [level=2] [ref=f8e58]:
+        - link "Where should I add Advertising ID permission, when using expo?" [ref=f8e59] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F17bpkl2%2Fwhere_should_i_add_advertising_id_permission_when%2F&rut=4ff4d755c07144dbfc4f522c2f4571a6bda4a7ac5c751843a4f9c2c4dec571cb
+      - generic [ref=f8e61]:
+        - link [ref=f8e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F17bpkl2%2Fwhere_should_i_add_advertising_id_permission_when%2F&rut=4ff4d755c07144dbfc4f522c2f4571a6bda4a7ac5c751843a4f9c2c4dec571cb
+        - link "www.reddit.com/r/reactnative/comments/17bpkl2/where_should_i_add_advertising_id_permission_when/" [ref=f8e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F17bpkl2%2Fwhere_should_i_add_advertising_id_permission_when%2F&rut=4ff4d755c07144dbfc4f522c2f4571a6bda4a7ac5c751843a4f9c2c4dec571cb
+      - 'link "and I''m getting this error: ErrorYour advertising ID declaration in Play Console says that your app uses advertising ID. A manifest file in one of your active artifacts doesn''t include the com.google.android.gms.permission.AD_ID permission. If you don''t include this permission in your manifest file, your advertising identifier will be zeroed out." [ref=f8e65] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F17bpkl2%2Fwhere_should_i_add_advertising_id_permission_when%2F&rut=4ff4d755c07144dbfc4f522c2f4571a6bda4a7ac5c751843a4f9c2c4dec571cb
+    - generic [ref=f8e67]:
+      - heading [level=2] [ref=f8e68]:
+        - link "Google Admob \"com.google.android.gms.permission.AD_ID\" permission won't ..." [ref=f8e69] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1crr1ab%2Fgoogle_admob_comgoogleandroidgmspermissionad_id%2F&rut=b5715005a170c63db148d352ffb0d4c6e102fcc29aad609d0c6857e1561a9bf4
+      - generic [ref=f8e71]:
+        - link [ref=f8e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1crr1ab%2Fgoogle_admob_comgoogleandroidgmspermissionad_id%2F&rut=b5715005a170c63db148d352ffb0d4c6e102fcc29aad609d0c6857e1561a9bf4
+        - link "www.reddit.com/r/flutterhelp/comments/1crr1ab/google_admob_comgoogleandroidgmspermissionad_id/" [ref=f8e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1crr1ab%2Fgoogle_admob_comgoogleandroidgmspermissionad_id%2F&rut=b5715005a170c63db148d352ffb0d4c6e102fcc29aad609d0c6857e1561a9bf4
+      - link "But I still get the message in Google Play Store that \"Your declaration on Play Console says that your app uses advertising ID. Your manifest file doesn't include the com.google.android.gms.permission.AD_ID permission.\"" [ref=f8e75] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fflutterhelp%2Fcomments%2F1crr1ab%2Fgoogle_admob_comgoogleandroidgmspermissionad_id%2F&rut=b5715005a170c63db148d352ffb0d4c6e102fcc29aad609d0c6857e1561a9bf4
+    - generic [ref=f8e77]:
+      - heading [level=2] [ref=f8e78]:
+        - 'link "Advertising ID android 13 or above : r/androiddev - Reddit" [ref=f8e79] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fwkurcb%2Fadvertising_id_android_13_or_above%2F&rut=41bb062cef583636010bb965a66cb55fa6bf5a639953226093bb2f8759417230
+      - generic [ref=f8e81]:
+        - link [ref=f8e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fwkurcb%2Fadvertising_id_android_13_or_above%2F&rut=41bb062cef583636010bb965a66cb55fa6bf5a639953226093bb2f8759417230
+        - link "www.reddit.com/r/androiddev/comments/wkurcb/advertising_id_android_13_or_above/" [ref=f8e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fwkurcb%2Fadvertising_id_android_13_or_above%2F&rut=41bb062cef583636010bb965a66cb55fa6bf5a639953226093bb2f8759417230
+      - link "First, check your merged manifest. The Facebook SDK dependency might be declaring the AD_ID permission already. Then, when on your app's Play Console, you need to go to the App Content section and complete the advertising part, indicating \"yes\" your app uses the AD_ID permission." [ref=f8e85] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2Fwkurcb%2Fadvertising_id_android_13_or_above%2F&rut=41bb062cef583636010bb965a66cb55fa6bf5a639953226093bb2f8759417230
+    - generic [ref=f8e87]:
+      - heading [level=2] [ref=f8e88]:
+        - link "@react-native-firebase/analytics AD_ID permission - Reddit" [ref=f8e89] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F154tw4b%2Freactnativefirebaseanalytics_ad_id_permission%2F&rut=aa9b73b2112200baa625f1bd443151881813d5a519843b64d0e9557e7738d63b
+      - generic [ref=f8e91]:
+        - link [ref=f8e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F154tw4b%2Freactnativefirebaseanalytics_ad_id_permission%2F&rut=aa9b73b2112200baa625f1bd443151881813d5a519843b64d0e9557e7738d63b
+        - link "www.reddit.com/r/reactnative/comments/154tw4b/reactnativefirebaseanalytics_ad_id_permission/" [ref=f8e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F154tw4b%2Freactnativefirebaseanalytics_ad_id_permission%2F&rut=aa9b73b2112200baa625f1bd443151881813d5a519843b64d0e9557e7738d63b
+      - link "Login to the console select the app and then App Bundle Explorer. Select the version in question and look at the permissions section and see if the AD_ID is there." [ref=f8e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Freactnative%2Fcomments%2F154tw4b%2Freactnativefirebaseanalytics_ad_id_permission%2F&rut=aa9b73b2112200baa625f1bd443151881813d5a519843b64d0e9557e7738d63b
+    - generic [ref=f8e97]:
+      - heading [level=2] [ref=f8e98]:
+        - 'link "Advertising ID - Google Play Store ???? : r/godot - Reddit" [ref=f8e99] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgodot%2Fcomments%2Fwgtf86%2Fadvertising_id_google_play_store%2F&rut=3ebcee1e5d8e95728946aec78a81ffd17651f9f5e6a884c634b08262957a1a9a
+      - generic [ref=f8e101]:
+        - link [ref=f8e103] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgodot%2Fcomments%2Fwgtf86%2Fadvertising_id_google_play_store%2F&rut=3ebcee1e5d8e95728946aec78a81ffd17651f9f5e6a884c634b08262957a1a9a
+        - link "www.reddit.com/r/godot/comments/wgtf86/advertising_id_google_play_store/" [ref=f8e104] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgodot%2Fcomments%2Fwgtf86%2Fadvertising_id_google_play_store%2F&rut=3ebcee1e5d8e95728946aec78a81ffd17651f9f5e6a884c634b08262957a1a9a
+      - link "Learn more We'll use this declaration to provide safeguards in Play Console If you say that your app uses advertising ID, we will block releases that don't include the com.google.android.gms.permission.AD_ID permission in the manifest file when targeting Android 13. When we block these releases, we will remind you to add the permission." [ref=f8e105] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fgodot%2Fcomments%2Fwgtf86%2Fadvertising_id_google_play_store%2F&rut=3ebcee1e5d8e95728946aec78a81ffd17651f9f5e6a884c634b08262957a1a9a
+    - button "Next" [ref=f8e108] [cursor=pointer]
+    - link "Feedback" [ref=f8e110] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

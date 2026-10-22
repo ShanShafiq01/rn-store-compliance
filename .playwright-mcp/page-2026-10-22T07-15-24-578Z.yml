@@ -1,0 +1,173 @@
+- generic [ref=f15e2]:
+  - generic [ref=f15e3]:
+    - link "DuckDuckGo" [ref=f15e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f15e5]:
+      - generic [ref=f15e6]:
+        - textbox [ref=f15e7]: reddit "financial features" declaration cannot update app play console blocked
+        - button "Submit" [ref=f15e8] [cursor=pointer]
+      - combobox [ref=f15e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f15e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f15e15]:
+    - generic [ref=f15e17]:
+      - heading [level=2] [ref=f15e18]:
+        - link "Provide information for the financial features declaration - Play ..." [ref=f15e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2DGB&rut=cd4ae355c0bd9706d2d407d188e98d4701fa99f0f166eee24ae7dfb4215999f8
+      - generic [ref=f15e21]:
+        - link [ref=f15e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2DGB&rut=cd4ae355c0bd9706d2d407d188e98d4701fa99f0f166eee24ae7dfb4215999f8
+        - link "support.google.com/googleplay/android-developer/answer/13849271?hl=en-GB" [ref=f15e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2DGB&rut=cd4ae355c0bd9706d2d407d188e98d4701fa99f0f166eee24ae7dfb4215999f8
+      - link "Developers are required to complete the Financial features declaration on the App content page (Policy and programmes > App content) in Play Console by 31 August 2023. This article provides an overview of the Financial features declaration requirements and guidance for completing the form. Overview In July, we announced an update to our financial services policy that applies to a large number ..." [ref=f15e25] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2DGB&rut=cd4ae355c0bd9706d2d407d188e98d4701fa99f0f166eee24ae7dfb4215999f8
+    - generic [ref=f15e27]:
+      - heading [level=2] [ref=f15e28]:
+        - link "Provide information for the Financial features declaration" [ref=f15e29] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2D419&rut=524183b85deed1868f22a0866c2d271d4b3decbd2e117c06efd37c51340f759f
+      - generic [ref=f15e31]:
+        - link [ref=f15e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2D419&rut=524183b85deed1868f22a0866c2d271d4b3decbd2e117c06efd37c51340f759f
+        - link "support.google.com/googleplay/android-developer/answer/13849271?hl=en-419" [ref=f15e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2D419&rut=524183b85deed1868f22a0866c2d271d4b3decbd2e117c06efd37c51340f759f
+      - link "Under these new requirements, developers must complete the Financial features declaration on the App content page (Policy and programs > App content) in Play Console before this date. Personal loan apps must also provide a copy of any licenses or documentation required to operate in specific countries/regions, as outlined in the Financial Services policy." [ref=f15e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fanswer%2F13849271%3Fhl%3Den%2D419&rut=524183b85deed1868f22a0866c2d271d4b3decbd2e117c06efd37c51340f759f
+    - generic [ref=f15e37]:
+      - heading [level=2] [ref=f15e38]:
+        - link "Financial Features Declaration - The Mandatory App | KappS FAQ" [ref=f15e39] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fkapps.store%2Ffaq%2Ffinancial%2Dfeatures%2Ddeclaration%2Dthe%2Dmandatory%2Dapp%2Dcontent%2Dform%2Devery%2Ddeveloper%2Dmu.html&rut=ecf0eca21f1083a7b81f30a6c1a7c46647d9120c8c801e9ccf8f5e7a594977b0
+      - generic [ref=f15e41]:
+        - link [ref=f15e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fkapps.store%2Ffaq%2Ffinancial%2Dfeatures%2Ddeclaration%2Dthe%2Dmandatory%2Dapp%2Dcontent%2Dform%2Devery%2Ddeveloper%2Dmu.html&rut=ecf0eca21f1083a7b81f30a6c1a7c46647d9120c8c801e9ccf8f5e7a594977b0
+        - link "kapps.store/faq/financial-features-declaration-the-mandatory-app-content-form-every-developer-mu.html" [ref=f15e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fkapps.store%2Ffaq%2Ffinancial%2Dfeatures%2Ddeclaration%2Dthe%2Dmandatory%2Dapp%2Dcontent%2Dform%2Devery%2Ddeveloper%2Dmu.html&rut=ecf0eca21f1083a7b81f30a6c1a7c46647d9120c8c801e9ccf8f5e7a594977b0
+      - link "1. Every app published on Google Play - including apps on closed testing, open testing, or production tracks, and pre-granted or preloaded apps that update through Play - must have a completed Financial features declaration on the App content page (Policy and programs > App content) in Play Console. 2." [ref=f15e45] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fkapps.store%2Ffaq%2Ffinancial%2Dfeatures%2Ddeclaration%2Dthe%2Dmandatory%2Dapp%2Dcontent%2Dform%2Devery%2Ddeveloper%2Dmu.html&rut=ecf0eca21f1083a7b81f30a6c1a7c46647d9120c8c801e9ccf8f5e7a594977b0
+    - generic [ref=f15e47]:
+      - heading [level=2] [ref=f15e48]:
+        - link "Google Play Financial Services policy - OMA support help center" [ref=f15e49] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Forangeoma.zendesk.com%2Fhc%2Fen%2Dus%2Farticles%2F10119570262684%2DGoogle%2DPlay%2DFinancial%2DServices%2Dpolicy&rut=c7e6b90dd7f21c29651dde9b14ae81d65bf17f7b08e9c4d5a9a52e6b5f15d464
+      - generic [ref=f15e51]:
+        - link [ref=f15e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Forangeoma.zendesk.com%2Fhc%2Fen%2Dus%2Farticles%2F10119570262684%2DGoogle%2DPlay%2DFinancial%2DServices%2Dpolicy&rut=c7e6b90dd7f21c29651dde9b14ae81d65bf17f7b08e9c4d5a9a52e6b5f15d464
+        - link "orangeoma.zendesk.com/hc/en-us/articles/10119570262684-Google-Play-Financial-Services-policy" [ref=f15e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Forangeoma.zendesk.com%2Fhc%2Fen%2Dus%2Farticles%2F10119570262684%2DGoogle%2DPlay%2DFinancial%2DServices%2Dpolicy&rut=c7e6b90dd7f21c29651dde9b14ae81d65bf17f7b08e9c4d5a9a52e6b5f15d464
+      - link "Google Play announced in July 2023 that they were updating their Financial Services policy to mandate that any app containing financial features must submit the financial features declaration form, along with supplementary information and documentation." [ref=f15e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Forangeoma.zendesk.com%2Fhc%2Fen%2Dus%2Farticles%2F10119570262684%2DGoogle%2DPlay%2DFinancial%2DServices%2Dpolicy&rut=c7e6b90dd7f21c29651dde9b14ae81d65bf17f7b08e9c4d5a9a52e6b5f15d464
+    - generic [ref=f15e57]:
+      - heading [level=2] [ref=f15e58]:
+        - link "Financial features declaration completed for Google Play" [ref=f15e59] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fauditbuffet.com%2Fpatterns%2Fab%2D000436&rut=e18fa75f6994a357edfae249aec4a9b38f4bf1eba7c12ccdd677243088a270f2
+      - generic [ref=f15e61]:
+        - link [ref=f15e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fauditbuffet.com%2Fpatterns%2Fab%2D000436&rut=e18fa75f6994a357edfae249aec4a9b38f4bf1eba7c12ccdd677243088a270f2
+        - link "auditbuffet.com/patterns/ab-000436" [ref=f15e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fauditbuffet.com%2Fpatterns%2Fab%2D000436&rut=e18fa75f6994a357edfae249aec4a9b38f4bf1eba7c12ccdd677243088a270f2
+        - text: 2026-04-18T00:00:00.0000000
+      - link "Why it matters Google Play requires every app targeting Android — including apps with zero financial features — to complete a Financial Features declaration in the Play Console before publication. Skipping this step blocks promotion to the production track entirely; it is not a soft warning." [ref=f15e65] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fauditbuffet.com%2Fpatterns%2Fab%2D000436&rut=e18fa75f6994a357edfae249aec4a9b38f4bf1eba7c12ccdd677243088a270f2
+    - generic [ref=f15e67]:
+      - heading [level=2] [ref=f15e68]:
+        - link "Complete Financial features section" [ref=f15e69] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappsgeyser.com%2Fsupport%2Fpublish%2Dyour%2Dapp%2Fcomplete%2Dfinancial%2Dfeatures%2Dsection%2F&rut=8029eda015ff19af84c26a59f1d56904643fda78133e315b4686fc1313787473
+      - generic [ref=f15e71]:
+        - link [ref=f15e73] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappsgeyser.com%2Fsupport%2Fpublish%2Dyour%2Dapp%2Fcomplete%2Dfinancial%2Dfeatures%2Dsection%2F&rut=8029eda015ff19af84c26a59f1d56904643fda78133e315b4686fc1313787473
+        - link "appsgeyser.com/support/publish-your-app/complete-financial-features-section/" [ref=f15e74] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappsgeyser.com%2Fsupport%2Fpublish%2Dyour%2Dapp%2Fcomplete%2Dfinancial%2Dfeatures%2Dsection%2F&rut=8029eda015ff19af84c26a59f1d56904643fda78133e315b4686fc1313787473
+      - link "Here you're going to need to select all of the financial features your app provides. This will help Google Play to make sure the right teams review your submission." [ref=f15e75] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fappsgeyser.com%2Fsupport%2Fpublish%2Dyour%2Dapp%2Fcomplete%2Dfinancial%2Dfeatures%2Dsection%2F&rut=8029eda015ff19af84c26a59f1d56904643fda78133e315b4686fc1313787473
+    - generic [ref=f15e77]:
+      - heading [level=2] [ref=f15e78]:
+        - link "Complete Financial features section - AppsGeyser Support, FAQ ..." [ref=f15e79] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.appsgeyser.com%2Fhc%2Fen%2Dus%2Farticles%2F9946243018396%2DComplete%2DFinancial%2Dfeatures%2Dsection&rut=359f71bee6bc1970f9ac6136ddeaabb471e84f8f995212b216cbef1cbc7ed1d3
+      - generic [ref=f15e81]:
+        - link [ref=f15e83] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.appsgeyser.com%2Fhc%2Fen%2Dus%2Farticles%2F9946243018396%2DComplete%2DFinancial%2Dfeatures%2Dsection&rut=359f71bee6bc1970f9ac6136ddeaabb471e84f8f995212b216cbef1cbc7ed1d3
+        - link "support.appsgeyser.com/hc/en-us/articles/9946243018396-Complete-Financial-features-section" [ref=f15e84] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.appsgeyser.com%2Fhc%2Fen%2Dus%2Farticles%2F9946243018396%2DComplete%2DFinancial%2Dfeatures%2Dsection&rut=359f71bee6bc1970f9ac6136ddeaabb471e84f8f995212b216cbef1cbc7ed1d3
+      - 'link "Here you''re going to need to select all of the financial features your app provides. This will help Google Play to make sure the right teams review your submission. Follow the steps: Navigate to the Financial features section of the Developer Console. Scroll down and select \"My app doesn''t provide any financial features\" if it doesn''t." [ref=f15e85] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.appsgeyser.com%2Fhc%2Fen%2Dus%2Farticles%2F9946243018396%2DComplete%2DFinancial%2Dfeatures%2Dsection&rut=359f71bee6bc1970f9ac6136ddeaabb471e84f8f995212b216cbef1cbc7ed1d3
+    - generic [ref=f15e87]:
+      - heading [level=2] [ref=f15e88]:
+        - 'link "Google Play Financial Features Policy: Declaration Guide for Apps with ..." [ref=f15e89] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.closetesting.in%2Fblog%2Fgoogle%2Dplay%2Dfinancial%2Dfeatures%2Ddeclaration%2Dcompliance&rut=6bebb0cc8a8ca55030da765e42993c6edf7da3e1e0984c648a7bc4e6b42fe386
+      - generic [ref=f15e91]:
+        - link [ref=f15e93] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.closetesting.in%2Fblog%2Fgoogle%2Dplay%2Dfinancial%2Dfeatures%2Ddeclaration%2Dcompliance&rut=6bebb0cc8a8ca55030da765e42993c6edf7da3e1e0984c648a7bc4e6b42fe386
+        - link "www.closetesting.in/blog/google-play-financial-features-declaration-compliance" [ref=f15e94] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.closetesting.in%2Fblog%2Fgoogle%2Dplay%2Dfinancial%2Dfeatures%2Ddeclaration%2Dcompliance&rut=6bebb0cc8a8ca55030da765e42993c6edf7da3e1e0984c648a7bc4e6b42fe386
+        - text: 2026-09-24T00:00:00.0000000
+      - link "Google Play enforce rigorous restrictions on any application offering financial features, digital lending, payments, stock tracking, or wallet services. Failing to declare these properly under the 'App content' section triggers immediate review rejection." [ref=f15e95] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.closetesting.in%2Fblog%2Fgoogle%2Dplay%2Dfinancial%2Dfeatures%2Ddeclaration%2Dcompliance&rut=6bebb0cc8a8ca55030da765e42993c6edf7da3e1e0984c648a7bc4e6b42fe386
+    - button "Next" [ref=f15e98] [cursor=pointer]
+    - link "Feedback" [ref=f15e100] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

@@ -1,0 +1,138 @@
+- generic [ref=f6e2]:
+  - generic [ref=f6e3]:
+    - link "DuckDuckGo" [ref=f6e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f6e5]:
+      - generic [ref=f6e6]:
+        - textbox [ref=f6e7]: site:reddit.com/r/androiddev "developer verification" package name
+        - button "Submit" [ref=f6e8] [cursor=pointer]
+      - combobox [ref=f6e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f6e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f6e15]:
+    - generic [ref=f6e17]:
+      - heading [level=2] [ref=f6e18]:
+        - link "New developer verification requirements from August 31, 2023 - Reddit" [ref=f6e19] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+      - generic [ref=f6e21]:
+        - link [ref=f6e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+        - link "www.reddit.com/r/androiddev/comments/15vj69q/new_developer_verification_requirements_from/" [ref=f6e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+      - 'link "New developer verification requirements from August 31, 2023 - phone number? So, Google says: To create a new Play Console developer account for an organization after August 31, 2023, you''ll now need to include:" [ref=f6e25] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15vj69q%2Fnew_developer_verification_requirements_from%2F&rut=c6cc4412a248416aac5232ffc079ee0c1a06598c144e5881cfb66c04984fcefc
+    - generic [ref=f6e27]:
+      - heading [level=2] [ref=f6e28]:
+        - 'link "Developer ID Verification: Photo required, while not ... - Reddit" [ref=f6e29] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1bfalyx%2Fdeveloper_id_verification_photo_required_while%2F&rut=af284882f9cf4a505456d3f4392a6e14f0c0c0fdaab720cd2dc8e543b564a563
+      - generic [ref=f6e31]:
+        - link [ref=f6e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1bfalyx%2Fdeveloper_id_verification_photo_required_while%2F&rut=af284882f9cf4a505456d3f4392a6e14f0c0c0fdaab720cd2dc8e543b564a563
+        - link "www.reddit.com/r/androiddev/comments/1bfalyx/developer_id_verification_photo_required_while/" [ref=f6e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1bfalyx%2Fdeveloper_id_verification_photo_required_while%2F&rut=af284882f9cf4a505456d3f4392a6e14f0c0c0fdaab720cd2dc8e543b564a563
+      - link "Google Play Store now started asking for developer verification by uploading an ID with all details visible. The Dutch government (perhaps also other governments) advices to cover up a few details from your ID or passport, like:" [ref=f6e35] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1bfalyx%2Fdeveloper_id_verification_photo_required_while%2F&rut=af284882f9cf4a505456d3f4392a6e14f0c0c0fdaab720cd2dc8e543b564a563
+    - generic [ref=f6e37]:
+      - heading [level=2] [ref=f6e38]:
+        - 'link "Developer account verification deadline : r/androiddev - Reddit" [ref=f6e39] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1akm828%2Fdeveloper_account_verification_deadline%2F&rut=ebedbb355b2ad9530e0a6fc91e62114e2f978736774c022345efb94de0c233c0
+      - generic [ref=f6e41]:
+        - link [ref=f6e43] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1akm828%2Fdeveloper_account_verification_deadline%2F&rut=ebedbb355b2ad9530e0a6fc91e62114e2f978736774c022345efb94de0c233c0
+        - link "www.reddit.com/r/androiddev/comments/1akm828/developer_account_verification_deadline/" [ref=f6e44] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1akm828%2Fdeveloper_account_verification_deadline%2F&rut=ebedbb355b2ad9530e0a6fc91e62114e2f978736774c022345efb94de0c233c0
+      - 'link "Now the developer verification deadline is coming so I wanted to ask if the verification is not completed Google stated that it will remove all apps and the account but my question is that: 1: My account created by my id will also be in danger? 2: After the account removal the same developer can create another account ?" [ref=f6e45] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1akm828%2Fdeveloper_account_verification_deadline%2F&rut=ebedbb355b2ad9530e0a6fc91e62114e2f978736774c022345efb94de0c233c0
+    - generic [ref=f6e47]:
+      - heading [level=2] [ref=f6e48]:
+        - link "Required information to create a Play Console developer account ..." [ref=f6e49] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15iy74x%2Frequired_information_to_create_a_play_console%2F&rut=209f3b2873afd3c067f66c950c7c7bf99c5cd79e1c865ef6c31195e7a455f620
+      - generic [ref=f6e51]:
+        - link [ref=f6e53] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15iy74x%2Frequired_information_to_create_a_play_console%2F&rut=209f3b2873afd3c067f66c950c7c7bf99c5cd79e1c865ef6c31195e7a455f620
+        - link "www.reddit.com/r/androiddev/comments/15iy74x/required_information_to_create_a_play_console/" [ref=f6e54] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15iy74x%2Frequired_information_to_create_a_play_console%2F&rut=209f3b2873afd3c067f66c950c7c7bf99c5cd79e1c865ef6c31195e7a455f620
+      - link "These expanded developer verification requirements were recently announced as part of our Play Console Requirements policy. This article will be effective as of August 31, 2023, and will apply to new Play Console developer accounts only. We are publishing this information in advance to help developers prepare for these changes." [ref=f6e55] [cursor=pointer]:
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F15iy74x%2Frequired_information_to_create_a_play_console%2F&rut=209f3b2873afd3c067f66c950c7c7bf99c5cd79e1c865ef6c31195e7a455f620
+    - generic [ref=f6e57]:
+      - heading [level=2] [ref=f6e58]:
+        - link "This new \"choose your developer verification deadline\" on ... - Reddit" [ref=f6e59] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17s93tx%2Fthis_new_choose_your_developer_verification%2F&rut=2d937f8f3ecd0259c32e677e52c70cda28fe058572f964c03a0d8e8b76417649
+      - generic [ref=f6e61]:
+        - link [ref=f6e63] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17s93tx%2Fthis_new_choose_your_developer_verification%2F&rut=2d937f8f3ecd0259c32e677e52c70cda28fe058572f964c03a0d8e8b76417649
+        - link "www.reddit.com/r/androiddev/comments/17s93tx/this_new_choose_your_developer_verification/" [ref=f6e64] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17s93tx%2Fthis_new_choose_your_developer_verification%2F&rut=2d937f8f3ecd0259c32e677e52c70cda28fe058572f964c03a0d8e8b76417649
+      - 'link "This new \"choose your developer verification deadline\" on google play doesnt make any sense at sll. What''s the downside to pushing it out as far as possible? Everyone will probably just pick the furthest option. : r/androiddev Copy link Copy link Go to androiddev r/androiddev r/androiddev" [ref=f6e65] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F17s93tx%2Fthis_new_choose_your_developer_verification%2F&rut=2d937f8f3ecd0259c32e677e52c70cda28fe058572f964c03a0d8e8b76417649
+    - button "Next" [ref=f6e68] [cursor=pointer]
+    - link "Feedback" [ref=f6e70] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

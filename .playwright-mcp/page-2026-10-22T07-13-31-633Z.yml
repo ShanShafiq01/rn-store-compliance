@@ -1,0 +1,104 @@
+- generic [ref=f4e2]:
+  - generic [ref=f4e3]:
+    - link "DuckDuckGo" [ref=f4e4] [cursor=pointer]:
+      - /url: /html/
+    - generic [ref=f4e5]:
+      - generic [ref=f4e6]:
+        - textbox [ref=f4e7]: "\"Account Deletion Requirement: Invalid account\" OR \"Invalid account / data deletion link\" 2026"
+        - button "Submit" [ref=f4e8] [cursor=pointer]
+      - combobox [ref=f4e10] [cursor=pointer]:
+        - option "All Regions" [selected]
+        - option "Argentina"
+        - option "Australia"
+        - option "Austria"
+        - option "Belgium (fr)"
+        - option "Belgium (nl)"
+        - option "Brazil"
+        - option "Bulgaria"
+        - option "Canada (en)"
+        - option "Canada (fr)"
+        - option "Catalonia"
+        - option "Chile"
+        - option "China"
+        - option "Colombia"
+        - option "Croatia"
+        - option "Czech Republic"
+        - option "Denmark"
+        - option "Estonia"
+        - option "Finland"
+        - option "France"
+        - option "Germany"
+        - option "Greece"
+        - option "Hong Kong"
+        - option "Hungary"
+        - option "Iceland"
+        - option "India (en)"
+        - option "Indonesia (en)"
+        - option "Ireland"
+        - option "Israel (en)"
+        - option "Italy"
+        - option "Japan"
+        - option "Korea"
+        - option "Latvia"
+        - option "Lithuania"
+        - option "Malaysia (en)"
+        - option "Mexico"
+        - option "Netherlands"
+        - option "New Zealand"
+        - option "Norway"
+        - option "Pakistan (en)"
+        - option "Peru"
+        - option "Philippines (en)"
+        - option "Poland"
+        - option "Portugal"
+        - option "Romania"
+        - option "Russia"
+        - option "Saudi Arabia"
+        - option "Singapore"
+        - option "Slovakia"
+        - option "Slovenia"
+        - option "South Africa"
+        - option "Spain (ca)"
+        - option "Spain (es)"
+        - option "Sweden"
+        - option "Switzerland (de)"
+        - option "Switzerland (fr)"
+        - option "Taiwan"
+        - option "Thailand (en)"
+        - option "Turkey"
+        - option "US (English)"
+        - option "US (Spanish)"
+        - option "Ukraine"
+        - option "United Kingdom"
+        - option "Vietnam (en)"
+      - combobox [ref=f4e12] [cursor=pointer]:
+        - option "Any Time" [selected]
+        - option "Past Day"
+        - option "Past Week"
+        - option "Past Month"
+        - option "Past Year"
+  - generic [ref=f4e15]:
+    - generic [ref=f4e17]:
+      - heading [level=2] [ref=f4e18]:
+        - 'link "User Data - Account Deletion Requirement: Invalid account / data ..." [ref=f4e19] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F263378946%2Fuser%2Ddata%2Daccount%2Ddeletion%2Drequirement%2Dinvalid%2Daccount%2Ddata%2Ddeletion%2Dlink%2Don%2Dyour%2Ddata%2Dsafety%3Fhl%3Den&rut=a4d2a3492bbd305d38f3f19ee261251d60a7cb32d833e35c3da6d23f6a613beb
+      - generic [ref=f4e21]:
+        - link [ref=f4e23] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F263378946%2Fuser%2Ddata%2Daccount%2Ddeletion%2Drequirement%2Dinvalid%2Daccount%2Ddata%2Ddeletion%2Dlink%2Don%2Dyour%2Ddata%2Dsafety%3Fhl%3Den&rut=a4d2a3492bbd305d38f3f19ee261251d60a7cb32d833e35c3da6d23f6a613beb
+        - link "support.google.com/googleplay/android-developer/thread/263378946/user-data-account-deletion-requirement-invalid-account-data-deletion-link-on-your-data-safety?hl=en" [ref=f4e24] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F263378946%2Fuser%2Ddata%2Daccount%2Ddeletion%2Drequirement%2Dinvalid%2Daccount%2Ddata%2Ddeletion%2Dlink%2Don%2Dyour%2Ddata%2Dsafety%3Fhl%3Den&rut=a4d2a3492bbd305d38f3f19ee261251d60a7cb32d833e35c3da6d23f6a613beb
+      - 'link "User Data - Account Deletion Requirement: Invalid account / data deletion link on your Data safety App got rejected saying," [ref=f4e25] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fsupport.google.com%2Fgoogleplay%2Fandroid%2Ddeveloper%2Fthread%2F263378946%2Fuser%2Ddata%2Daccount%2Ddeletion%2Drequirement%2Dinvalid%2Daccount%2Ddata%2Ddeletion%2Dlink%2Don%2Dyour%2Ddata%2Dsafety%3Fhl%3Den&rut=a4d2a3492bbd305d38f3f19ee261251d60a7cb32d833e35c3da6d23f6a613beb
+    - generic [ref=f4e27]:
+      - heading [level=2] [ref=f4e28]:
+        - 'link "Account Deletion Requirement: Invalid account / data deletion link on ..." [ref=f4e29] [cursor=pointer]':
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1aouhj0%2Faccount_deletion_requirement_invalid_account_data%2F&rut=7bf5ee3b34725a489028378df10990f6c4473a64ff5975b7bc51425b5a01962d
+      - generic [ref=f4e31]:
+        - link [ref=f4e33] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1aouhj0%2Faccount_deletion_requirement_invalid_account_data%2F&rut=7bf5ee3b34725a489028378df10990f6c4473a64ff5975b7bc51425b5a01962d
+        - link "www.reddit.com/r/androiddev/comments/1aouhj0/account_deletion_requirement_invalid_account_data/" [ref=f4e34] [cursor=pointer]:
+          - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1aouhj0%2Faccount_deletion_requirement_invalid_account_data%2F&rut=7bf5ee3b34725a489028378df10990f6c4473a64ff5975b7bc51425b5a01962d
+      - 'link "User Data - Account Deletion Requirement: Invalid account / data deletion link on your Data safety form I have added the support link for my app to the data safety form but clearly, it''s not accepted, I wonder if instead of the support link, I add a deep link to the account deletion activity in my app, will that work, did anyone try it before?" [ref=f4e35] [cursor=pointer]':
+        - /url: //duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fandroiddev%2Fcomments%2F1aouhj0%2Faccount_deletion_requirement_invalid_account_data%2F&rut=7bf5ee3b34725a489028378df10990f6c4473a64ff5975b7bc51425b5a01962d
+    - link "Feedback" [ref=f4e37] [cursor=pointer]:
+      - /url: //duckduckgo.com/feedback.html

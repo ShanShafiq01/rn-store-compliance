@@ -1,0 +1,22 @@
+- generic [active] [ref=f17e1]:
+  - main [ref=f17e2]:
+    - generic [ref=f17e3]:
+      - generic [ref=f17e4]:
+        - img "Icon for redlib.freedit.eu" [ref=f17e5]
+        - heading "redlib.freedit.eu" [level=1] [ref=f17e6]
+      - heading "Performing security verification" [level=2] [ref=f17e7]
+      - paragraph [ref=f17e8]: This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.
+  - contentinfo [ref=f17e13]:
+    - generic [ref=f17e15]:
+      - generic [ref=f17e17]:
+        - text: "Ray ID:"
+        - code [ref=f17e18]: a4e6acde9c622895
+      - generic [ref=f17e19]:
+        - generic [ref=f17e20]:
+          - text: Performance and Security by
+          - link "Cloudflare, opens in a new tab" [ref=f17e21] [cursor=pointer]:
+            - /url: https://www.cloudflare.com?utm_source=challenge&utm_campaign=m
+            - text: Cloudflare
+        - link "Privacy, opens in a new tab" [ref=f17e23] [cursor=pointer]:
+          - /url: https://www.cloudflare.com/privacypolicy/
+          - text: Privacy
